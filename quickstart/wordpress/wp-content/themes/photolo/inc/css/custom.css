@@ -1,0 +1,67 @@
+img{
+	max-width: 100%;
+}
+#customize-control-photolo_blog_page_layout input[type="radio"]{
+	opacity: 0;
+}
+#customize-control-photolo_blog_page_layout  label{
+	width: 100%;
+	display: block;
+}
+#customize-control-photolo_blog_page_layout input[type="radio"]:checked + label{
+}
+#customize-control-photolo_blog_page_layout input[type="radio"] + label:before{
+	border: 1px solid transparent;
+}
+#customize-control-photolo_blog_page_layout input[type="radio"]:checked + label:before{
+	border: 1px solid #ff0000;
+}
+#customize-control-photolo_blog_page_layout .customize-inside-control-row{
+float: left;
+
+width: 25%;
+
+margin: 0;
+
+padding: 5px;
+
+box-sizing: border-box;
+}
+#_customize-input-photolo_blog_page_layout-radio-default + label:before{
+	content: '';
+	background-image: url(../../images/grid.png);
+	background-repeat: no-repeat;
+	height: 60px;
+	width: 100%;
+	display: block;
+	background-size: 100%;
+}
+#_customize-input-photolo_blog_page_layout-radio-grid + label:before{
+	content: '';
+	background-image: url(../../images/mesonary.png);
+	background-repeat: no-repeat;
+	height: 60px;
+	width: 100%;
+	display: block;
+	background-size: 100%;
+}
+#_customize-input-photolo_blog_page_layout-radio-packery + label:before{
+	content: '';
+	background-image: url(../../images/Packery.png);
+	background-repeat: no-repeat;
+	height: 60px;
+	width: 100%;
+	display: block;
+	background-size: 100%;
+}
+#_customize-input-photolo_blog_page_layout-radio-fullscreen + label:before{
+	content: '';
+	background-image: url(../../images/full-screen.png);
+	background-repeat: no-repeat;
+	height: 60px;
+	width: 100%;
+	display: block;
+	background-size: 100%;
+}
+
+/*# sourceMappingURL=custom.css.map */

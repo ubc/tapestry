@@ -1,0 +1,83 @@
+@media screen and (min-width: 768px) {
+    .carousel-caption {
+        right: 15%;
+        left: 15%;
+        padding-bottom: 30px;
+    }
+}
+
+@media screen and (min-width: 1170px) {
+    .carousel-caption {
+        right: 20%;
+        left: 20%;
+        padding-bottom: 30px;
+    }
+}
+
+@media screen and (max-width: 991px) {
+    
+}
+
+@media(max-width:1050px) {
+    
+}
+
+@media(max-width:890px) {
+    
+}
+
+@media(max-width:540px) {
+    
+}
+
+@media (min-width: 768px) {
+    
+}
+
+@media(max-width:767px) {
+    #primary-menu .mobile-eve {
+        display: inline-block;
+        border: 1px solid #3498db;
+        height: 40px;
+        width: 40px;
+        text-align: center;
+        float: right;
+    }
+
+    .mobile-eve i {
+        font-weight: bold;
+        font-size: 25px;
+        margin-top: 7px;
+        transform: rotate(-90deg);
+        transition: .3s all ease;
+    }
+
+    .open >a > .mobile-eve > i {
+        transform: rotate(0deg);
+    }
+
+    .caret {
+        position: relative !important;
+        right: auto !important;
+        display: inline-block;
+        width: 0;
+        height: 0;
+        margin-top: 20px !important;
+        vertical-align: middle;
+        border-top: 10px solid;
+        border-right: 10px solid transparent;
+        border-left: 10px solid transparent;
+    }
+
+    .navbar-nav>li>a:after {
+        display: table;
+        clear: both;
+        content: "";
+    }
+
+    .navbar-nav .open .dropdown-menu {
+        padding-left: 5px;
+        background-color: #FFF;
+    }
+
+}
