@@ -1,0 +1,427 @@
+# Copyright (C) 2018 ApolloThemes
+# This file is distributed under the same license as the PACKAGE package.
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Mega Store 1.0\n"
+"Report-Msgid-Bugs-To: https://www.apollothemes.com/\n"
+"POT-Creation-Date: 2018-03-18 19:56+0530\n"
+"PO-Revision-Date: 2018-03-18 19:56+0530\n"
+"Last-Translator: ApolloThemes"
+"Language-Team: \n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: 404.php:17
+msgid "404"
+msgstr ""
+
+#: 404.php:18
+msgid "ERROR"
+msgstr ""
+
+#: 404.php:19
+msgid "Page cannot be found"
+msgstr ""
+
+#: 404.php:20
+msgid ""
+"The Page you requested is not be found. This could be spelling error in the "
+"url."
+msgstr ""
+
+#: 404.php:21
+msgid "Go back to Home Page"
+msgstr ""
+
+#: comments.php:34
+#, php-format
+msgid "One thought on &ldquo;%1$s&rdquo;"
+msgstr ""
+
+#: comments.php:40
+#, php-format
+msgctxt "comments title"
+msgid "%1$s thought on &ldquo;%2$s&rdquo;"
+msgid_plural "%1$s thoughts on &ldquo;%2$s&rdquo;"
+msgstr[0] ""
+msgstr[1] ""
+
+#: comments.php:63
+msgid "Comments are closed."
+msgstr ""
+
+#: footer.php:22 functions.php:118 functions.php:121
+msgid "Footer Widget Area"
+msgstr ""
+
+#: footer.php:24
+msgid "footer widget area"
+msgstr ""
+
+#: footer.php:34 sidebar.php:27
+msgid "Calendar"
+msgstr ""
+
+#: footer.php:46
+msgid "Y"
+msgstr ""
+
+#: footer.php:46
+#, php-format
+msgid "Theme by %1$s"
+msgstr ""
+
+#: footer.php:53
+msgid "Back To Top"
+msgstr ""
+
+#: functions.php:47
+msgid "Primary Menu"
+msgstr ""
+
+#: functions.php:107
+msgid "Right Sidebar"
+msgstr ""
+
+#: functions.php:110 sidebar.php:21
+msgid "Sidebar Widget Area"
+msgstr ""
+
+#: functions.php:129 functions.php:132
+msgid "WooCommerce Widget Area"
+msgstr ""
+
+#: header.php:24
+msgid "Skip to content"
+msgstr ""
+
+#: search.php:20
+#, php-format
+msgid "Search Results for: %s"
+msgstr ""
+
+#: searchform-product.php:2
+msgid "Search For Item"
+msgstr ""
+
+#: searchform-product.php:2
+msgid "Search for:"
+msgstr ""
+
+#: searchform-product.php:7
+msgid "All"
+msgstr ""
+
+#: searchform-product.php:17 sidebar.php:28
+msgid "Search"
+msgstr ""
+
+#: sidebar.php:19
+msgid "Sidebar"
+msgstr ""
+
+#: inc/apollothemes-functions.php:46
+msgid "NAME"
+msgstr ""
+
+#: inc/apollothemes-functions.php:46
+msgid "Full Name"
+msgstr ""
+
+#: inc/apollothemes-functions.php:47
+msgid "EMAIL"
+msgstr ""
+
+#: inc/apollothemes-functions.php:47
+msgid "Your Email Address"
+msgstr ""
+
+#: inc/apollothemes-functions.php:48
+msgid "WEBSITE"
+msgstr ""
+
+#: inc/apollothemes-functions.php:48
+msgid "Website"
+msgstr ""
+
+#: inc/apollothemes-functions.php:55
+msgid "COMMENT"
+msgstr ""
+
+#: inc/apollothemes-functions.php:55
+msgid "Message"
+msgstr ""
+
+#: inc/apollothemes-functions.php:56
+#, php-format
+msgid "Post Your Reply Here To %s"
+msgstr ""
+
+#: inc/apollothemes-functions.php:58
+msgid "SUBMIT COMMENT"
+msgstr ""
+
+#: inc/apollothemes-functions.php:59
+msgid "Post Your Comment Here"
+msgstr ""
+
+#: inc/apollothemes-functions.php:70
+msgid "Reply"
+msgstr ""
+
+#: inc/apollothemes-functions.php:82
+msgid "at"
+msgstr ""
+
+#: inc/apollothemes-functions.php:86
+msgid "Your comment is awaiting moderation."
+msgstr ""
+
+#: inc/customizer.php:18
+msgid "Homepage Options"
+msgstr ""
+
+#: inc/customizer.php:22
+msgid "Blazing Settings"
+msgstr ""
+
+#: inc/customizer.php:34
+msgid "Contact Options"
+msgstr ""
+
+#: inc/customizer.php:50
+msgid "Email"
+msgstr ""
+
+#: inc/customizer.php:64
+msgid "Phone"
+msgstr ""
+
+#: inc/customizer.php:71
+msgid "Hero Image"
+msgstr ""
+
+#: inc/customizer.php:81 inc/customizer.php:97 inc/customizer.php:162
+#: inc/customizer.php:206
+msgid "Heading"
+msgstr ""
+
+#: inc/customizer.php:91 inc/customizer.php:102
+msgid "Edit this in Customizer"
+msgstr ""
+
+#: inc/customizer.php:108
+msgid "Sub Heading"
+msgstr ""
+
+#: inc/customizer.php:113
+msgid "Edit Description in Customizer"
+msgstr ""
+
+#: inc/customizer.php:119 inc/customizer.php:173 inc/customizer.php:217
+msgid "Description"
+msgstr ""
+
+#: inc/customizer.php:124
+msgid "Edit in Customizer"
+msgstr ""
+
+#: inc/customizer.php:130
+msgid "Button Text"
+msgstr ""
+
+#: inc/customizer.php:141
+msgid "Button Link"
+msgstr ""
+
+#: inc/customizer.php:150
+msgid "Blog"
+msgstr ""
+
+#: inc/customizer.php:156
+msgid "Latest Posts"
+msgstr ""
+
+#: inc/customizer.php:167
+msgid "Description Latest Posts"
+msgstr ""
+
+#: inc/customizer.php:185
+msgid "Post Limit"
+msgstr ""
+
+#: inc/customizer.php:193 inc/customizer.php:199
+msgid "Latest Products"
+msgstr ""
+
+#: inc/customizer.php:210
+msgid "Description Latest Product"
+msgstr ""
+
+#: inc/customizer.php:228
+msgid "Product Count"
+msgstr ""
+
+#: inc/customizer.php:236
+msgid "Theme Setup Info"
+msgstr ""
+
+#: inc/customizer.php:249
+msgid "Home Page Setup"
+msgstr ""
+
+#: inc/customizer.php:250
+msgid ""
+"Go To Appearance -> Customize -> Static Front Page -> Front page displays "
+"set it to \"A static page\" -> for Front page select Home. <a class="
+"\"blazing_go_to_section\" href=\"#accordion-section-static_front_page\"> "
+"Switch To \"A Static Page\"</a>"
+msgstr ""
+
+#: inc/customizer.php:263
+msgid "Blazing Info Page"
+msgstr ""
+
+#: inc/customizer.php:264
+msgid "See Theme Info Page"
+msgstr ""
+
+#: inc/customizer.php:452
+msgid "VIEW PRO VERSION "
+msgstr ""
+
+#: inc/include-companion.php:41
+msgid "Installing"
+msgstr ""
+
+#: inc/include-companion.php:42
+msgid "Activating"
+msgstr ""
+
+#: inc/include-companion.php:43
+msgid "Error"
+msgstr ""
+
+#: inc/include-companion.php:77
+msgid ""
+"Blazing Companion plugin is required to take advantage of this theme's "
+"features in the customizer."
+msgstr ""
+
+#: inc/include-companion.php:78
+msgid "Install Blazing Companion Now"
+msgstr ""
+
+#: inc/include-companion.php:79
+msgid "Install & Activate"
+msgstr ""
+
+#: inc/include-companion.php:94
+msgid ""
+"You have installed Blazing Companion. Activate it to take advantage of this "
+"theme's features in the customizer."
+msgstr ""
+
+#: inc/include-companion.php:95
+msgid "Activate Blazing Companion now"
+msgstr ""
+
+#: inc/include-companion.php:96
+msgid "Activate Now"
+msgstr ""
+
+#: inc/menu-walker.php:112
+msgid "Home"
+msgstr ""
+
+#: inc/template-tags.php:27
+msgctxt "post date"
+msgid "Date"
+msgstr ""
+
+#: inc/template-tags.php:29
+msgctxt "post author"
+msgid "Author"
+msgstr ""
+
+#: inc/template-tags.php:38
+msgctxt "post comments"
+msgid "Comment"
+msgid_plural "Comments"
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/template-tags.php:43
+#, php-format
+msgid "Leave a Comment<span class=\"screen-reader-text\"> on %s</span>"
+msgstr ""
+
+#: inc/template-tags.php:67
+msgid ", "
+msgstr ""
+
+#: inc/template-tags.php:70
+#, php-format
+msgid "Posted in %1$s"
+msgstr ""
+
+#: inc/template-tags.php:74
+msgctxt "list item separator"
+msgid ", "
+msgstr ""
+
+#: inc/template-tags.php:77
+#, php-format
+msgid "Tagged %1$s"
+msgstr ""
+
+#: inc/template-tags.php:87 template-parts/content-page.php:35
+#, php-format
+msgid "Edit <span class=\"screen-reader-text\">%s</span>"
+msgstr ""
+
+#: inc/woocommerce.php:227
+msgid "View your shopping cart"
+msgstr ""
+
+#: template-parts/content-home.php:26 template-parts/content-home.php:40
+#: template-parts/content-index.php:24 template-parts/content-search.php:36
+#: template-parts/content.php:68
+msgid "READ MORE"
+msgstr ""
+
+#: template-parts/content-none.php:14
+msgid "Nothing Found"
+msgstr ""
+
+#: template-parts/content-none.php:25
+#, php-format
+msgid ""
+"Ready to publish your first post? <a href=\"%1$s\">Get started here</a>."
+msgstr ""
+
+#: template-parts/content-none.php:38
+msgid ""
+"Sorry, but nothing matched your search terms. Please try again with some "
+"different keywords."
+msgstr ""
+
+#: template-parts/content-none.php:44
+msgid ""
+"It seems we can&rsquo;t find what you&rsquo;re looking for. Perhaps "
+"searching can help."
+msgstr ""
+
+#: template-parts/content-page.php:22 template-parts/content-single.php:21
+#: template-parts/content.php:51
+msgid "Pages:"
+msgstr ""
+
+#: template-parts/content.php:40
+#, php-format
+msgid "Continue reading<span class=\"screen-reader-text\"> \"%s\"</span>"
+msgstr ""

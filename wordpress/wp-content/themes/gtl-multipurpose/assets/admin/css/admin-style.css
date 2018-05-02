@@ -1,0 +1,22 @@
+.counter-wrap, .list-wrap{
+	margin-top:30px;
+	background-color:#eaeaea;
+	padding:20px;
+}
+
+.va-m{
+	margin-bottom: 25px;
+
+}
+.va-m img{
+	vertical-align:middle;
+	background: #e1e1e1;
+	padding: 5px 0;
+}
+.va-m input[type=radio]{
+	vertical-align: middle;
+}
+
+input:disabled , select:disabled{
+	cursor: no-drop;
+}

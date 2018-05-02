@@ -1,0 +1,19 @@
+li#accordion-section-blazing_companion_installer {
+    display: block !important;
+}
+
+.control-section-install-companion {
+    border-top: none;
+    border-bottom: 1px solid #ddd;
+    padding: 7px 14px 16px 14px;
+    text-align: right;
+}
+
+.control-section-install-companion a{
+
+}
+
+.control-section-install-companion p{
+	text-align:left;	
+	margin-top:0;
+}
