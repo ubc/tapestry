@@ -1,0 +1,175 @@
+[
+{
+    "name": "mainBranchedVideo",
+    "type": "group",
+    "label": "Branched Video",
+    "description": "Branched Video Editor",
+    "fields": [
+        {
+            "name": "branchedVideos",
+            "type": "list",
+            "label": "List of all branch videos",
+            "entity": "branch",
+            "description": "all of the branch videos will be added here and can be assigned later on",
+            "field": {
+                "name": "branchedVideo",
+                "type": "group",
+                "label": "Branched Video",
+                "description": "add a branched video",
+                "fields": [
+                    {
+                        "name": "slug",
+                        "type": "text",
+                        "label": "SLUG",
+                        "description": "unique ID needed for assigning branches"
+                    },
+                    {
+                        "name": "title",
+                        "type": "text",
+                        "label": "title",
+                        "description": "title of this branch video"
+                    },
+                    {
+                        "name": "description",
+                        "type": "text",
+                        "label": "description",
+                        "description": "give a description of what this branch is about"
+                    },
+                    {
+                        "name": "length",
+                        "type": "number",
+                        "label": "length of video",
+                        "description": "please indicate the length of the video in seconds"
+                    },
+                    {
+                        "name": "sourceFiles",
+                        "type": "list",
+                        "label": "Source of files",
+                        "entity": "File",
+                        "field": {
+                            "name": "sourceFile",
+                            "type": "group",
+                            "label": "Individual source file",
+                            "description": "specify the source of this file",
+                            "fields": [
+                                {
+                                    "name": "src",
+                                    "type": "text",
+                                    "label": "link of video"
+                                },
+                                {
+                                    "name": "mimeType",
+                                    "type": "select",
+                                    "label": "mime type",
+                                    "options": [
+                                      {"value": "mp4",
+                                       "label": "mp4"
+                                     },
+                                      {"value": "youtube",
+                                        "label": "youtube"
+
+                                      }
+                                    ]
+                                },
+                                {
+                                    "name": "quality",
+                                    "type": "select",
+                                    "label": "quality",
+                                    "options": [
+                                      {"value": "360p",
+                                       "label": "360p"
+                                     },
+                                      {"value": "720p",
+                                        "label": "720p"
+
+                                      }
+                                    ]
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "name": "subBranches",
+                        "type": "list",
+                        "label": "sub branches",
+                        "entity": "SubBranches",
+                        "description": "add the interaction from this video to another Branched Video",
+                        "field": {
+                            "name": "subBranch",
+                            "type": "group",
+                            "label": "branch interaction",
+                            "fields": [
+                                {
+                                    "name": "branchSlug",
+                                    "type": "text",
+                                    "label": "SLUG destination",
+                                    "description": "the unique ID of the destination branch video"
+                                },
+                                {
+                                    "name": "branchTimeFrom",
+                                    "type": "number",
+                                    "label": "start time",
+                                    "description": "what time should the interaction option appear in this video"
+                                },
+                                {
+                                    "name": "branchTimeTo",
+                                    "type": "number",
+                                    "label": "end time",
+                                    "description": "what time should the interaction option disappear in this video"
+                                },
+                                {
+                                    "name": "bubble",
+                                    "type": "group",
+                                    "label": "interaction option",
+                                    "fields": [
+                                        {
+                                            "name": "text",
+                                            "type": "text",
+                                            "label": "input text"
+                                        },
+                                        {
+                                            "name": "style",
+                                            "type": "select",
+                                            "label": "choose style",
+                                            "options": [
+                                              {"value": "circle",
+                                               "label": "circle"
+                                             },
+                                              {"value": "square",
+                                                "label": "square"
+
+                                              }
+                                            ]
+                                        },
+                                        {
+                                            "name": "color",
+                                            "type": "text",
+                                            "label": "choose color of interaction"
+                                        },
+                                        {
+                                            "name": "positionX",
+                                            "type": "number",
+                                            "label": "x position of the interaction"
+                                        },
+                                        {
+                                            "name": "positionY",
+                                            "type": "number",
+                                            "label": "y position of the interaction"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "name": "mainBranchSlug",
+            "type": "text",
+            "label": "Slug of the Main Branch",
+            "description": "input the SLUG of the branch you want to be the main branch"
+        }
+    ]
+}
+]
