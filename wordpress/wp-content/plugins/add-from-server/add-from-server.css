@@ -1,0 +1,9 @@
+.frmsvr_wrap .widefat tbody tr.doesnt-meet-guidelines,
+.frmsvr_wrap .widefat tbody tr.unreadable {
+	background-color: #FFE8EE;
+}
+
+.frmsvr_wrap fieldset {
+	padding: 5px;
+	margin-top: 0.7em;
+}

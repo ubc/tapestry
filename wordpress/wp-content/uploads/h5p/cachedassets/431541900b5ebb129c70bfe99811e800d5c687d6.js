@@ -43,13 +43,15 @@ H5P.BranchVideo = (function ($) {
     // to see the object
     console.log(this);
 
+    // to access sourceFile, try putting a youtube link there
+    //console.log(this.options.mainBranchedVideo.branchedVideos["0"].sourceFiles["0"].src);
 
     // try to display all youtube videos
     var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
     var numOfBranches = this.options.mainBranchedVideo.branchedVideos.length;
     console.log("number of branches: " + numOfBranches);
     var i;
-    /* for iframe/youtube videos only attaches all of them to the screen
+    /* for iframe/youtube videos
     for(i = 0; i < numOfBranches; i++){
       var fullLink = this.options.mainBranchedVideo.branchedVideos[i.toString()].sourceFiles["0"].src;
       console.log("make sure fullLink: " + fullLink);
@@ -70,77 +72,21 @@ H5P.BranchVideo = (function ($) {
       $container.append('<video id="branch' + i + '" class="greeting-image" src="'
       + videoURL + '" frameborder="0" allowfullscreen controls> </video>');
       var currentVideoId = document.getElementById("branch" + i);
-      //console.log(currentVideoId);
+      console.log(currentVideoId);
       $(currentVideoId).hide();
     }
 
     // find main branch given slug in the editor, if not found use first video
     var mainBranchVideoId = document.getElementById("branch0");
     var mainSlug = this.options.mainBranchedVideo.mainBranchSlug;
-    //console.log(mainSlug); // just to check
+    console.log(mainSlug); // just to check
     for(i = 1; i < numOfBranches; i++){
       var currentSlug = this.options.mainBranchedVideo.branchedVideos[i.toString()].slug;
-      //console.log("current slug is : " + currentSlug);
+      console.log("current slug is : " + currentSlug);
       if (currentSlug == mainSlug){
         mainBranchVideoId = document.getElementById("branch" + i);
       }
     }
-
-    var $main = this;
-
-    var processSubBranches = function(mainP, j){
-      var currentVideo = document.getElementById("branch" + i);
-      var startTime = mainP.options.mainBranchedVideo.branchedVideos[i.toString()].subBranches[j.toString()].branchTimeFrom;
-      var endTime = mainP.options.mainBranchedVideo.branchedVideos[i.toString()].subBranches[j.toString()].branchTimeTo;
-      var goToSlug = mainP.options.mainBranchedVideo.branchedVideos[i.toString()].subBranches[j.toString()].branchSlug;
-      var currSubBranch = mainP.options.mainBranchedVideo.branchedVideos[i.toString()].subBranches[j.toString()];
-      var shouldShow = true;
-      var currID = "";
-      currentVideo.addEventListener("timeupdate", function(){
-        if (currentVideo.currentTime > startTime && currentVideo.currentTime < endTime && shouldShow){
-          console.log("BRANCH NOW TO: " + goToSlug);
-          currID = createBubble(currSubBranch);
-          console.log("currID: " + currID);
-          shouldShow = false;
-        } else if(currentVideo.currentTime > endTime && !shouldShow){
-          console.log("remove interaction");
-          shouldShow = true;
-          document.getElementById(currID).style.display = "none";
-        }
-      }, false);
-      console.log("we want to start at: " + startTime + " and end at: " + endTime);
-    }
-
-    var processBranches = function(mainP) {
-      var j = 0;
-      var numOfSubBranches = mainP.options.mainBranchedVideo.branchedVideos[i.toString()].subBranches.length;
-      console.log("the number of subranches here is: " + numOfSubBranches);
-      for (j=0; j<numOfSubBranches ; j++){
-        processSubBranches(mainP, j);
-      }
-    }
-
-
-
-    // try adding event listeners
-    for(i = 0; i < numOfBranches; i++){
-      processBranches($main);
-    }
-
-
-    // creates a bubble function
-    function createBubble(subBranch){
-      var goToSlug = subBranch.branchSlug;
-      var xPos = subBranch.bubble.positionX;
-      var yPos = subBranch.bubble.positionY;
-      var text = subBranch.bubble.text;
-      var id = goToSlug + xPos + yPos;
-      console.log("/slug: " + goToSlug + " /pos: " + xPos + " " + yPos + " /with text: text" );
-      $container.append('<button type="button" id="'+ id + '" style="position:absolute;  z-index:1; left:' + xPos + '%; top:' + yPos + '%;" >' + text + '</button>');
-      return id;
-
-    }
-
 
     // shows the main video and sets preload to auto
     $(mainBranchVideoId).show();
@@ -152,7 +98,6 @@ H5P.BranchVideo = (function ($) {
 
   };
 
-
-
   return C;
 })(H5P.jQuery);
+;
