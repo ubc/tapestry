@@ -18,9 +18,7 @@ H5P.BranchVideo = (function ($) {
             sourceFiles: {},
             subBranches: {}
           }
-
         ],
-
         mainBranchSlug: 'main SLUG'
       }
     }, options);
@@ -37,69 +35,54 @@ H5P.BranchVideo = (function ($) {
    * @param {jQuery} $container
    */
   C.prototype.attach = function ($container) {
-    // Set class on container to identify it as a greeting card
     // container.  Allows for styling later.
     $container.addClass("h5p-greetingcard");
-    // to see the object
-    console.log(this);
 
-
-    // try to display all youtube videos
-    var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+    // initialize and create associative array
+    var $main = this;
     var numOfBranches = this.options.mainBranchedVideo.branchedVideos.length;
     console.log("number of branches: " + numOfBranches);
     var i;
-    /* for iframe/youtube videos only attaches all of them to the screen
-    for(i = 0; i < numOfBranches; i++){
-      var fullLink = this.options.mainBranchedVideo.branchedVideos[i.toString()].sourceFiles["0"].src;
-      console.log("make sure fullLink: " + fullLink);
-      var match = fullLink.match(regExp);
-      if (match && match[2].length == 11){
-        console.log("no error so far");
-      }
-      var vidID = match[2];
-      console.log("here is the video ID : " + vidID);
-      $container.append('<iframe class="greeting-image" src="https://www.youtube.com/embed/' + vidID + '" frameborder="0" allowfullscreen> </iframe>');
+    var $branchedVideos = {};
+    for (i = 0 ; i < numOfBranches ; i++){
+      var tempSlug = this.options.mainBranchedVideo.branchedVideos[i].slug;
+      $branchedVideos[tempSlug] = this.options.mainBranchedVideo.branchedVideos[i];
     }
-    */
+
+
 
     // for html Videos: attach all of them to the screen but hide all
-    for(i = 0; i < numOfBranches; i++){
-      var videoURL = this.options.mainBranchedVideo.branchedVideos[i.toString()].sourceFiles["0"].src;
-      console.log(videoURL);
-      $container.append('<video id="branch' + i + '" class="greeting-image" src="'
+    for(var key in $branchedVideos){
+      var videoURL = $branchedVideos[key].sourceFiles[0].src;
+      var branchID = $branchedVideos[key].slug;
+      $container.append('<video id="' + branchID + '" class="greeting-image" src="'
       + videoURL + '" frameborder="0" allowfullscreen controls> </video>');
-      var currentVideoId = document.getElementById("branch" + i);
-      //console.log(currentVideoId);
-      $(currentVideoId).hide();
+      var currentVideo = document.getElementById(branchID);
+      $(currentVideo).hide();
     }
 
-    // find main branch given slug in the editor, if not found use first video
-    var mainBranchVideoId = document.getElementById("branch0");
+
+    // given slug in the editor, shows the main video
     var mainSlug = this.options.mainBranchedVideo.mainBranchSlug;
-    //console.log(mainSlug); // just to check
-    for(i = 1; i < numOfBranches; i++){
-      var currentSlug = this.options.mainBranchedVideo.branchedVideos[i.toString()].slug;
-      //console.log("current slug is : " + currentSlug);
-      if (currentSlug == mainSlug){
-        mainBranchVideoId = document.getElementById("branch" + i);
-      }
-    }
+    var mainBranchVideo = document.getElementById(mainSlug);
+    $(mainBranchVideo).show();
+    mainBranchVideo.preload = "auto";
 
-    var $main = this;
 
-    var processSubBranches = function(mainP, j){
-      var currentVideo = document.getElementById("branch" + i);
-      var startTime = mainP.options.mainBranchedVideo.branchedVideos[i.toString()].subBranches[j.toString()].branchTimeFrom;
-      var endTime = mainP.options.mainBranchedVideo.branchedVideos[i.toString()].subBranches[j.toString()].branchTimeTo;
-      var goToSlug = mainP.options.mainBranchedVideo.branchedVideos[i.toString()].subBranches[j.toString()].branchSlug;
-      var currSubBranch = mainP.options.mainBranchedVideo.branchedVideos[i.toString()].subBranches[j.toString()];
+
+    var processSubBranches = function(currSlug, j){
+      var currentVideo = document.getElementById(currSlug);
+      var startTime = $branchedVideos[currSlug].subBranches[j].branchTimeFrom;
+      var endTime = $branchedVideos[currSlug].subBranches[j].branchTimeTo;
+      var goToSlug = $branchedVideos[currSlug].subBranches[j].branchSlug;
+      var currSubBranch = $branchedVideos[currSlug].subBranches[j];
       var shouldShow = true;
       var currID = "";
+
       currentVideo.addEventListener("timeupdate", function(){
         if (currentVideo.currentTime > startTime && currentVideo.currentTime < endTime && shouldShow){
           console.log("BRANCH NOW TO: " + goToSlug);
-          currID = createBubble(currSubBranch);
+          currID = createBubble(currSlug, j);
           console.log("currID: " + currID);
           shouldShow = false;
         } else if(currentVideo.currentTime > endTime && !shouldShow){
@@ -111,43 +94,82 @@ H5P.BranchVideo = (function ($) {
       console.log("we want to start at: " + startTime + " and end at: " + endTime);
     }
 
-    var processBranches = function(mainP) {
+
+    // try adding event listeners
+    for(var key in $branchedVideos){
       var j = 0;
-      var numOfSubBranches = mainP.options.mainBranchedVideo.branchedVideos[i.toString()].subBranches.length;
+      var numOfSubBranches = $branchedVideos[key].subBranches.length;
       console.log("the number of subranches here is: " + numOfSubBranches);
       for (j=0; j<numOfSubBranches ; j++){
-        processSubBranches(mainP, j);
+        processSubBranches(key, j);
       }
     }
 
 
+    // handles jumping from branch to branch
+    var jump = function(currSlug, nextSlug){
+      var currVid = document.getElementById(currSlug);
+      var nextVid = document.getElementById(nextSlug);
 
-    // try adding event listeners
-    for(i = 0; i < numOfBranches; i++){
-      processBranches($main);
+      currVid.pause();
+      currVid.style.display = "none";
+      nextVid.style.display = "inline";
+      nextVid.play();
     }
 
 
+    var createReturnBubble = function(currSlug, goToSlug){
+      // currSlug = the slug that we are leaving and want to return to
+      // goToSlug = the slug we are going to and return from
+      var goToSlugVid = document.getElementById(goToSlug);
+      var returnBubble = document.createElement("button");
+      returnBubble.type = "button";
+      returnBubble.style= 'position:absolute;  z-index:1;';
+      returnBubble.style.left = "" + 25 + "%";
+      returnBubble.style.top = "" + 25 + "%";
+      var returnTextNode = document.createTextNode("would you like to go back to " + currSlug);
+      returnBubble.appendChild(returnTextNode);
+      $container.append(returnBubble);
+
+      returnBubble.addEventListener('click', function(){
+        returnBubble.style.display = "none";
+        // jump (from,to) , thats why its reversed
+        jump(goToSlug, currSlug);
+      });
+    }
+
     // creates a bubble function
-    function createBubble(subBranch){
-      var goToSlug = subBranch.branchSlug;
-      var xPos = subBranch.bubble.positionX;
-      var yPos = subBranch.bubble.positionY;
-      var text = subBranch.bubble.text;
+    function createBubble(currSlug, j){
+      var currSubBranch = $branchedVideos[currSlug].subBranches[j];
+      var goToSlug = currSubBranch.branchSlug;
+      var xPos = currSubBranch.bubble.positionX;
+      var yPos = currSubBranch.bubble.positionY;
+      var text = currSubBranch.bubble.text;
       var id = goToSlug + xPos + yPos;
       console.log("/slug: " + goToSlug + " /pos: " + xPos + " " + yPos + " /with text: text" );
-      $container.append('<button type="button" id="'+ id + '" style="position:absolute;  z-index:1; left:' + xPos + '%; top:' + yPos + '%;" >' + text + '</button>');
+      //$container.append('<button type="button" id="'+ id + '" style="position:absolute;  z-index:1; left:' + xPos + '%; top:' + yPos + '%;" >' + text + '</button>');
+      var inputBubble = document.createElement("button");
+      inputBubble.type = "button";
+      inputBubble.id = id;
+      inputBubble.style= 'position:absolute;  z-index:1;';
+      inputBubble.style.left = "" + xPos + "%";
+      inputBubble.style.top = "" + yPos + "%";
+      var newTextNode = document.createTextNode(text);
+      inputBubble.appendChild(newTextNode);
+
+      inputBubble.addEventListener('click', function(){
+        inputBubble.style.display = "none";
+        //handle return
+        var goToSlugVid = document.getElementById(goToSlug);
+        goToSlugVid.onended = function(){createReturnBubble(currSlug, goToSlug)};
+        //handle jump
+        jump(currSlug, goToSlug);
+      });
+
+      $container.append(inputBubble);
       return id;
 
     }
-
-
-    // shows the main video and sets preload to auto
-    $(mainBranchVideoId).show();
-    mainBranchVideoId.style.preload = "auto";
-    console.log(mainBranchVideoId.style.preload);
-
-
     $container.append('<div class="greeting-text">' + this.options.mainBranchedVideo.mainBranchSlug + '</div>');
 
   };

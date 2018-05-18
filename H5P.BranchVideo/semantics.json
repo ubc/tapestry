@@ -93,6 +93,7 @@
                         "type": "list",
                         "label": "sub branches",
                         "entity": "SubBranches",
+                        "optional": true,
                         "description": "add the interaction from this video to another Branched Video",
                         "field": {
                             "name": "subBranch",
