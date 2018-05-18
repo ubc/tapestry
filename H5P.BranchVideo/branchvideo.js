@@ -50,7 +50,6 @@ H5P.BranchVideo = (function ($) {
     }
 
 
-
     // for html Videos: attach all of them to the screen but hide all
     for(var key in $branchedVideos){
       var videoURL = $branchedVideos[key].sourceFiles[0].src;
@@ -69,7 +68,11 @@ H5P.BranchVideo = (function ($) {
     mainBranchVideo.preload = "auto";
 
 
-
+    /**
+     * handles creation of branch interactions
+     * @param {string} currSlug - unique slugID of currentBranch playing
+     * @param {int} j - current iteration, identify which subranch from currentBranch
+     */
     var processSubBranches = function(currSlug, j){
       var currentVideo = document.getElementById(currSlug);
       var startTime = $branchedVideos[currSlug].subBranches[j].branchTimeFrom;
@@ -78,7 +81,6 @@ H5P.BranchVideo = (function ($) {
       var currSubBranch = $branchedVideos[currSlug].subBranches[j];
       var shouldShow = true;
       var currID = "";
-
       currentVideo.addEventListener("timeupdate", function(){
         if (currentVideo.currentTime > startTime && currentVideo.currentTime < endTime && shouldShow){
           console.log("BRANCH NOW TO: " + goToSlug);
@@ -106,11 +108,14 @@ H5P.BranchVideo = (function ($) {
     }
 
 
-    // handles jumping from branch to branch
+    /**
+     * helper function to handle jumping from one branch to another
+     * @param {string} currSlug - unique slugID of currentBranch playing, (Jump From)
+     * @param {string} nextSlug - unique slugID of nextBranch we want to play, (Jump To)
+     */
     var jump = function(currSlug, nextSlug){
       var currVid = document.getElementById(currSlug);
       var nextVid = document.getElementById(nextSlug);
-
       currVid.pause();
       currVid.style.display = "none";
       nextVid.style.display = "inline";
@@ -118,9 +123,15 @@ H5P.BranchVideo = (function ($) {
     }
 
 
+    // creates a return bubble, called when the button created by
+    // createBubble function is clicked
+    /**
+     * creates a return bubble,
+     * called when the button created by createBubble function is clicked
+     * @param {string} currSlug - the slug that we are leaving and want to return to
+     * @param {string} nextSlug - the slug we are going to and want to return from
+     */
     var createReturnBubble = function(currSlug, goToSlug){
-      // currSlug = the slug that we are leaving and want to return to
-      // goToSlug = the slug we are going to and return from
       var goToSlugVid = document.getElementById(goToSlug);
       var returnBubble = document.createElement("button");
       returnBubble.type = "button";
@@ -130,7 +141,6 @@ H5P.BranchVideo = (function ($) {
       var returnTextNode = document.createTextNode("would you like to go back to " + currSlug);
       returnBubble.appendChild(returnTextNode);
       $container.append(returnBubble);
-
       returnBubble.addEventListener('click', function(){
         returnBubble.style.display = "none";
         // jump (from,to) , thats why its reversed
@@ -138,7 +148,13 @@ H5P.BranchVideo = (function ($) {
       });
     }
 
-    // creates a bubble function
+
+    /**
+     * creates a button from start time to end time when called
+     * @param {string} currSlug - unique slugID of currentBranch playing
+     * @param {int} j - current iteration, identify which subranch to jump to
+     * @return {string} button ID so that we can remove later on
+     */
     function createBubble(currSlug, j){
       var currSubBranch = $branchedVideos[currSlug].subBranches[j];
       var goToSlug = currSubBranch.branchSlug;
@@ -156,25 +172,21 @@ H5P.BranchVideo = (function ($) {
       inputBubble.style.top = "" + yPos + "%";
       var newTextNode = document.createTextNode(text);
       inputBubble.appendChild(newTextNode);
-
       inputBubble.addEventListener('click', function(){
         inputBubble.style.display = "none";
         //handle return
         var goToSlugVid = document.getElementById(goToSlug);
         goToSlugVid.onended = function(){createReturnBubble(currSlug, goToSlug)};
-        //handle jump
+        //handle current jump
         jump(currSlug, goToSlug);
       });
-
       $container.append(inputBubble);
       return id;
-
     }
+
+    // just random temporary text
     $container.append('<div class="greeting-text">' + this.options.mainBranchedVideo.mainBranchSlug + '</div>');
 
   };
-
-
-
   return C;
 })(H5P.jQuery);
