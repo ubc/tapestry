@@ -49,15 +49,43 @@ H5P.BranchVideo = (function ($) {
       $branchedVideos[tempSlug] = this.options.mainBranchedVideo.branchedVideos[i];
     }
 
+    // handle onTimeUpdate EDITED
+    var $timeKeeper = {};
+    for (i = 0; i< numOfBranches; i++){
+      var tempSlug = this.options.mainBranchedVideo.branchedVideos[i].slug;
+      $timeKeeper[tempSlug] = 0;
+      var timeLabel = document.createElement("p");
+      timeLabel.id = tempSlug + "Time";
+      timeLabel.class = "greeting-text";
+      var newTextNode = document.createTextNode("playback position of " + tempSlug + " : ");
+      timeLabel.appendChild(newTextNode);
+      $container.append(timeLabel);
+    }
 
-    // for html Videos: attach all of them to the screen but hide all
+
+    /**
+     * handles the time updates, for slider feature later
+     * @param {string} key - unique slugID of currentBranch playing
+     */
+    var handleTimeUpdate = function(key){
+      var currentVideo = document.getElementById(key);
+      currentVideo.ontimeupdate = function(){
+        $timeKeeper[key] = currentVideo.currentTime;
+        var currVideoLabel = document.getElementById(key + "Time");
+        currVideoLabel.innerHTML = "playback position of " + key + " : " + currentVideo.currentTime;
+      }
+    }
+
+
+    // EDITED
+    // for html Videos: attach all of them to the screen but hide all, handles timeupdate
     for(var key in $branchedVideos){
       var videoURL = $branchedVideos[key].sourceFiles[0].src;
-      var branchID = $branchedVideos[key].slug;
-      $container.append('<video id="' + branchID + '" class="greeting-image" src="'
+      $container.append('<video id="' + key + '" class="greeting-image" src="'
       + videoURL + '" frameborder="0" allowfullscreen controls> </video>');
-      var currentVideo = document.getElementById(branchID);
+      var currentVideo = document.getElementById(key);
       $(currentVideo).hide();
+      handleTimeUpdate(key);
     }
 
 
