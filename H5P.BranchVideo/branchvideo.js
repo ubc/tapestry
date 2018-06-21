@@ -191,15 +191,19 @@ H5P.BranchVideo = (function ($) {
                 .attr({
                     id: key,
                     src: videoURL,
-                    frameborder: 0,
-                    allowfullscreen: true,
-                    controls: true
+                    frameborder: 0
                   })
+                .on('ended', function(){
+                  $('#pause-button').hide();
+                  $('#play-button').show();
+                })
             )
           .hide()
       );
       attachTimeUpdateHandler(key);
       addFullScreenButton(key);
+      $('#' + key)[0].autoplay = true;
+      $('#' + key).get(0).pause();
     }
 
 
@@ -344,6 +348,7 @@ H5P.BranchVideo = (function ($) {
      * @param {string} nextSlug - the slug we are going to and want to return from
      */
     function createReturnBubble(currSlug, goToSlug){
+      // actually create bubble
       $('#' + goToSlug + 'Div').append(
         $('<button/>')
           .attr({
@@ -444,7 +449,7 @@ H5P.BranchVideo = (function ($) {
      * @param {double} y2 - end Y
      */
     function drawSlantedBar(par, x1, y1, x2, y2 , lastLev, level){
-      var div = document.getElementById('navBar');
+      var div = document.getElementById('seeker');
       var barDiv = document.createElement('div');
       barDiv.className = 'slanted-bar';
       barDiv.id = par + 'SlantedBar';
@@ -494,7 +499,7 @@ H5P.BranchVideo = (function ($) {
      */
     function draw(par, xpos, ypos, level){
     	//console.log( par + " at " + xpos + " " + ypos);
-    	var div = document.getElementById("navBar");
+    	var div = document.getElementById('seeker');
       // create div
       var currSliderDiv = document.createElement('div');
       currSliderDiv.id = par + 'SliderDiv';
@@ -536,18 +541,19 @@ H5P.BranchVideo = (function ($) {
       para.classList.add('time-text');
       para.style.position = 'absolute';
       para.style.left = xpos + 150 + 5 + 'px';
-      para.style.top = ypos - 11 + 'px';
+      para.style.top = ypos - 3 + 'px';
       para.appendChild(text);
       div.appendChild(para);
+
       // create branch text
       var branchText = document.createElement('p');
       branchText.appendChild(document.createTextNode(par));
       branchText.classList.add('time-text');
       branchText.style.color = "white";
       branchText.style.position = "absolute";
-      branchText.style.top = -18 + 'px';
+      branchText.style.top = - 10 + 'px';
       if (level < 0 ){
-        branchText.style.top = -4 + 'px';
+        branchText.style.top = 4 + 'px';
       }
 
       currSliderDiv.appendChild(branchText);
@@ -598,12 +604,12 @@ H5P.BranchVideo = (function ($) {
      */
     function initializeSeeker(mainSlug){
 	    // create start bar
-      var w = 600; // width of the navbar
+      var w = 80; // width of the navbar
       var h = 150; // starting y loc = h/2
       $container.append(
         $('<div/>')
           .attr({
-              id: 'navBar',
+              id: 'tapestry-navbar',
               class: 'main-container'
             })
           .css({
@@ -674,43 +680,55 @@ H5P.BranchVideo = (function ($) {
                     })
               )
           )
-          .append(// the main seeker navigation bar
+          .append(// middle controls
             $('<div/>')
               .attr({
-                  class: 'start-slider',
-                  id: mainSlug + "SliderDiv"
+                id:"seeker",
+                //class: 'middle-controls'
                 })
               .css({
-                  'position': 'absolute',
-                  'top': h/2 + 'px',
-                  'left': 100 + 'px',
-                  'z-index': 10
+                'position': 'relative',
+                'top': h/2 + 'px',
+                'left': 75 +'px',
+                'width': 70 + '%',
+                'z-index': 10
                 })
               .append(
-                $('<input/>')
+                $('<div/>') //main slider div
                   .attr({
-                      id: mainSlug + "Slider",
-                      type: 'range',
-                      min: '0',
-                      max: '100',
-                      value: '0'
+                    class: 'start-slider',
+                    id: mainSlug + "SliderDiv"
                     })
                   .css({
-                      'position': 'absolute',
-                      'width': w + 'px',
-                      'z-index': 10
+                    'position': 'absolute',
+                    'width': 100 + '%',
+                    'z-index': 10
                     })
-                  .change(function () {
-                    var val = ($(this).val() - $(this).attr('min')) / ($(this).attr('max') - $(this).attr('min'));
-                    $('#' + mainSlug + 'SliderDiv').removeClass('start-slider');
-                    $('#' + mainSlug + 'SliderDiv').addClass('selected-slider');
-                    $(this).css({'background-image':
-                      '-webkit-gradient(linear, left top, right top, '
-                      + 'color-stop(' + val + ', #1BB1FF), '
-                      + 'color-stop(' + val + ', #000000))'
-                    });
-
-                  })
+                  .append( // appending the actual slider
+                    $('<input/>')
+                      .attr({
+                        id: mainSlug + "Slider",
+                        type: 'range',
+                        min: '0',
+                        max: '100',
+                        value: '0'
+                        })
+                      .css({
+                        'position': 'absolute',
+                        'z-index': 10,
+                        'width': '100%'
+                        })
+                        .change(function () {
+                          var val = ($(this).val() - $(this).attr('min')) / ($(this).attr('max') - $(this).attr('min'));
+                          $('#' + mainSlug + 'SliderDiv').removeClass('start-slider');
+                          $('#' + mainSlug + 'SliderDiv').addClass('selected-slider');
+                          $(this).css({'background-image':
+                          '-webkit-gradient(linear, left top, right top, '
+                          + 'color-stop(' + val + ', #1BB1FF), '
+                          + 'color-stop(' + val + ', #000000))'
+                          });
+                      })
+                    )
               ) //end of append slider input
               .append(
                 $('<p/>')
@@ -722,8 +740,11 @@ H5P.BranchVideo = (function ($) {
                   .css({
                       'position': 'absolute',
                       'width': 50 + 'px',
+                      'top': -3 + 'px',
+                      'right': -10 + '%',
                       'z-index': 10
                     })
+                  .html('0:00/0:00')
               ) // end of append timetext
           )
       );
@@ -746,13 +767,13 @@ H5P.BranchVideo = (function ($) {
         var startTime = $branchedVideos[mainSlug].subBranches[temp_i].branchTimeFrom;
         var nextSlug = $branchedVideos[mainSlug].subBranches[temp_i].branchSlug;
         var duration = $branchedVideos[mainSlug].length;
-        var mainXLoc = ((startTime / duration) * w) + 5;
+        var mainXLoc = ((startTime / duration) * $('#' + mainSlug + 'SliderDiv').width() ) + 5;
         //console.log(nextSlug + ': ');
         var lastLevTemp = temp_len - temp_i;
         if (temp_i != temp_len -1){
           lastLevTemp--;
         }
-        drawSubBranches(nextSlug, 100 + mainXLoc, h/2,level , lastLevTemp);
+        drawSubBranches(nextSlug, mainXLoc, 0,level , lastLevTemp);
         level++;
       }
 
@@ -762,13 +783,13 @@ H5P.BranchVideo = (function ($) {
         var startTime = $branchedVideos[mainSlug].subBranches[temp_i].branchTimeFrom;
         var nextSlug = $branchedVideos[mainSlug].subBranches[temp_i].branchSlug;
         var duration = $branchedVideos[mainSlug].length;
-        var mainXLoc = ((startTime / duration) * w) + 5;
+        var mainXLoc = ((startTime / duration) * $('#' + mainSlug + 'SliderDiv').width()  ) + 5;
         //console.log(nextSlug + ': ');
         var lastLevTemp = temp_len - temp_i;
         if (temp_i != temp_len -1){
           lastLevTemp--;
         }
-        drawSubBranches(nextSlug, 100 + mainXLoc, h/2,level , lastLevTemp);
+        drawSubBranches(nextSlug, mainXLoc, 0,level , lastLevTemp);
         level --;
       }
 

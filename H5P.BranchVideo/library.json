@@ -3,7 +3,7 @@
   "description": "Creates a module of Branch Videos",
   "majorVersion": 2,
   "minorVersion": 14,
-  "patchVersion": 57,
+  "patchVersion":160,
   "runnable": 1,
   "author": "Amendor AS",
   "license": "cc-by-sa",

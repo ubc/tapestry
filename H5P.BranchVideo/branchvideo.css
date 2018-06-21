@@ -2,6 +2,7 @@
   width: 100%;
   margin: 0 ;
   border: 0;
+  min-width: 800px;
 }
 .h5p-greetingcard .greeting-image {
   width: 500px;
@@ -77,7 +78,7 @@
 }
 
 .selected-slider input[type='range']::-webkit-slider-thumb{
-	visibility: visible;
+	visibility: visible ;
   -webkit-appearance: none !important;
   background-color: #FF2DCB;
   border: 2px solid #FFFFFF;
@@ -92,17 +93,22 @@
 .selected-slider input[type='range']::-webkit-slider-runnable-track{
   -webkit-appearance: none;
   height: 7px;
+
 }
 
 .selected-slider {
   -webkit-appearance: none;
   -moz-apperance: none;
+
 }
 
 input[type='range'] {
   -webkit-appearance: none;
   padding: 0;
   margin: 0;
+  border: none;
+  border-radius: 0px;
+  -webkit-border-radius: 0px;
 }
 
 .unselected-slider input[type='range']::-webkit-slider-thumb{
@@ -112,6 +118,7 @@ input[type='range'] {
 .unselected-slider input[type='range']::-webkit-slider-runnable-track{
   -webkit-appearance: none;
   height: 7px;
+
 }
 
 
@@ -132,10 +139,7 @@ input[type='range'] {
         );
 }
 
-.selected-slider {
-  -webkit-appearance: none;
-  -moz-apperance: none;
-}
+
 
 
 .main-container{
@@ -151,10 +155,14 @@ input[type='range'] {
 	position: relative;
 	float: left;
 	width: 8%;
-	padding-left: 5%
+	padding-left: 3%
+}
+.middle-controls {
+  position: relative;
+  right: calc(100% - 70px);
 }
 
-.pause-button{
+.pause-button {
   background: url(images/pause.png) no-repeat scroll 0 0 transparent;
   height: 25px;
   color: #000000;
@@ -163,10 +171,19 @@ input[type='range'] {
   padding-left: 5%;
   top: 50%;
   border:0;
-  background-size: 80% 80%;
+}
+button.pause-button:hover {
+  background: url(images/pause.png) no-repeat scroll 0 0 transparent;
+  height: 25px;
+  color: #000000;
+  position: absolute;
+  width: 25px;
+  padding-left: 5%;
+  border:0;
+  opacity: 0.8;
 }
 
-.play-button{
+.play-button {
   background: url(images/play-button.png) no-repeat scroll 0 0 transparent;
   height: 25px;
   color: #000000;
@@ -175,7 +192,16 @@ input[type='range'] {
   padding-left: 5%;
   top: 50%;
   border:0;
-  background-size: 80% 80%;
+}
+button.play-button:hover {
+  background: url(images/play-button.png) no-repeat scroll 0 0 transparent;
+  height: 25px;
+  color: #000000;
+  position: absolute;
+  width: 25px;
+  padding-left: 5%;
+  border:0;
+  opacity: 0.8;
 }
 
 .right-controls{
@@ -183,46 +209,73 @@ input[type='range'] {
 	position: relative;
 	float:right;
 	width: 15%;
-  padding-right: 5%
+  padding-right: 0%;
 }
 
-.speaker-button{
+.speaker-button {
   background: url(images/speaker.png) no-repeat scroll 0 0 transparent;
   height: 25px;
   color: #000000;
   position: absolute;
-  width: 25px;
-  padding-left: 5%;
+  width: 20px;
+  padding-left: 6%;
   top: 50%;
   border:0;
-  left: 20%;
-  background-size: 100% 100%;
+  left: 10%;
+}
+button.speaker-button:hover {
+  background: url(images/speaker.png) no-repeat scroll 0 0 transparent;
+  height: 25px;
+  color: #000000;
+  position: absolute;
+  width: 20px;
+  padding-left: 6%;
+  border:0;
+  opacity: 0.8;
 }
 
-.settings-button{
+.settings-button {
   background: url(images/settings.png) no-repeat scroll 0 0 transparent;
   height: 25px;
   color: #000000;
   position: absolute;
-  width: 25px;
-  padding-left: 5%;
+  width: 20px;
+  padding-left: 6%;
   top: 50%;
   border:0;
   left: 40%;
-  background-size: 100% 100%;
+}
+button.settings-button:hover {
+  background: url(images/settings.png) no-repeat scroll 0 0 transparent;
+  height: 25px;
+  color: #000000;
+  position: absolute;
+  width: 20px;
+  padding-left: 6%;
+  border:0;
+  opacity: 0.8;
 }
 
-.full-screen-button{
+.full-screen-button {
   background: url(images/full-screen-arrows.png) no-repeat scroll 0 0 transparent;
   height: 25px;
   color: #000000;
   position: absolute;
-  width: 25px;
-  padding-left: 5%;
+  width: 20px;
+  padding-left: 10%;
   top: 50%;
   border:0;
-  left: 60%;
-  background-size: 100% 100%;
+  left: 70%;
+}
+button.full-screen-button:hover {
+  background: url(images/full-screen-arrows.png) no-repeat scroll 0 0 transparent;
+  height: 25px;
+  color: #000000;
+  position: absolute;
+  width: 20px;
+  padding-left: 10%;
+  border:0;
+  opacity: 0.8;
 }
 
 .branch-button{
@@ -235,11 +288,29 @@ input[type='range'] {
     padding-left: 82px;
     font-family: 'myFont';
     font-size: 15px;
+    opacity:0.9;
 }
+
+button.branch-button:hover{
+    background: url(images/branch-button.png) no-repeat scroll 0 0 transparent;
+    width: 250px;
+    height: 75px;
+    background-size: 100% 100%;
+    color: #000000;
+    border:0;
+    padding-left: 82px;
+    font-family: 'myFont';
+    font-size: 15px;
+    opacity:1;
+}
+
+
+
 .time-text{
   font-family: 'myFont';
   font-size: 8px;
   color: #FFFFFF;
+  margin : 0;
 }
 
 @font-face {
