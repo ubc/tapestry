@@ -1,0 +1,258 @@
+.tapestry-video-container {
+  width: 100%;
+  margin: 0 ;
+  border: 0;
+  min-width: 300px;
+  line-height: 0;
+}
+
+.tapestry-left-controls {
+  height: 140px;
+	position: relative;
+	float: left;
+	width: 8%;
+	padding-left: 3%
+}
+.tapestry-play-button {
+  background: url(images/play-button.png) no-repeat scroll 0 0 transparent;
+  height: 25px;
+  color: #000000;
+  position: absolute;
+  width: 25px;
+  padding-left: 5%;
+  top: 50%;
+  border:0;
+}
+.tapestry-pause-button {
+  background: url(images/pause.png) no-repeat scroll 0 0 transparent;
+  height: 25px;
+  color: #000000;
+  position: absolute;
+  width: 25px;
+  padding-left: 5%;
+  top: 50%;
+  border:0;
+}
+
+.tapestry-right-controls{
+  height: 140px;
+	position: relative;
+	float:right;
+	width: 15%;
+  padding-right: 0%;
+}
+.tapestry-volume-button {
+  background: url(images/speaker.png) no-repeat scroll 0 0 transparent;
+  height: 25px;
+  color: #000000;
+  position: absolute;
+  width: 20px;
+  padding-left: 6%;
+  top: 50%;
+  border:0;
+}
+.tapestry-volume-div {
+  height: 100%;
+  position: relative;
+  width: 50px;
+  border:0;
+  left: 10%;
+}
+.tapestry-volume-slider {
+    -webkit-appearance: none;
+    position: absolute;
+    width: 100px;
+    height: 8px;
+    background: #d3d3d3;
+    outline: none;
+    transform: rotate(-90deg);
+}
+.tapestry-volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 10px;
+    height: 10px;
+    background: #999999;
+    cursor: pointer;
+}
+
+
+.tapestry-settings-button {
+  background: url(images/settings.png) no-repeat scroll 0 0 transparent;
+  height: 25px;
+  color: #000000;
+  position: absolute;
+  width: 20px;
+  padding-left: 6%;
+  top: 50%;
+  border:0;
+  left: 40%;
+}
+.tapestry-screen-button {
+  background: url(images/full-screen-arrows.png) no-repeat scroll 0 0 transparent;
+  height: 25px;
+  color: #000000;
+  position: absolute;
+  width: 20px;
+  padding-left: 10%;
+  top: 50%;
+  border:0;
+  left: 70%;
+}
+
+.tapestry-seeker-container{
+	z-index: -100;
+	background-color: #333333;
+  min-width: 400px;
+}
+
+input[type='range'] {
+  -webkit-appearance: none;
+  padding: 0;
+  margin: 0;
+  border: none;
+  border-radius: 0px;
+  -webkit-border-radius: 0px;
+}
+
+.tapestry-start-selected-slider > input[type='range']::-webkit-slider-thumb{
+	visibility: visible !important;
+  -webkit-appearance: none !important;
+  background-color: #FF2DCB;
+  border: 2px solid #FFFFFF;
+  border-radius: 10px;
+  height: 14px;
+  width: 14px;
+  cursor: pointer;
+  margin-top: -3px;
+}
+.tapestry-start-selected-slider > input[type='range']::-webkit-slider-runnable-track{
+  -webkit-appearance: none;
+  height: 7px;
+  background-image:
+    -webkit-gradient(
+            linear,
+            left top,
+            right top,
+            color-stop(0, #1BB1FF),
+            color-stop(0, #000000)
+        );
+}
+
+.tapestry-start-unselected-slider > input[type='range']::-webkit-slider-thumb{
+	visibility: hidden !important;;
+}
+.tapestry-start-unselected-slider > input[type='range']::-webkit-slider-runnable-track{
+  -webkit-appearance: none;
+  height: 7px;
+  background-image:
+    -webkit-gradient(
+            linear,
+            left top,
+            right top,
+            color-stop(0, #1BB1FF),
+            color-stop(0, #000000)
+        );
+}
+
+
+
+
+.tapestry-selected-slider > input[type='range']::-webkit-slider-thumb{
+	visibility: visible !important;
+  -webkit-appearance: none !important;
+  background-color: #FF2DCB;
+  border: 2px solid #FFFFFF;
+  border-radius: 10px;
+  height: 14px;
+  width: 14px;
+  cursor: pointer;
+  margin-top: -3px;
+}
+.tapestry-selected-slider > input[type='range']::-webkit-slider-runnable-track{
+  -webkit-appearance: none;
+  height: 7px;
+}
+
+.tapestry-unselected-slider > input[type='range']::-webkit-slider-thumb{
+	visibility: hidden;
+}
+.tapestry-unselected-slider > input[type='range']::-webkit-slider-runnable-track{
+  -webkit-appearance: none;
+  height: 7px;
+}
+
+.tapestry-slanted-bar input[type='range']::-webkit-slider-thumb{
+	display: none;
+}
+.tapestry-slanted-bar input[type='range']::-webkit-slider-runnable-track{
+  -webkit-appearance: none;
+  height: 7px;
+  background-image:
+    -webkit-gradient(
+            linear,
+            left top,
+            right top,
+            color-stop(0, #1BB1FF),
+            color-stop(0, #000000)
+        );
+}
+
+.tapestry-played-slanted-bar input[type='range']::-webkit-slider-thumb{
+	display: none;
+}
+.tapestry-played-slanted-bar input[type='range']::-webkit-slider-runnable-track{
+  -webkit-appearance: none;
+  height: 7px;
+  background-image:
+    -webkit-gradient(
+            linear,
+            left top,
+            right top,
+            color-stop(0, #000000),
+            color-stop(0, #1BB1FF)
+        );
+}
+
+.tapestry-branch-button{
+    background: url(images/branch-button.png) no-repeat scroll 0 0 transparent;
+    width: 250px;
+    height: 75px;
+    background-size: 100% 100%;
+    color: #000000;
+    border:0;
+    padding-left: 82px;
+    font-family: 'tapestry-font';
+    font-size: 15px;
+    opacity:0.9;
+}
+
+.tapestry-time-text{
+  font-family: 'tapestry-font';
+  font-size: 8px;
+  color: #FFFFFF;
+  margin : 0;
+}
+
+.tapestry-help-text{
+  font-family: 'tapestry-font';
+  font-size: 8px;
+  color: white;
+  margin : 0;
+  position: absolute;
+  background-color: gray;
+  border-style: solid;
+  border-width: 0.5px;
+  border-color: #FF2DCB;
+  padding-left: 2px;
+  padding-right: 2px;
+}
+
+@font-face {
+   font-family: tapestry-font;
+   src: url(fonts/palanquin/palanquin-semibold.ttf);
+}
+
+.h5p-fullscreen{
+  background-color: #FFFFFF;
+}
