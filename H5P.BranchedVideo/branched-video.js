@@ -437,13 +437,22 @@ H5P.BranchedVideo = (function ($) {
         var time = branch.getTimeTextHTML();
         time.innerHTML = textStart + '/' + textEnd;
 
+        // removes return text
+        var returnLink = document.getElementById('tapestry-link-return-' + slug);
+        if (returnLink != null){
+          returnLink.style.display = 'none';
+        }
       };
       // slider listener
+      var valueHover = 0;
+      slider.addEventListener('mousemove', function(e){
+        valueHover = (e.offsetX / e.target.clientWidth);
+      })
       slider.addEventListener('input', function(){
         // updates video current time when slider changes
-        var val = slider.value;
-        var time = (val / 100) * duration;
-        video.currentTime = time;
+        var valueTime = valueHover * duration;
+        slider.value = valueHover * 100;
+        video.currentTime = valueTime;
         // handles select other video sliders
         if (slug != currentVideoPlaying){
           jump(slug);
@@ -802,10 +811,16 @@ H5P.BranchedVideo = (function ($) {
         currSlider.addEventListener('mousemove', function(e) {
           var valueHover = (e.offsetX / e.target.clientWidth);
           var valueTime = valueHover * getBranch(slug).videoLength;
+          if (valueTime >= getBranch(slug).videoLength){
+            valueTime = getBranch(slug).videoLength;
+          }
           var min = Math.floor(valueTime / 60);
           var sec = Math.floor(valueTime % 60);
           if (sec < 10 ){  sec = '0' + sec;  }
           var time = min + ':' + sec ;
+          if (sec<0 || min < 0){
+            time = '0:00';
+          }
           var temp = getHelpText('tapestry-help-'+ slug + '-slider', 'click to jump to ' + slug + ' at ' + time );
           var rect = $container.get(0).getBoundingClientRect();
           temp.style.left = event.clientX - rect.left + 'px';
