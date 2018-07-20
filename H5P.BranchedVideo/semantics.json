@@ -63,6 +63,9 @@
                                       {"value": "youtube",
                                         "label": "youtube"
 
+                                      },
+                                      {"value": "vtt",
+                                        "label": "vtt"
                                       }
                                     ]
                                 },

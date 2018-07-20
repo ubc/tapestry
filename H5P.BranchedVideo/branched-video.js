@@ -49,6 +49,10 @@ H5P.BranchedVideo = (function ($) {
       this.nodes = [];  // array of node objects
       //this.sources = []; //array of source objects
       this.source = par.sourceFiles[0].src; //assume this is source for now
+      if (par.sourceFiles[1] != null){
+        console.log('found vtt');
+        this.ccSource = par.sourceFiles[1].src;
+      }
       //  video part
       this.createVideoDivHTML = function(){
         var videoDiv = document.createElement('div');
@@ -57,10 +61,31 @@ H5P.BranchedVideo = (function ($) {
         videoDiv.style.position = 'relative';
         var video = document.createElement('video');
         video.id = 'tapestry-video-' + this.slug;
-        video.src = this.source;
+        //video.src = this.source;
         video.frameborder = 0;
         video.controls = false;
         videoDiv.appendChild(video);
+
+        // provides source
+        var videoSource = document.createElement('source');
+        videoSource.type = 'video/mp4';
+        videoSource.src = this.source;
+        video.appendChild(videoSource);
+
+        // TODO
+        // provides vtt
+        if(this.ccSource != null){
+          var videoVTT = document.createElement('track');
+          videoVTT.label = 'english';
+          videoVTT.kind = 'subtitles';
+          videoVTT.srclang= 'en';
+          videoVTT.src = this.ccSource;
+          //videoVTT.default = true;
+          video.appendChild(videoVTT);
+
+          video.textTracks[0].mode = 'hidden';
+        }
+
         return videoDiv;
       }
       // if we dont append it, can't call get documentByID
@@ -671,6 +696,21 @@ H5P.BranchedVideo = (function ($) {
       var ccButtonText = document.createTextNode('Closed Caption');
       ccButton.appendChild(ccButtonText);
       settingsDiv.appendChild(ccButton);
+
+      // TODO
+      ccButton.onclick = function(){
+        var currVidHTML = getBranch(currentVideoPlaying).getVideoHTML();
+        var tracks = currVidHTML.textTracks[0];
+        if (tracks == undefined){
+          alert('no closed captions were made available for this video');
+          return;
+        }
+        if (tracks.mode == 'hidden'){
+          tracks.mode = 'showing';
+        } else {
+          tracks.mode = 'hidden';
+        }
+      }
 
       // shows div when we click settings
       settingsButton.onclick = function(){
