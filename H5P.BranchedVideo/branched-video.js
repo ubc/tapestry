@@ -631,21 +631,70 @@ H5P.BranchedVideo = (function ($) {
       volumeDiv.appendChild(volumeSlider);
       volumeDiv.appendChild(volumeButton);
 
+      // TODO: update
       // SETTINGS
       var settingsButton = document.createElement('button');
       settingsButton.type = 'button';
       settingsButton.className = 'tapestry-settings-button';
-      var helpNode = document.createElement('h');
-      var helpNodeText = document.createTextNode('help mode enabled');
-      helpNode.className = 'tapestry-time-text';
-      helpNode.style.display = 'none';
-      helpNode.style.position = 'absolute';
-      helpNode.style.top = '90%';
-      helpNode.style.left = '30%';
-      helpNode.appendChild(helpNodeText);
-      rightControls.appendChild(helpNode);
+      var settingsDiv = document.createElement('div');
+      settingsDiv.className = 'tapestry-settings-dropdown-content';
+      settingsDiv.style.display = 'none';
+      rightControls.appendChild(settingsDiv);
 
-      // functions for handling onhover help button
+      // help mode
+      var helpButton = document.createElement('button');
+      helpButton.type = 'button';
+      helpButton.style.position = 'absolute';
+      helpButton.style.fontSize = '8px';
+      helpButton.style.width = '80px';
+      var helpButtonText = document.createTextNode('Help Mode');
+      helpButton.appendChild(helpButtonText);
+      settingsDiv.appendChild(helpButton);
+
+      helpButton.onclick = function(){
+        if (self.helpMode == false){
+          helpButton.innerHTML = 'Help Mode ON';
+          self.helpMode = true;
+        } else {
+          helpButton.innerHTML = 'Help Mode OFF';
+          self.helpMode = false;
+        }
+      }
+
+      // closed caption
+      var ccButton = document.createElement('button');
+      ccButton.style.position = 'absolute';
+      ccButton.style.top = '15px';
+      ccButton.style.fontSize = '8px';
+      ccButton.style.width = '80px';
+      ccButton.type = 'button';
+      var ccButtonText = document.createTextNode('Closed Caption');
+      ccButton.appendChild(ccButtonText);
+      settingsDiv.appendChild(ccButton);
+
+      // shows div when we click settings
+      settingsButton.onclick = function(){
+        console.log('mouseover');
+        if (settingsDiv.style.display == 'none'){
+          settingsDiv.style.display = 'block';
+        } else {
+          settingsDiv.style.display = 'none';
+        }
+      }
+
+      // removes div when we click anything else
+      window.onclick = function(event) {
+        if (!event.target.matches('.tapestry-settings-button')) {
+          settingsDiv.style.display = 'none';
+        }
+      }
+      /*
+      settingsDiv.onmouseleave = function(){
+        console.log('mouseleave');
+        settingsDiv.style.display = 'none';
+      }
+      */
+      // function for handling onhover help button
       function getHelpText(id, str){
         var helpTextTemp = document.getElementById(id);
         if (helpTextTemp != null){
@@ -662,15 +711,8 @@ H5P.BranchedVideo = (function ($) {
         navBar.appendChild(helpNode);
         return helpNode;
       }
-      settingsButton.onclick = function(){
-        if (self.helpMode == false){
-          helpNode.style.display = 'block';
-          self.helpMode = true;
-        } else {
-          helpNode.style.display = 'none';
-          self.helpMode = false;
-        }
-      }
+
+
 
       // FULL SCREEN
       var fullScreenButton = document.createElement('button');
@@ -756,7 +798,9 @@ H5P.BranchedVideo = (function ($) {
         getHelpText('tapestry-help-volume-button', '').style.display = 'none';
       }
 
+      //TODO : update this
       // HELP settings button
+      /*
       settingsButton.onmouseover = function(){
         if (self.helpMode){
           var temp = getHelpText('tapestry-help-settings-button', 'turn off help mode' );
@@ -771,6 +815,7 @@ H5P.BranchedVideo = (function ($) {
       settingsButton.onmouseout = function(){
         getHelpText('tapestry-help-settings-button', '').style.display = 'none';
       }
+      */
 
       // HELP fullscreen
       fullScreenButton.onmouseover = function(){
@@ -812,7 +857,7 @@ H5P.BranchedVideo = (function ($) {
         currSlider.onmouseout = function(){
           getHelpText('tapestry-help-' + slug + '-slider', '').style.display = 'none';
         }
-        
+
         // handles mouse move: change x position AND update time to jump to
         currSlider.addEventListener('mousemove', function(e) {
           var valueHover = (e.offsetX / e.target.clientWidth);

@@ -88,6 +88,15 @@
   border:0;
   left: 40%;
 }
+.tapestry-settings-dropdown-content {
+    display: none;
+    position: relative;
+    background-color: #f1f1f1;
+    min-width: 20px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1000;
+    top: 30px;
+}
 .tapestry-screen-button {
   background: url('images/full-screen-arrows.png') no-repeat scroll 0 0 transparent;
   height: 25px;
