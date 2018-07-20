@@ -14,7 +14,7 @@
 	padding-left: 3%
 }
 .tapestry-play-button {
-  background: url(images/play-button.png) no-repeat scroll 0 0 transparent;
+  background: url('images/play-button.png') no-repeat scroll 0 0 transparent;
   height: 25px;
   color: #000000;
   position: absolute;
@@ -24,7 +24,7 @@
   border:0;
 }
 .tapestry-pause-button {
-  background: url(images/pause.png) no-repeat scroll 0 0 transparent;
+  background: url('images/pause.png') no-repeat scroll 0 0 transparent;
   height: 25px;
   color: #000000;
   position: absolute;
@@ -42,7 +42,7 @@
   padding-right: 0%;
 }
 .tapestry-volume-button {
-  background: url(images/speaker.png) no-repeat scroll 0 0 transparent;
+  background: url('images/speaker.png') no-repeat scroll 0 0 transparent;
   height: 25px;
   color: #000000;
   position: absolute;
@@ -67,6 +67,8 @@
     outline: none;
     transform: rotate(-90deg);
 }
+
+/* TODO: make cross-browser compatible */
 .tapestry-volume-slider::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
@@ -75,10 +77,8 @@
     background: #999999;
     cursor: pointer;
 }
-
-
 .tapestry-settings-button {
-  background: url(images/settings.png) no-repeat scroll 0 0 transparent;
+  background: url('images/settings.png') no-repeat scroll 0 0 transparent;
   height: 25px;
   color: #000000;
   position: absolute;
@@ -89,7 +89,7 @@
   left: 40%;
 }
 .tapestry-screen-button {
-  background: url(images/full-screen-arrows.png) no-repeat scroll 0 0 transparent;
+  background: url('images/full-screen-arrows.png') no-repeat scroll 0 0 transparent;
   height: 25px;
   color: #000000;
   position: absolute;
@@ -115,6 +115,7 @@ input[type='range'] {
   -webkit-border-radius: 0px;
 }
 
+/* TODO: make cross-browser compatible */
 .tapestry-start-selected-slider > input[type='range']::-webkit-slider-thumb{
 	visibility: visible !important;
   -webkit-appearance: none !important;
@@ -126,6 +127,8 @@ input[type='range'] {
   cursor: pointer;
   margin-top: -3px;
 }
+
+/* TODO: make cross-browser compatible */
 .tapestry-start-selected-slider > input[type='range']::-webkit-slider-runnable-track{
   -webkit-appearance: none;
   height: 7px;
@@ -139,9 +142,12 @@ input[type='range'] {
         );
 }
 
+/* TODO: make cross-browser compatible */
 .tapestry-start-unselected-slider > input[type='range']::-webkit-slider-thumb{
 	visibility: hidden !important;;
 }
+
+/* TODO: make cross-browser compatible */
 .tapestry-start-unselected-slider > input[type='range']::-webkit-slider-runnable-track{
   -webkit-appearance: none;
   height: 7px;
@@ -155,9 +161,7 @@ input[type='range'] {
         );
 }
 
-
-
-
+/* TODO: make cross-browser compatible */
 .tapestry-selected-slider > input[type='range']::-webkit-slider-thumb{
 	visibility: visible !important;
   -webkit-appearance: none !important;
@@ -169,22 +173,30 @@ input[type='range'] {
   cursor: pointer;
   margin-top: -3px;
 }
+
+/* TODO: make cross-browser compatible */
 .tapestry-selected-slider > input[type='range']::-webkit-slider-runnable-track{
   -webkit-appearance: none;
   height: 7px;
 }
 
+/* TODO: make cross-browser compatible */
 .tapestry-unselected-slider > input[type='range']::-webkit-slider-thumb{
 	visibility: hidden;
 }
+
+/* TODO: make cross-browser compatible */
 .tapestry-unselected-slider > input[type='range']::-webkit-slider-runnable-track{
   -webkit-appearance: none;
   height: 7px;
 }
 
+/* TODO: make cross-browser compatible */
 .tapestry-slanted-bar input[type='range']::-webkit-slider-thumb{
 	display: none;
 }
+
+/* TODO: make cross-browser compatible */
 .tapestry-slanted-bar input[type='range']::-webkit-slider-runnable-track{
   -webkit-appearance: none;
   height: 7px;
@@ -198,9 +210,12 @@ input[type='range'] {
         );
 }
 
+/* TODO: make cross-browser compatible */
 .tapestry-played-slanted-bar input[type='range']::-webkit-slider-thumb{
 	display: none;
 }
+
+/* TODO: make cross-browser compatible */
 .tapestry-played-slanted-bar input[type='range']::-webkit-slider-runnable-track{
   -webkit-appearance: none;
   height: 7px;
@@ -215,7 +230,7 @@ input[type='range'] {
 }
 
 .tapestry-branch-button{
-    background: url(images/branch-button.png) no-repeat scroll 0 0 transparent;
+    background: url('images/branch-button.png') no-repeat scroll 0 0 transparent;
     width: 250px;
     height: 75px;
     background-size: 100% 100%;
@@ -250,7 +265,7 @@ input[type='range'] {
 
 @font-face {
    font-family: tapestry-font;
-   src: url(fonts/palanquin/palanquin-semibold.ttf);
+   src: url('fonts/palanquin/palanquin-semibold.ttf');
 }
 
 .h5p-fullscreen{

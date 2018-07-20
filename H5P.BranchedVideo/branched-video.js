@@ -104,13 +104,13 @@ H5P.BranchedVideo = (function ($) {
         if (seconds < 10){
           seconds = "0"+ seconds;
         }
-        var para = document.createElement('p');
+        var timeText = document.createElement('p');
         var text = document.createTextNode("0:00/" + mins + ':' + seconds);
-        para.id = 'tapestry-time-text-' + this.slug;
-        para.classList.add('tapestry-time-text');
-        para.style.position = 'absolute';
-        para.appendChild(text);
-        sliderDiv.appendChild(para);
+        timeText.id = 'tapestry-time-text-' + this.slug;
+        timeText.classList.add('tapestry-time-text');
+        timeText.style.position = 'absolute';
+        timeText.appendChild(text);
+        sliderDiv.appendChild(timeText);
 
         // return it
         return sliderDiv;
@@ -133,7 +133,6 @@ H5P.BranchedVideo = (function ($) {
     // handles the nodes creation
       this.createAllNodes = function(){
         // sort it here
-        // give type here
         var arr = [];
         for(var i = 0; i < par.subBranches.length; i ++){
           if (par.subBranches[0].branchSlug == undefined){return [];}
@@ -144,7 +143,6 @@ H5P.BranchedVideo = (function ($) {
             var currNodeHTML = node.getNodeHTML();
             currVideoDiv.appendChild(currNodeHTML);
           }
-
         }
         return arr;
       }
@@ -153,9 +151,7 @@ H5P.BranchedVideo = (function ($) {
         return this.nodes;
       }
 
-
       // FUNCTIONS FOR THE ACTUAL BRANCH
-
       // hide video div
       this.stopVideo = function(){
         var videoDiv = this.getVideoDivHTML();
@@ -237,55 +233,39 @@ H5P.BranchedVideo = (function ($) {
 
 
 //  INITIALIZE
-    var helpMode = false;
+    self.helpMode = false;
     var mainSlug = this.options.mainBranchSlug;
     var currentVideoPlaying = mainSlug;
+
     // sets background to black
     $container.css({'background-color':'#000001'});
+
     // create associative array temporarily
     var branched_videos = {};
+
     // given slug, returns branch
     function getBranch(slug){
       return branched_videos[slug];
     }
-    // given slug, creates time text
-    function createTimeText(slug){
-      var branch = getBranch(slug);
-      var lengthTime = branch.videoLength;
-      var mins = Math.floor(lengthTime / 60);
-      var seconds = Math.floor(lengthTime % 60);
-      if (seconds < 10){
-        seconds = "0"+ seconds;
-      }
-      var para = document.createElement('p');
-      var text = document.createTextNode("0:00/" + mins + ':' + seconds);
-      para.id = 'tapestry-time-text-' + branch.slug;
-      para.classList.add('tapestry-time-text');
-      para.style.position = 'absolute';
-      if (branch.getType() == 'main') {
-        para.style.left = 102 + '%';
-      } else {
-        para.style.left = 115 + '%';
-      }
-      para.style.top = -3 + 'px';
-      para.appendChild(text);
-      branch.getSliderDivHTML().appendChild(para);
-    }
+
     // handles jump and jump helpers
     function jump(goToSlug){
       var currentBranch = getBranch(currentVideoPlaying);
       var nextBranch = getBranch(goToSlug);
       var currentSliderDiv = currentBranch.getSliderDivHTML();
       var nextSliderDiv = nextBranch.getSliderDivHTML();
+
       // hides return link everytime we jump, regardless if we click or not
       var retLink = document.getElementById('tapestry-link-return-' + currentVideoPlaying);
       if(retLink != null){
         retLink.style.display = 'none';
       }
+
       // handle audio
       var currVid = currentBranch.getVideoHTML();
       var nextVid = nextBranch.getVideoHTML();
       nextVid.volume = currVid.volume;
+
       //handle bars
       currentSliderDiv.classList.remove('tapestry-start-unselected-slider');
       currentSliderDiv.classList.remove('tapestry-selected-slider');
@@ -293,16 +273,19 @@ H5P.BranchedVideo = (function ($) {
       nextSliderDiv.classList.remove('tapestry-start-unselected-slider');
       nextSliderDiv.classList.remove('tapestry-unselected-slider');
       nextSliderDiv.classList.add('tapestry-selected-slider');
+
       // handle showing/hiding of videos
       currentBranch.stopVideo();
       nextBranch.playVideo();
       currentVideoPlaying = goToSlug;
+
       // gotta show the play button and hide the pause button
       var playButton = document.getElementsByClassName('tapestry-play-button')[0];
       playButton.style.display = 'none';
       var pauseButton = document.getElementsByClassName('tapestry-pause-button')[0];
       pauseButton.style.display = 'block';
     }
+
     // gives type to the branch and sets type to itself and all its subranches
     function setTypeBranches(slug, type){
       var branch = getBranch(slug);
@@ -339,6 +322,7 @@ H5P.BranchedVideo = (function ($) {
           }
           nextSliderDiv.style.width = w + '%';
           sliderDiv.appendChild(nextSliderDiv);
+
           // creates and appends slanted bars
           var slantedBarDiv = document.createElement('div');
           slantedBarDiv.className = 'tapestry-slanted-bar';
@@ -365,9 +349,9 @@ H5P.BranchedVideo = (function ($) {
           var nextSlider = nextBranch.getSliderHTML();
           nextSlider.style.left = slantedDiff * 2 + 3.5*tempLevel+'px';
           nextSliderDiv.style.left = 'calc('+nextSliderDiv.style.left + ' + ' + (acc + slantedDiff) + 'px' + ')';
-          // attach slanted bar to div
           slantedBarDiv.appendChild(slantedBar);
           nextSliderDiv.appendChild(slantedBarDiv);
+
           // arrange branch text and time text
           var branchText = nextBranch.getBranchTextHTML();
           if (nextBranch.getType() == 'top'){
@@ -376,9 +360,10 @@ H5P.BranchedVideo = (function ($) {
             branchText.style.top = 8 + 'px';
           }
           branchText.style.left = slantedDiff * 2 + 13 + 'px';
-          var para = nextBranch.getTimeTextHTML();
-          para.style.left = 'calc( 103%  + ' + (slantedDiff*2 + 5*(tempLevel-1)) + 'px )';
-          para.style.top = -3 + 'px';
+          var timeText = nextBranch.getTimeTextHTML();
+          timeText.style.left = 'calc( 103%  + ' + (slantedDiff*2 + 5*(tempLevel-1)) + 'px )';
+          timeText.style.top = -3 + 'px';
+
           // recurse
           attachSliders(nextSlug, nextBranch.nodes, 100, acc + slantedDiff*2);
       }
@@ -390,12 +375,14 @@ H5P.BranchedVideo = (function ($) {
       var slider = branch.getSliderHTML();
       var listOfNodes = branch.getNodes();
       var duration = branch.videoLength;
+
       //video listener
       video.ontimeupdate = function(){
         // updates slider value when video time changes
         var time = video.currentTime;
         var val = (time/duration) * 100; // 100 is max value for sliders
         slider.value = val;
+
         // handles buttons appearing and disappearing when video time changes
         for (var i = 0; i < listOfNodes.length ; i++){
           var node = listOfNodes[i];
@@ -407,6 +394,7 @@ H5P.BranchedVideo = (function ($) {
             node.hideLink();
           }
         }
+
         // handles slider color change
         if (branch.getSliderDivHTML().classList.contains('tapestry-start-selected-slider')){
           branch.getSliderDivHTML().classList.remove('tapestry-start-selected-slider');
@@ -443,6 +431,7 @@ H5P.BranchedVideo = (function ($) {
           returnLink.style.display = 'none';
         }
       };
+
       // slider listener
       var valueHover = 0;
       slider.addEventListener('mousemove', function(e){
@@ -453,17 +442,20 @@ H5P.BranchedVideo = (function ($) {
         var valueTime = valueHover * duration;
         slider.value = valueHover * 100;
         video.currentTime = valueTime;
+
         // handles select other video sliders
         if (slug != currentVideoPlaying){
           jump(slug);
         }
       });
-      // for return bubble
+
+      // creates the return link for all branches
       for (var i = 0; i< listOfNodes.length ; i++){
         var tempSlug = listOfNodes[i].branchSlug;
         createReturnLink(slug, tempSlug)
       }
     }
+
     // creates a return Link - helper function fora attach Listeners
     function createReturnLink(parentSlug, childSlug){
       // create return link
@@ -477,19 +469,19 @@ H5P.BranchedVideo = (function ($) {
       currentLink.style.top = '35%';
       currentLink.style.zIndex = 2147483647;
       currentLink.style.display = 'none';
-      // adds onclick
       currentLink.onclick = function(){
         jump(parentSlug);
       }
-      // attaches it to video div
       var branch = getBranch(childSlug);
       var videoDiv = branch.getVideoDivHTML();
       videoDiv.appendChild(currentLink);
+
       // appears video on ended
       var video = branch.getVideoHTML();
       video.onended = function(){
         // show return link
         currentLink.style.display = 'block';
+
         // handle pause and play button
         var playButton = document.getElementsByClassName('tapestry-play-button')[0];
         playButton.style.display = 'block';
@@ -497,6 +489,7 @@ H5P.BranchedVideo = (function ($) {
         pauseButton.style.display = 'none';
       }
     }
+
     // attaches listeners for the links/buttons
     function attachNodeListeners(node){
       var link = node.getNodeHTML();
@@ -518,37 +511,39 @@ H5P.BranchedVideo = (function ($) {
         var currentBranch = branched_videos[temp_slug];
         $container.append(currentBranch.getVideoDivHTML());
         if (temp_slug != mainSlug){
-          currentBranch.stopVideo(); // hide and pause video
-        } else { //renders starting navBar
+          currentBranch.stopVideo();
+        } else {
           var mainSlider = currentBranch.getSliderDivHTML();
           mainSlider.classList.remove('tapestry-start-unselected-slider');
           mainSlider.classList.add('tapestry-start-selected-slider');
         }
       }
+
       // GIVES TYPE TO ALL BRANCHES
       var mainBranch = branched_videos[mainSlug];
       mainBranch.setType('main');
       var mainBranchLON = mainBranch.getNodes();
       for (var i = 0; i<mainBranchLON.length; i++){
         var slug = mainBranchLON[i].branchSlug;
-        if(i%2 == 0 ){ //even
+        if(i%2 == 0 ){
           setTypeBranches(slug, 'top');
-        } else { // odd
+        } else {
           setTypeBranches(slug, 'bottom');
         }
       }
+
       // CREATE NAVIGATION BAR FROM BRANCHES
       // creates tapestry-nav-bar div
       var navBar = document.createElement('div');
       navBar.id = 'tapestry-nav-bar';
       navBar.className = 'tapestry-seeker-container';
       navBar.style.position = 'relative';
-      navBar.style.height = '150px'; // it should be dynamic??
+      navBar.style.height = '150px'; // TODO:dynamic?
       navBar.style.width = '100%';
       navBar.style.zIndex = 100;
       $container.append(navBar);
+
       // attaches main slider
-      //var mainBranch = branched_videos[mainSlug];
       var mainSliderDiv = mainBranch.getSliderDivHTML();
       mainSliderDiv.style.position = 'relative';
       mainSliderDiv.style.top = 150/2 + 'px'; // half of nav-bar
@@ -556,19 +551,17 @@ H5P.BranchedVideo = (function ($) {
       mainSliderDiv.style.width = '70%';
       mainSliderDiv.zIndex = 10;
       navBar.appendChild(mainSliderDiv);
+
       // arrange branch and time text of main slider
       var mainBranchText = mainBranch.getBranchTextHTML();
       mainBranchText.style.display = 'none';
       var mainTimeText = mainBranch.getTimeTextHTML();
       mainTimeText.style.left = '101%';
       mainTimeText.style.top = '-3px';
+
       // attaches all the sliders starting from the end to the main slider
       attachSliders(mainSlug, mainBranch.nodes, 25, 0);
-      // DO ALL EVENT LISTENERS
-      // video ontimeupdate change slider
-      // slider on input change video
-      // video ontimeupdate appear/disappear link
-      // link on click jump
+      // create ALL EVENT LISTENERS
       for (var key in branched_videos){
           attachListeners(key);
           var lon = branched_videos[key].getNodes();
@@ -577,6 +570,7 @@ H5P.BranchedVideo = (function ($) {
             attachNodeListeners(node);
           }
       }
+
       // creates left Controls: play button
       var leftControls = document.createElement('div');
       leftControls.className = 'tapestry-left-controls';
@@ -586,7 +580,7 @@ H5P.BranchedVideo = (function ($) {
       var pauseButton = document.createElement('button');
       pauseButton.type = 'button';
       pauseButton.className = 'tapestry-pause-button';
-      pauseButton.style.display = 'none'; // initially hidden
+      pauseButton.style.display = 'none';
       playButton.onclick = function(){
         var currentVid = getBranch(currentVideoPlaying).getVideoHTML();
         currentVid.play();
@@ -602,9 +596,11 @@ H5P.BranchedVideo = (function ($) {
       leftControls.appendChild(playButton);
       leftControls.appendChild(pauseButton);
       navBar.appendChild(leftControls);
+
       // creates right controls: volume, settings, fullscreen
       var rightControls = document.createElement('div');
       rightControls.className = 'tapestry-right-controls';
+
       // VOLUME
       var volumeDiv = document.createElement('div');
       volumeDiv.className= 'tapestry-volume-div';
@@ -634,6 +630,7 @@ H5P.BranchedVideo = (function ($) {
       }
       volumeDiv.appendChild(volumeSlider);
       volumeDiv.appendChild(volumeButton);
+
       // SETTINGS
       var settingsButton = document.createElement('button');
       settingsButton.type = 'button';
@@ -647,11 +644,11 @@ H5P.BranchedVideo = (function ($) {
       helpNode.style.left = '30%';
       helpNode.appendChild(helpNodeText);
       rightControls.appendChild(helpNode);
+
       // functions for handling onhover help button
       function getHelpText(id, str){
         var helpTextTemp = document.getElementById(id);
         if (helpTextTemp != null){
-          //console.log('get');
           helpTextTemp.innerHTML = str;
           return helpTextTemp;
         }
@@ -663,18 +660,18 @@ H5P.BranchedVideo = (function ($) {
         helpNode.style.display = 'none';
         helpNode.appendChild(helpNodeText);
         navBar.appendChild(helpNode);
-        //console.log('create');
         return helpNode;
       }
       settingsButton.onclick = function(){
-        if (helpMode == false){//currently not help Mode and want to be helpMode
+        if (self.helpMode == false){
           helpNode.style.display = 'block';
-          helpMode = true;
+          self.helpMode = true;
         } else {
           helpNode.style.display = 'none';
-          helpMode = false;
+          self.helpMode = false;
         }
       }
+
       // FULL SCREEN
       var fullScreenButton = document.createElement('button');
       fullScreenButton.type = 'button';
@@ -691,6 +688,7 @@ H5P.BranchedVideo = (function ($) {
           H5P.fullScreen($container, self);;
         }
       };
+
       // Respond to enter full screen event
       self.on('enterFullScreen', function () {
         var mainVideo = mainBranch.getVideoHTML();
@@ -703,6 +701,7 @@ H5P.BranchedVideo = (function ($) {
         seeker.addEventListener('mouseover', showBar, true);
         seeker.addEventListener('mouseout', hideBar, true);
       });
+
       // Respond to exit full screen event
       self.on('exitFullScreen', function () {
         $container.css({'top': 0 + 'px'});
@@ -723,40 +722,43 @@ H5P.BranchedVideo = (function ($) {
         var temp = getHelpText('tapestry-help-play-button', 'click to play video' );
         temp.style.left = '2%';
         temp.style.top = '60%';
-        if (helpMode){
+        if (self.helpMode){
           temp.style.display = 'block';
         }
       }
       playButton.onmouseout = function(){
         getHelpText('tapestry-help-play-button', 'click to play video').style.display = 'none';
       }
+
       // HELP pause button
       pauseButton.onmouseover = function(){
         var temp = getHelpText('tapestry-help-pause-button', 'click to pause video' );
         temp.style.left = '2%';
         temp.style.top = '60%';
-        if (helpMode){
+        if (self.helpMode){
           temp.style.display = 'block';
         }
       }
       pauseButton.onmouseout = function(){
         getHelpText('tapestry-help-pause-button', 'click to pause video').style.display = 'none';
       }
+
       // HELP volume button
       volumeButton.onmouseover = function(){
         var temp = getHelpText('tapestry-help-volume-button', 'drag slider to update volume ' );
         temp.style.left = '87%';
         temp.style.top = '60%';
-        if (helpMode){
+        if (self.helpMode){
           temp.style.display = 'block';
         }
       }
       volumeButton.onmouseout = function(){
         getHelpText('tapestry-help-volume-button', '').style.display = 'none';
       }
+
       // HELP settings button
       settingsButton.onmouseover = function(){
-        if (helpMode){
+        if (self.helpMode){
           var temp = getHelpText('tapestry-help-settings-button', 'turn off help mode' );
           temp.style.display = 'block';
         } else {
@@ -769,19 +771,21 @@ H5P.BranchedVideo = (function ($) {
       settingsButton.onmouseout = function(){
         getHelpText('tapestry-help-settings-button', '').style.display = 'none';
       }
+
       // HELP fullscreen
       fullScreenButton.onmouseover = function(){
         var temp = getHelpText('tapestry-help-fullScreen-button', 'toggle fullscreen' );
         temp.style.left = '87%';
         temp.style.top = '60%';
-        if (helpMode){
+        if (self.helpMode){
           temp.style.display = 'block';
         }
       }
       fullScreenButton.onmouseout = function(){
         getHelpText('tapestry-help-fullScreen-button', '').style.display = 'none';
       }
-      // HELP all branches
+
+      // HELP all branches' sliders
       function attachOnHoverSlider(slug){
         var currBranch = getBranch(slug);
         var currSlider = currBranch.getSliderHTML();
@@ -797,16 +801,18 @@ H5P.BranchedVideo = (function ($) {
           if (H5P.isFullscreen) {
               temp.style.top = event.clientY - diffTop + 40 +  'px';
           }
-          if (helpMode){
+          if (self.helpMode){
             temp.style.display = 'block';
           } else {
             temp.style.display = 'none';
           }
         }
+
         // handles leaving mouse: display = none
         currSlider.onmouseout = function(){
           getHelpText('tapestry-help-' + slug + '-slider', '').style.display = 'none';
         }
+        
         // handles mouse move: change x position AND update time to jump to
         currSlider.addEventListener('mousemove', function(e) {
           var valueHover = (e.offsetX / e.target.clientWidth);
@@ -840,6 +846,9 @@ H5P.BranchedVideo = (function ($) {
 
     .tapestry-slider.selected > input[type='range']::-webkit-slider-thumb
     .tapestry-slider:not(.selected)
+
+    // multiple played section array thing
+    //https://www.w3schools.com/code/tryit.asp?filename=FTDKFNNTQS1T
     */
 
   };
