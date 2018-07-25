@@ -50,7 +50,6 @@ H5P.BranchedVideo = (function ($) {
       //this.sources = []; //array of source objects
       this.source = par.sourceFiles[0].src; //assume this is source for now
       if (par.sourceFiles[1] != null){
-        console.log('found vtt');
         this.ccSource = par.sourceFiles[1].src;
       }
       //  video part
@@ -80,14 +79,13 @@ H5P.BranchedVideo = (function ($) {
           videoVTT.kind = 'subtitles';
           videoVTT.srclang= 'en';
           videoVTT.src = this.ccSource;
-          //videoVTT.default = true;
           video.appendChild(videoVTT);
 
           video.textTracks[0].mode = 'hidden';
         }
-
         return videoDiv;
       }
+
       // if we dont append it, can't call get documentByID
       $container.append(this.createVideoDivHTML());
 
@@ -697,7 +695,7 @@ H5P.BranchedVideo = (function ($) {
       ccButton.appendChild(ccButtonText);
       settingsDiv.appendChild(ccButton);
 
-      // TODO
+
       ccButton.onclick = function(){
         var currVidHTML = getBranch(currentVideoPlaying).getVideoHTML();
         var tracks = currVidHTML.textTracks[0];
@@ -714,7 +712,6 @@ H5P.BranchedVideo = (function ($) {
 
       // shows div when we click settings
       settingsButton.onclick = function(){
-        console.log('mouseover');
         if (settingsDiv.style.display == 'none'){
           settingsDiv.style.display = 'block';
         } else {
@@ -728,12 +725,7 @@ H5P.BranchedVideo = (function ($) {
           settingsDiv.style.display = 'none';
         }
       }
-      /*
-      settingsDiv.onmouseleave = function(){
-        console.log('mouseleave');
-        settingsDiv.style.display = 'none';
-      }
-      */
+
       // function for handling onhover help button
       function getHelpText(id, str){
         var helpTextTemp = document.getElementById(id);
@@ -838,24 +830,6 @@ H5P.BranchedVideo = (function ($) {
         getHelpText('tapestry-help-volume-button', '').style.display = 'none';
       }
 
-      //TODO : update this
-      // HELP settings button
-      /*
-      settingsButton.onmouseover = function(){
-        if (self.helpMode){
-          var temp = getHelpText('tapestry-help-settings-button', 'turn off help mode' );
-          temp.style.display = 'block';
-        } else {
-          var temp = getHelpText('tapestry-help-settings-button', 'turn on help mode' );
-          temp.style.display = 'block';
-        }
-        temp.style.left = '87%';
-        temp.style.top = '60%';
-      }
-      settingsButton.onmouseout = function(){
-        getHelpText('tapestry-help-settings-button', '').style.display = 'none';
-      }
-      */
 
       // HELP fullscreen
       fullScreenButton.onmouseover = function(){
