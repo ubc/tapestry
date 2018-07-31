@@ -423,6 +423,7 @@ H5P.BranchedVideo = (function ($) {
           branch.getSliderDivHTML().classList.remove('tapestry-start-selected-slider');
           branch.getSliderDivHTML().classList.add('tapestry-selected-slider');
         }
+        // TODO: cross compatible browser
         var val = ($('#tapestry-slider-' + slug).val() - $('#tapestry-slider-' + slug).attr('min')) / ($('#tapestry-slider-' + slug).attr('max') - $('#tapestry-slider-' + slug).attr('min'));
         $('#tapestry-slider-' + slug).css({'background-image':
             '-webkit-gradient(linear, left top, right top, '
@@ -636,9 +637,10 @@ H5P.BranchedVideo = (function ($) {
       volumeSlider.min = 0;
       volumeSlider.max = 100;
       volumeSlider.value = 100;
-      volumeSlider.style.left = '-42px';
-      volumeSlider.style.top = '10px';
+      volumeSlider.style.left = '-17px';
+      volumeSlider.style.top = '35px';
       volumeSlider.style.display = 'none';
+      //volumeSlider.style.background = '#727272';
       volumeButton.onmouseenter = function(){
         volumeSlider.style.display = 'block';
         var currentVid = getBranch(currentVideoPlaying).getVideoHTML();
@@ -650,9 +652,17 @@ H5P.BranchedVideo = (function ($) {
         var currentVid = getBranch(currentVideoPlaying).getVideoHTML();
         var volume = volumeSlider.value / 100;
         currentVid.volume = volume;
+        var tempVal = volumeSlider.value / volumeSlider.max;
+        $('.tapestry-volume-slider').css({'background-image':
+            '-webkit-gradient(linear, left top, right top, '
+            + 'color-stop(' + tempVal + ', #FFFFFF), '
+            + 'color-stop(' + tempVal + ', #606060))'
+          });
       }
+
       volumeDiv.appendChild(volumeSlider);
       volumeDiv.appendChild(volumeButton);
+
 
       // TODO: update
       // SETTINGS
@@ -668,28 +678,38 @@ H5P.BranchedVideo = (function ($) {
       var helpButton = document.createElement('button');
       helpButton.type = 'button';
       helpButton.style.position = 'absolute';
-      helpButton.style.fontSize = '8px';
-      helpButton.style.width = '80px';
+      helpButton.style.fontSize = '10px';
+      helpButton.style.width = '100px';
+      helpButton.style.backgroundColor = 'white';
       var helpButtonText = document.createTextNode('Help Mode');
       helpButton.appendChild(helpButtonText);
       settingsDiv.appendChild(helpButton);
 
       helpButton.onclick = function(){
         if (self.helpMode == false){
-          helpButton.innerHTML = 'Help Mode ON';
+          helpButton.innerHTML = 'Help Mode &#10003';
           self.helpMode = true;
         } else {
-          helpButton.innerHTML = 'Help Mode OFF';
+          helpButton.innerHTML = 'Help Mode';
           self.helpMode = false;
         }
+      }
+
+      helpButton.onmouseenter = function(){
+        helpButton.style.backgroundColor = '#3f89ff';
+        helpButton.style.color = 'white';
+      }
+      helpButton.onmouseleave = function(){
+        helpButton.style.backgroundColor = 'white';
+        helpButton.style.color = 'black';
       }
 
       // closed caption
       var ccButton = document.createElement('button');
       ccButton.style.position = 'absolute';
       ccButton.style.top = '15px';
-      ccButton.style.fontSize = '8px';
-      ccButton.style.width = '80px';
+      ccButton.style.fontSize = '10px';
+      ccButton.style.width = '100px';
       ccButton.type = 'button';
       var ccButtonText = document.createTextNode('Closed Caption');
       ccButton.appendChild(ccButtonText);
@@ -710,12 +730,25 @@ H5P.BranchedVideo = (function ($) {
         }
       }
 
+      ccButton.onmouseenter = function(){
+        ccButton.style.backgroundColor = '#3f89ff';
+        ccButton.style.color = 'white';
+      }
+      ccButton.onmouseleave = function(){
+        ccButton.style.backgroundColor = 'white';
+        ccButton.style.color = 'black';
+      }
+
       // shows div when we click settings
       settingsButton.onclick = function(){
         if (settingsDiv.style.display == 'none'){
+          if (H5P.isFullscreen) {
+              settingsDiv.style.left =  35 +  'px';
+          }
           settingsDiv.style.display = 'block';
         } else {
           settingsDiv.style.display = 'none';
+          settingsDiv.style.left =  '0px';
         }
       }
 
@@ -819,8 +852,8 @@ H5P.BranchedVideo = (function ($) {
 
       // HELP volume button
       volumeButton.onmouseover = function(){
-        var temp = getHelpText('tapestry-help-volume-button', 'drag slider to update volume ' );
-        temp.style.left = '87%';
+        var temp = getHelpText('tapestry-help-volume-button', 'drag to change volume' );
+        temp.style.left = '83%';
         temp.style.top = '60%';
         if (self.helpMode){
           temp.style.display = 'block';
@@ -856,15 +889,11 @@ H5P.BranchedVideo = (function ($) {
           var currBranch = getBranch(currentVideoPlaying);
           var diffTop = currBranch.getVideoDivHTML().clientHeight;
           temp.style.left = event.clientX - rect.left  + 'px';
-          temp.style.top = event.clientY - (diffTop + rect.top) - 30 + 'px';
+          temp.style.top = event.clientY - (diffTop + rect.top) - 25 + 'px';
           if (H5P.isFullscreen) {
-              temp.style.top = event.clientY - diffTop + 40 +  'px';
+              temp.style.top = event.clientY - diffTop + 45 +  'px';
           }
-          if (self.helpMode){
-            temp.style.display = 'block';
-          } else {
-            temp.style.display = 'none';
-          }
+          temp.style.display = 'block';
         }
 
         // handles leaving mouse: display = none
@@ -886,9 +915,16 @@ H5P.BranchedVideo = (function ($) {
           if (sec<0 || min < 0){
             time = '0:00';
           }
-          var temp = getHelpText('tapestry-help-'+ slug + '-slider', 'click to jump to ' + slug + ' at ' + time );
+
+          if (self.helpMode){
+            var temp = getHelpText('tapestry-help-'+ slug + '-slider', 'click to jump to ' + slug + ' at ' + time );
+          } else {
+            var temp = getHelpText('tapestry-help-'+ slug + '-slider',  time );
+          }
           var rect = $container.get(0).getBoundingClientRect();
           temp.style.left = event.clientX - rect.left + 'px';
+
+
         });
       }
       for (var key in branched_videos){

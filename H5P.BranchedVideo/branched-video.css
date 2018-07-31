@@ -61,9 +61,8 @@
 .tapestry-volume-slider {
     -webkit-appearance: none;
     position: absolute;
-    width: 100px;
-    height: 8px;
-    background: #d3d3d3;
+    width: 50px;
+    height: 5px;
     outline: none;
     transform: rotate(-90deg);
 }
@@ -72,10 +71,12 @@
 .tapestry-volume-slider::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    width: 10px;
-    height: 10px;
-    background: #999999;
+    width: 4px;
+    height: 7px;
+    margin-top: 1px;
+    background: #bcbcbc;
     cursor: pointer;
+    border: 0.005px solid #000000;
 }
 .tapestry-settings-button {
   background: url('images/settings.png') no-repeat scroll 0 0 transparent;
@@ -259,17 +260,16 @@ input[type='range'] {
 }
 
 .tapestry-help-text{
-  font-family: 'tapestry-font';
+  height: 8px;
   font-size: 8px;
   color: white;
   margin : 0;
   position: absolute;
-  background-color: gray;
-  border-style: solid;
-  border-width: 0.5px;
-  border-color: #FF2DCB;
+  background-color: #b7b7b7;
   padding-left: 2px;
   padding-right: 2px;
+  padding-top: -2px;
+  padding-bottom: 7px ;
 }
 
 @font-face {
