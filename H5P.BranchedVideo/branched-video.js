@@ -86,7 +86,7 @@ H5P.BranchedVideo = (function ($) {
                 arrayOfPlayedTime[length] = arrayOfPlayedTime[i];
                 arrayOfPlayedTime[i] = temp;
               }
-              return j;
+              return j+1;
             }
           }
           arrayOfPlayedTime.push([roundedTime,roundedTime +0.1]);
@@ -565,6 +565,7 @@ H5P.BranchedVideo = (function ($) {
         var valueTime = valueHover * duration;
         slider.value = valueHover * 100;
         video.currentTime = valueTime;
+
 
         // handles select other video sliders
         if (slug != currentVideoPlaying){
