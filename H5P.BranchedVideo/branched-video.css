@@ -42,7 +42,7 @@
   padding-right: 0%;
 }
 .tapestry-volume-button {
-  background: url('images/speaker.png') no-repeat scroll 0 0 transparent;
+  background: url('images/volume-button-before.png') no-repeat scroll 0 0 transparent;
   height: 25px;
   color: #000000;
   position: absolute;
@@ -50,6 +50,9 @@
   padding-left: 6%;
   top: 50%;
   border:0;
+}
+.tapestry-volume-button:hover{
+  background: url('images/volume-button-after.png') no-repeat scroll 0 0 transparent;
 }
 .tapestry-volume-div {
   height: 100%;
@@ -79,7 +82,7 @@
     border: 0.005px solid #000000;
 }
 .tapestry-settings-button {
-  background: url('images/settings.png') no-repeat scroll 0 0 transparent;
+  background: url('images/settings-button-before.png') no-repeat scroll 0 0 transparent;
   height: 25px;
   color: #000000;
   position: absolute;
@@ -89,6 +92,10 @@
   border:0;
   left: 40%;
 }
+.tapestry-settings-button:focus {
+  background: url('images/settings-button-after.png') no-repeat scroll 0 0 transparent;
+}
+
 .tapestry-settings-dropdown-content {
     display: none;
     position: relative;

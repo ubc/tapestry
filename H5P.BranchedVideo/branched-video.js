@@ -646,6 +646,7 @@ H5P.BranchedVideo = (function ($) {
         var currentVid = getBranch(currentVideoPlaying).getVideoHTML();
         var volume = currentVid.volume * 100;
         volumeSlider.value = volume;
+
       };
       volumeDiv.onmouseleave = function(){volumeSlider.style.display = 'none';};
       volumeSlider.oninput = function(){
