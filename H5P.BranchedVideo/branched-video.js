@@ -289,6 +289,14 @@ H5P.BranchedVideo = (function ($) {
       var nextVid = nextBranch.getVideoHTML();
       nextVid.volume = currVid.volume;
 
+      // handle closed caption
+      if( currVid.textTracks[0] != undefined && nextVid.textTracks[0] != undefined){
+        // TODO FINISH UP THIS functions
+        if (currVid.textTracks[0].mode = 'showing'){
+          nextVid.textTracks[0].mode = 'showing';
+        }
+      }
+
       //handle bars
       currentSliderDiv.classList.remove('tapestry-start-unselected-slider');
       currentSliderDiv.classList.remove('tapestry-selected-slider');
@@ -721,13 +729,15 @@ H5P.BranchedVideo = (function ($) {
         var currVidHTML = getBranch(currentVideoPlaying).getVideoHTML();
         var tracks = currVidHTML.textTracks[0];
         if (tracks == undefined){
-          alert('no closed captions were made available for this video');
-          return;
+          console.log('no closed caption for this video');
+          return ;
         }
         if (tracks.mode == 'hidden'){
           tracks.mode = 'showing';
+          ccButton.innerHTML = 'Closed Caption &#10003';
         } else {
           tracks.mode = 'hidden';
+          ccButton.innerHTML = 'Closed Caption';
         }
       }
 
