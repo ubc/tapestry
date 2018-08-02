@@ -47,6 +47,69 @@ H5P.BranchedVideo = (function ($) {
       this.currentTime = 0.00;
       this.watchedTime = 0.00;
       this.nodes = [];  // array of node objects
+
+      this.playedTime = [[0,0]];
+
+      this.getPlayedTime = function(){
+        return this.playedTime;
+      }
+
+      this.updatePlayedTime = function(time){
+        var roundedTime = Math.round( time * 10 ) / 10; // make it 1 decimal
+        var arrayOfPlayedTime = this.playedTime;
+        var index = getIndex();
+        updateArray();
+        this.playedTime = arrayOfPlayedTime;
+
+        function getIndex(){
+          var length = arrayOfPlayedTime.length;
+          for (var i = 0 ; i<length; i++){
+            var bottom = arrayOfPlayedTime[i][0];
+            var top = arrayOfPlayedTime[i][1];
+            if (time <= top + 1 && time >= bottom){
+              return i;
+            }
+          }
+          return insertPair();
+        }
+
+        function insertPair(){
+          var length = arrayOfPlayedTime.length;
+          for (var j = 0; j<length-1; j++){
+            var currentTop = arrayOfPlayedTime[j][1];
+            var nextBottom = arrayOfPlayedTime[j +1][0];
+            if ( time > currentTop && time < nextBottom){
+              arrayOfPlayedTime.push([roundedTime, roundedTime + 0.1]);
+              for (var i = j+1; i < length+1; i++){
+                //sorts it
+                var temp = arrayOfPlayedTime[length];
+                arrayOfPlayedTime[length] = arrayOfPlayedTime[i];
+                arrayOfPlayedTime[i] = temp;
+              }
+              return j;
+            }
+          }
+          arrayOfPlayedTime.push([roundedTime,roundedTime +0.1]);
+          return length;
+        }
+
+        function updateArray(){
+          var top = arrayOfPlayedTime[index][1];
+          if (roundedTime > top){
+            arrayOfPlayedTime[index][1] = roundedTime;
+          }
+          var next = arrayOfPlayedTime[index+1];
+          if (next){
+            var nextBottom = next[0];
+            if(nextBottom < time){
+              arrayOfPlayedTime[index][1] = arrayOfPlayedTime[index+1][1];
+              arrayOfPlayedTime.splice(index+1 ,1);
+            }
+          }
+        }
+
+      }
+
       //this.sources = []; //array of source objects
       this.source = par.sourceFiles[0].src; //assume this is source for now
       if (par.sourceFiles[1] != null){
@@ -431,13 +494,41 @@ H5P.BranchedVideo = (function ($) {
           branch.getSliderDivHTML().classList.remove('tapestry-start-selected-slider');
           branch.getSliderDivHTML().classList.add('tapestry-selected-slider');
         }
+
+        // updates arrayOfPlayedTime
+        branch.updatePlayedTime(time);
+
+        var myArray = branch.getPlayedTime();
+        var part1 = '';
+        var part2 = '';
+        var videoLength = branch.videoLength;
+
+        for (var i = 0; i < myArray.length; i++) {
+          if( i == 0 ){
+            part1 = "color-stop("+ myArray[0][0] / videoLength +", #000000),"
+            +"color-stop("+ myArray[0][0] / videoLength +", #1BB1FF),"
+            +"color-stop("+ myArray[0][1] / videoLength +", #1BB1FF),"
+            +"color-stop("+ myArray[0][1] / videoLength +", #000000)";
+          }else{
+            part2 += ",color-stop("+ myArray[i][0] / videoLength +", #000000),"
+            +"color-stop("+ myArray[i][0] / videoLength +", #1BB1FF),"
+            +"color-stop("+ myArray[i][1] / videoLength +", #1BB1FF),"
+            +"color-stop("+ myArray[i][1] / videoLength +", #000000)";
+          }
+        }
+        $('#tapestry-slider-' + slug).css('background-image',
+        '-webkit-gradient(linear, left top, right top, '+ part1 + part2);
+
+
         // TODO: cross compatible browser
+        /*
         var val = ($('#tapestry-slider-' + slug).val() - $('#tapestry-slider-' + slug).attr('min')) / ($('#tapestry-slider-' + slug).attr('max') - $('#tapestry-slider-' + slug).attr('min'));
         $('#tapestry-slider-' + slug).css({'background-image':
             '-webkit-gradient(linear, left top, right top, '
             + 'color-stop(' + val + ', #1BB1FF), '
             + 'color-stop(' + val + ', #000000))'
           });
+        */
 
         // handles time text update
         var lengthTime = branch.videoLength;
