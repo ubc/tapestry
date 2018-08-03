@@ -100,7 +100,7 @@ H5P.BranchedVideo = (function ($) {
       this.createSliderDivHTML = function(){
         var sliderDiv = document.createElement('div');
         sliderDiv.id = 'tapestry-wrapper-slider-' + this.slug;
-        sliderDiv.className = 'tapestry-start-unselected-slider';
+        sliderDiv.className = 'tapestry-slider';
         sliderDiv.style.position = 'absolute';
         var slider = document.createElement('input');
         slider.id = 'tapestry-slider-' + this.slug;
@@ -298,11 +298,7 @@ H5P.BranchedVideo = (function ($) {
       }
 
       //handle bars
-      currentSliderDiv.classList.remove('tapestry-start-unselected-slider');
       currentSliderDiv.classList.remove('tapestry-selected-slider');
-      currentSliderDiv.classList.add('tapestry-unselected-slider');
-      nextSliderDiv.classList.remove('tapestry-start-unselected-slider');
-      nextSliderDiv.classList.remove('tapestry-unselected-slider');
       nextSliderDiv.classList.add('tapestry-selected-slider');
 
       // handle showing/hiding of videos
@@ -426,11 +422,7 @@ H5P.BranchedVideo = (function ($) {
           }
         }
 
-        // handles slider color change
-        if (branch.getSliderDivHTML().classList.contains('tapestry-start-selected-slider')){
-          branch.getSliderDivHTML().classList.remove('tapestry-start-selected-slider');
-          branch.getSliderDivHTML().classList.add('tapestry-selected-slider');
-        }
+
         // TODO: cross compatible browser
         var val = ($('#tapestry-slider-' + slug).val() - $('#tapestry-slider-' + slug).attr('min')) / ($('#tapestry-slider-' + slug).attr('max') - $('#tapestry-slider-' + slug).attr('min'));
         $('#tapestry-slider-' + slug).css({'background-image':
@@ -546,8 +538,7 @@ H5P.BranchedVideo = (function ($) {
           currentBranch.stopVideo();
         } else {
           var mainSlider = currentBranch.getSliderDivHTML();
-          mainSlider.classList.remove('tapestry-start-unselected-slider');
-          mainSlider.classList.add('tapestry-start-selected-slider');
+          mainSlider.classList.add('tapestry-selected-slider');
         }
       }
 
