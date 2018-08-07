@@ -641,13 +641,13 @@ H5P.BranchedVideo = (function ($) {
         volumeSlider.value = volume;
 
       };
-      /* TODO: make cross-browser compatible */
       volumeDiv.onmouseleave = function(){volumeSlider.style.display = 'none';};
       volumeSlider.oninput = function(){
         var currentVid = getBranch(currentVideoPlaying).getVideoHTML();
         var volume = volumeSlider.value / 100;
         currentVid.volume = volume;
         var tempVal = volumeSlider.value / volumeSlider.max;
+        /* TODO: make cross-browser compatible */
         $('.tapestry-volume-slider').css({'background-image':
             '-webkit-gradient(linear, left top, right top, '
             + 'color-stop(' + tempVal + ', #FFFFFF), '
