@@ -446,7 +446,10 @@ H5P.BranchedVideo = (function ($) {
         // handles select other video sliders
         if (slug != currentVideoPlaying){
           jump(slug);
+          createXAPIStatement('Seeked', 'seekerBarDifferentVideo');
+          return;
         }
+        createXAPIStatement('Seeked', 'seekerBarSameVideo');
       });
 
       // creates the return link for all branches
@@ -471,6 +474,7 @@ H5P.BranchedVideo = (function ($) {
       currentLink.style.display = 'none';
       currentLink.onclick = function(){
         jump(parentSlug);
+        createXAPIStatement('Seeked', 'returnLink');
       }
       var branch = getBranch(childSlug);
       var videoDiv = branch.getVideoDivHTML();
@@ -487,6 +491,9 @@ H5P.BranchedVideo = (function ($) {
         playButton.style.display = 'block';
         var pauseButton = document.getElementsByClassName('tapestry-pause-button')[0];
         pauseButton.style.display = 'none';
+
+        //XAPI
+        createXAPIStatement('Completed');
       }
     }
 
@@ -499,6 +506,7 @@ H5P.BranchedVideo = (function ($) {
         slantedBar.classList.remove('tapestry-slanted-bar');
         slantedBar.classList.add('tapestry-played-slanted-bar');
         jump(goToSlug);
+        createXAPIStatement('Seeked', 'link');
       }
     }
 
@@ -570,7 +578,7 @@ H5P.BranchedVideo = (function ($) {
             attachNodeListeners(node);
           }
       }
-
+      // TODO: xAPI
       // creates left Controls: play button
       var leftControls = document.createElement('div');
       leftControls.className = 'tapestry-left-controls';
@@ -586,12 +594,15 @@ H5P.BranchedVideo = (function ($) {
         currentVid.play();
         playButton.style.display = 'none';
         pauseButton.style.display = 'block';
+        createXAPIStatement('Played');
+
       }
       pauseButton.onclick = function(){
         var currentVid = getBranch(currentVideoPlaying).getVideoHTML();
         currentVid.pause();
         pauseButton.style.display = 'none';
         playButton.style.display = 'block';
+        createXAPIStatement('Paused');
       }
       leftControls.appendChild(playButton);
       leftControls.appendChild(pauseButton);
@@ -627,6 +638,7 @@ H5P.BranchedVideo = (function ($) {
         var currentVid = getBranch(currentVideoPlaying).getVideoHTML();
         var volume = volumeSlider.value / 100;
         currentVid.volume = volume;
+        createXAPIStatement('Interacted', 'volume');
       }
       volumeDiv.appendChild(volumeSlider);
       volumeDiv.appendChild(volumeButton);
@@ -681,11 +693,11 @@ H5P.BranchedVideo = (function ($) {
       function hideBar(){seeker.style.opacity = 0;}
       var toggleFullScreen = function () {
         if (H5P.isFullscreen) {
-
           H5P.exitFullScreen();
+          createXAPIStatement('Interacted', 'fullScreenOn');
         } else {
-
-          H5P.fullScreen($container, self);;
+          H5P.fullScreen($container, self);
+          createXAPIStatement('Interacted', 'fullScreenOff');
         }
       };
 
@@ -812,7 +824,7 @@ H5P.BranchedVideo = (function ($) {
         currSlider.onmouseout = function(){
           getHelpText('tapestry-help-' + slug + '-slider', '').style.display = 'none';
         }
-        
+
         // handles mouse move: change x position AND update time to jump to
         currSlider.addEventListener('mousemove', function(e) {
           var valueHover = (e.offsetX / e.target.clientWidth);
@@ -851,6 +863,138 @@ H5P.BranchedVideo = (function ($) {
     //https://www.w3schools.com/code/tryit.asp?filename=FTDKFNNTQS1T
     */
 
+
+    // TODO
+    // XAPI STUFF
+    // verb: string of what verb
+    // slug: the slug of the object
+    // type: button, slider or video
+    // object: H5P instance?
+    function createXAPIStatement(verb, extra){
+      var xAPIEvent = new H5P.XAPIEvent();
+      // set verb
+      xAPIEvent.data.statement.verb = {
+        'id':'https://w3id.org/xapi/video/verbs/' + verb.toLowerCase(),
+        'display' : {
+          'en-us' : verb
+        }
+      };
+      // set actor
+      xAPIEvent.setActor();
+      // set object
+      switch(verb){
+        case 'Played':
+          handleXAPIPlayPause(xAPIEvent, currentVideoPlaying, 'play button');
+          break;
+        case 'Paused':
+          handleXAPIPlayPause(xAPIEvent, currentVideoPlaying, 'pause button');
+          break;
+        case 'Seeked':
+          handleXAPISeek(xAPIEvent, currentVideoPlaying, extra);
+          break;
+        case 'Completed':
+          handleXAPIPlaying(xAPIEvent, verb, currentVideoPlaying);
+        case 'Interacted':
+          handleXAPIRightControls(xAPIEvent, extra);
+
+        default: console.log("couldn't find verb");
+      }
+      console.log(xAPIEvent);
+      self.trigger(xAPIEvent);
+    }
+
+
+    // TODO
+    // handles play and pause button
+    function handleXAPIPlayPause(xapiEvent, slug, component){
+      xapiEvent.data.statement.object = {
+        'objectType' : 'Activity',
+        'id' : 'http://www.example.com/activities/' + slug + 'Video',
+        'definition': {
+          'type': 'http://adlnet.gov/expapi/activities/interaction',
+          'name': {
+            'en-us': 'interaction'
+          },
+          'description' : {
+            'en-us' : slug + ' video interacted with ' + component
+          }
+        }
+      }
+    }
+
+    // TODO
+    // handles when we seek to different parts of videos,
+    // whether it be by link, return link, seeker to the same video or seeker to another videos
+    // type: 'link', 'returnLink' , 'seekerBarSameVideo', 'seekerBarDifferentVideo',
+    function handleXAPISeek(xapiEvent, slug, type){
+      xapiEvent.data.statement.object = {
+        'objectType' : 'Activity',
+        'id' : 'http://www.example.com/activities/' + slug + 'Video',
+        'definition': {
+          'type': 'http://adlnet.gov/expapi/activities/interaction',
+          'name': {
+            'en-us': 'interaction'
+          },
+          'description' : {
+            'en-us' : 'seeked to ' + slug + ' video with  '+ type
+          }
+        }
+      }
+    }
+
+    // TODO: handles video ontime update and video on ended
+    function handleXAPIPlaying(xapiEvent, verb, slug){
+      // handle verb
+      xapiEvent.data.statement.verb = {
+        'id':'http://adlnet.gov/expapi/verbs/' + verb.toLowerCase(),
+        'display' : {
+          'en-us' : verb
+        }
+      };
+      // handle object
+      xapiEvent.data.statement.object = {
+        'objectType' : 'Activity',
+        'id' : 'http://www.example.com/activities/' + slug + 'Video',
+        'definition': {
+          'type': 'http://adlnet.gov/expapi/activities/interaction',
+          'name': {
+            'en-us': 'interaction'
+          },
+          'description' : {
+            'en-us' : slug + 'video was' + verb
+          }
+        }
+      }
+    }
+
+
+        // TODO: handles right controls like full volume, settings and full screen
+        function handleXAPIRightControls(xapiEvent, type){
+          // handle verb
+          xapiEvent.data.statement.verb = {
+            'id':'http://adlnet.gov/expapi/verbs/interacted',
+            'display' : {
+              'en-us' : 'Interacted'
+            }
+          };
+          // handle object
+          xapiEvent.data.statement.object = {
+            'objectType' : 'Activity',
+            'id' : 'http://www.example.com/activities/' + type + 'Button',
+            'definition': {
+              'type': 'http://adlnet.gov/expapi/activities/interaction',
+              'name': {
+                'en-us': 'interaction'
+              },
+              'description' : {
+                'en-us' : 'user clicked ' + type + 'button'
+              }
+            }
+          }
+        }
+
+
   };
+
   return C;
 })(H5P.jQuery);
