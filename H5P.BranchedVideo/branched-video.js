@@ -26,8 +26,6 @@ H5P.BranchedVideo = (function ($) {
 
   };
 
-
-
   /**
    * Attach function called by H5P framework to insert H5P content into
    * page
@@ -48,6 +46,7 @@ H5P.BranchedVideo = (function ($) {
       this.watchedTime = 0.00;
       this.nodes = [];  // array of node objects
       //this.sources = []; //array of source objects
+      // TODO: remove limitation where author must put video source first and vtt second
       this.source = par.sourceFiles[0].src; //assume this is source for now
       if (par.sourceFiles[1] != null){
         this.ccSource = par.sourceFiles[1].src;
@@ -60,7 +59,6 @@ H5P.BranchedVideo = (function ($) {
         videoDiv.style.position = 'relative';
         var video = document.createElement('video');
         video.id = 'tapestry-video-' + this.slug;
-        //video.src = this.source;
         video.frameborder = 0;
         video.controls = false;
         videoDiv.appendChild(video);
@@ -71,7 +69,6 @@ H5P.BranchedVideo = (function ($) {
         videoSource.src = this.source;
         video.appendChild(videoSource);
 
-        // TODO
         // provides vtt
         if(this.ccSource != null){
           var videoVTT = document.createElement('track');
@@ -80,7 +77,6 @@ H5P.BranchedVideo = (function ($) {
           videoVTT.srclang= 'en';
           videoVTT.src = this.ccSource;
           video.appendChild(videoVTT);
-
           video.textTracks[0].mode = 'hidden';
         }
         return videoDiv;
@@ -120,7 +116,6 @@ H5P.BranchedVideo = (function ($) {
         branchText.style.position = "absolute";
         sliderDiv.appendChild(branchText);
         // creates the time text
-
         var lengthTime = this.videoLength;
         var mins = Math.floor(lengthTime / 60);
         var seconds = Math.floor(lengthTime % 60);
@@ -395,6 +390,7 @@ H5P.BranchedVideo = (function ($) {
           attachSliders(nextSlug, nextBranch.nodes, 100, acc + slantedDiff*2);
       }
     }
+
     // attaches listeners for the videos and sliders
     function attachListeners(slug){
       var branch = getBranch(slug);
@@ -422,8 +418,7 @@ H5P.BranchedVideo = (function ($) {
           }
         }
 
-
-        // TODO: cross compatible browser
+        /* TODO: make cross-browser compatible */
         var val = ($('#tapestry-slider-' + slug).val() - $('#tapestry-slider-' + slug).attr('min')) / ($('#tapestry-slider-' + slug).attr('max') - $('#tapestry-slider-' + slug).attr('min'));
         $('#tapestry-slider-' + slug).css({'background-image':
             '-webkit-gradient(linear, left top, right top, '
@@ -647,6 +642,7 @@ H5P.BranchedVideo = (function ($) {
         volumeSlider.value = volume;
 
       };
+      /* TODO: make cross-browser compatible */
       volumeDiv.onmouseleave = function(){volumeSlider.style.display = 'none';};
       volumeSlider.oninput = function(){
         var currentVid = getBranch(currentVideoPlaying).getVideoHTML();
@@ -662,7 +658,6 @@ H5P.BranchedVideo = (function ($) {
 
       volumeDiv.appendChild(volumeSlider);
       volumeDiv.appendChild(volumeButton);
-
 
       // TODO: update
       // SETTINGS
@@ -714,7 +709,6 @@ H5P.BranchedVideo = (function ($) {
       var ccButtonText = document.createTextNode('Closed Caption');
       ccButton.appendChild(ccButtonText);
       settingsDiv.appendChild(ccButton);
-
 
       ccButton.onclick = function(){
         var currVidHTML = getBranch(currentVideoPlaying).getVideoHTML();
@@ -778,8 +772,6 @@ H5P.BranchedVideo = (function ($) {
         navBar.appendChild(helpNode);
         return helpNode;
       }
-
-
 
       // FULL SCREEN
       var fullScreenButton = document.createElement('button');
@@ -865,7 +857,6 @@ H5P.BranchedVideo = (function ($) {
         getHelpText('tapestry-help-volume-button', '').style.display = 'none';
       }
 
-
       // HELP fullscreen
       fullScreenButton.onmouseover = function(){
         var temp = getHelpText('tapestry-help-fullScreen-button', 'toggle fullscreen' );
@@ -917,7 +908,6 @@ H5P.BranchedVideo = (function ($) {
           if (sec<0 || min < 0){
             time = '0:00';
           }
-
           if (self.helpMode){
             var temp = getHelpText('tapestry-help-'+ slug + '-slider', 'click to jump to ' + slug + ' at ' + time );
           } else {
@@ -925,28 +915,19 @@ H5P.BranchedVideo = (function ($) {
           }
           var rect = $container.get(0).getBoundingClientRect();
           temp.style.left = event.clientX - rect.left + 'px';
-
-
         });
       }
       for (var key in branched_videos){
         attachOnHoverSlider(key);
       }
-
     }
 
     createAllBranches(this.options.branchedVideos);
 
-    /* NOTE:
-    class="tapestry-slider selected"
-    class="tapestry-slider"
 
-    .tapestry-slider.selected > input[type='range']::-webkit-slider-thumb
-    .tapestry-slider:not(.selected)
-
-    // multiple played section array thing
+    // multiple played section array code
     //https://www.w3schools.com/code/tryit.asp?filename=FTDKFNNTQS1T
-    */
+
 
   };
   return C;
