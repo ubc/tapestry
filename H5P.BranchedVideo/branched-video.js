@@ -54,9 +54,12 @@ H5P.BranchedVideo = (function ($) {
         return this.playedTime;
       }
 
+      // parameter: time which is a double of the currentTime of video playing
+      // updates the attribute playedTime, which is an array of pairs of doubles which represents the watched time
+      // returns the attribute playedTime for this branch
       this.updatePlayedTime = function(time){
-        var roundedTime = Math.round( time * 10 ) / 10; // make it 1 decimal
-        var arrayOfPlayedTime = this.playedTime;
+        var roundedTime = Math.round(time*10)/10; // make it 1 decimal
+        var arrayOfPlayedTime = this.getPlayedTime();
         var index = getIndexForCurrentTime();
         updateArrayOfPlayedTime();
         this.playedTime = arrayOfPlayedTime;
@@ -66,7 +69,7 @@ H5P.BranchedVideo = (function ($) {
         // if it doesn't exist, it creates the pair of [currentTime,currentTime+0.1] for current time
         function getIndexForCurrentTime(){
           var length = arrayOfPlayedTime.length;
-          for (var i = 0 ; i<length; i++){
+          for (var i = 0 ; i < length; i++){
             var bottom = arrayOfPlayedTime[i][0];
             var top = arrayOfPlayedTime[i][1];
             if (time <= top + 1 && time >= bottom){
@@ -82,10 +85,10 @@ H5P.BranchedVideo = (function ($) {
         // - or adds it to the back of the arrayOfPlayedTime
         function insertPair(){
           var length = arrayOfPlayedTime.length;
-          for (var j = 0; j<length-1; j++){
+          for (var j = 0; j < length-1; j++){
             var currentTop = arrayOfPlayedTime[j][1];
             var nextBottom = arrayOfPlayedTime[j +1][0];
-            if ( time > currentTop && time < nextBottom){
+            if (time > currentTop && time < nextBottom){
               arrayOfPlayedTime.push([roundedTime, roundedTime + 0.1]);
               for (var i = j+1; i < length+1; i++){
                 //sorts it
@@ -96,12 +99,12 @@ H5P.BranchedVideo = (function ($) {
               return j+1;
             }
           }
-          arrayOfPlayedTime.push([roundedTime,roundedTime +0.1]);
+          arrayOfPlayedTime.push([roundedTime,roundedTime + 0.1]);
           return length;
         }
 
         // uses variable index that was used earlier in the function
-        // if the current top is equal or greate than the next bottom, merges it 
+        // if the current top is equal or greate than the next bottom, merges it
         function updateArrayOfPlayedTime(){
           var top = arrayOfPlayedTime[index][1];
           if (roundedTime > top){
@@ -112,7 +115,7 @@ H5P.BranchedVideo = (function ($) {
             var nextBottom = next[0];
             if(nextBottom < time){
               arrayOfPlayedTime[index][1] = arrayOfPlayedTime[index+1][1];
-              arrayOfPlayedTime.splice(index+1 ,1);
+              arrayOfPlayedTime.splice(index+1, 1);
             }
           }
         }
