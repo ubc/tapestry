@@ -34,7 +34,6 @@ H5P.BranchedVideo = (function ($) {
    */
   C.prototype.attach = function ($container) {
     var self = this;
-    //$container.css({'padding-top': (screen.width / screen.heigh)*100 + '%'});
     // BRANCHES
     function Branch(par){
       this.slug = par.slug;
