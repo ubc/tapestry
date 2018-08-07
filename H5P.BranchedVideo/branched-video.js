@@ -57,11 +57,14 @@ H5P.BranchedVideo = (function ($) {
       this.updatePlayedTime = function(time){
         var roundedTime = Math.round( time * 10 ) / 10; // make it 1 decimal
         var arrayOfPlayedTime = this.playedTime;
-        var index = getIndex();
-        updateArray();
+        var index = getIndexForCurrentTime();
+        updateArrayOfPlayedTime();
         this.playedTime = arrayOfPlayedTime;
 
-        function getIndex(){
+        // uses the time parameter for current time
+        // gets index of where the current time is in the arrayOfPlayedTime
+        // if it doesn't exist, it creates the pair of [currentTime,currentTime+0.1] for current time
+        function getIndexForCurrentTime(){
           var length = arrayOfPlayedTime.length;
           for (var i = 0 ; i<length; i++){
             var bottom = arrayOfPlayedTime[i][0];
@@ -73,6 +76,10 @@ H5P.BranchedVideo = (function ($) {
           return insertPair();
         }
 
+        // creates a new pair for current time that doesn't exist
+        // 2 cases:
+        // - checks all the pairs so that the current time is between the current top and next bottom, insert, then sort the rest
+        // - or adds it to the back of the arrayOfPlayedTime
         function insertPair(){
           var length = arrayOfPlayedTime.length;
           for (var j = 0; j<length-1; j++){
@@ -93,7 +100,9 @@ H5P.BranchedVideo = (function ($) {
           return length;
         }
 
-        function updateArray(){
+        // uses variable index that was used earlier in the function
+        // if the current top is equal or greate than the next bottom, merges it 
+        function updateArrayOfPlayedTime(){
           var top = arrayOfPlayedTime[index][1];
           if (roundedTime > top){
             arrayOfPlayedTime[index][1] = roundedTime;
@@ -107,10 +116,8 @@ H5P.BranchedVideo = (function ($) {
             }
           }
         }
-
       }
 
-      //this.sources = []; //array of source objects
       this.source = par.sourceFiles[0].src; //assume this is source for now
       if (par.sourceFiles[1] != null){
         this.ccSource = par.sourceFiles[1].src;
