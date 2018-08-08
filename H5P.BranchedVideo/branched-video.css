@@ -42,7 +42,7 @@
   padding-right: 0%;
 }
 .tapestry-volume-button {
-  background: url('images/speaker.png') no-repeat scroll 0 0 transparent;
+  background: url('images/volume-button-before.png') no-repeat scroll 0 0 transparent;
   height: 25px;
   color: #000000;
   position: absolute;
@@ -50,6 +50,9 @@
   padding-left: 6%;
   top: 50%;
   border:0;
+}
+.tapestry-volume-button:hover{
+  background: url('images/volume-button-after.png') no-repeat scroll 0 0 transparent;
 }
 .tapestry-volume-div {
   height: 100%;
@@ -61,9 +64,8 @@
 .tapestry-volume-slider {
     -webkit-appearance: none;
     position: absolute;
-    width: 100px;
-    height: 8px;
-    background: #d3d3d3;
+    width: 50px;
+    height: 5px;
     outline: none;
     transform: rotate(-90deg);
 }
@@ -72,13 +74,15 @@
 .tapestry-volume-slider::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    width: 10px;
-    height: 10px;
-    background: #999999;
+    width: 4px;
+    height: 7px;
+    margin-top: 1px;
+    background: #bcbcbc;
     cursor: pointer;
+    border: 0.005px solid #000000;
 }
 .tapestry-settings-button {
-  background: url('images/settings.png') no-repeat scroll 0 0 transparent;
+  background: url('images/settings-button-before.png') no-repeat scroll 0 0 transparent;
   height: 25px;
   color: #000000;
   position: absolute;
@@ -87,6 +91,19 @@
   top: 50%;
   border:0;
   left: 40%;
+}
+.tapestry-settings-button:focus {
+  background: url('images/settings-button-after.png') no-repeat scroll 0 0 transparent;
+}
+
+.tapestry-settings-dropdown-content {
+    display: none;
+    position: relative;
+    background-color: #f1f1f1;
+    min-width: 20px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1000;
+    top: 30px;
 }
 .tapestry-screen-button {
   background: url('images/full-screen-arrows.png') no-repeat scroll 0 0 transparent;
@@ -115,51 +132,8 @@ input[type='range'] {
   -webkit-border-radius: 0px;
 }
 
-/* TODO: make cross-browser compatible */
-.tapestry-start-selected-slider > input[type='range']::-webkit-slider-thumb{
-	visibility: visible !important;
-  -webkit-appearance: none !important;
-  background-color: #FF2DCB;
-  border: 2px solid #FFFFFF;
-  border-radius: 10px;
-  height: 14px;
-  width: 14px;
-  cursor: pointer;
-  margin-top: -3px;
-}
 
-/* TODO: make cross-browser compatible */
-.tapestry-start-selected-slider > input[type='range']::-webkit-slider-runnable-track{
-  -webkit-appearance: none;
-  height: 7px;
-  background-image:
-    -webkit-gradient(
-            linear,
-            left top,
-            right top,
-            color-stop(0, #1BB1FF),
-            color-stop(0, #000000)
-        );
-}
 
-/* TODO: make cross-browser compatible */
-.tapestry-start-unselected-slider > input[type='range']::-webkit-slider-thumb{
-	visibility: hidden !important;;
-}
-
-/* TODO: make cross-browser compatible */
-.tapestry-start-unselected-slider > input[type='range']::-webkit-slider-runnable-track{
-  -webkit-appearance: none;
-  height: 7px;
-  background-image:
-    -webkit-gradient(
-            linear,
-            left top,
-            right top,
-            color-stop(0, #1BB1FF),
-            color-stop(0, #000000)
-        );
-}
 
 /* TODO: make cross-browser compatible */
 .tapestry-selected-slider > input[type='range']::-webkit-slider-thumb{
@@ -171,33 +145,16 @@ input[type='range'] {
   height: 14px;
   width: 14px;
   cursor: pointer;
-  margin-top: -3px;
+  margin-top: 0px;
 }
 
 /* TODO: make cross-browser compatible */
-.tapestry-selected-slider > input[type='range']::-webkit-slider-runnable-track{
-  -webkit-appearance: none;
-  height: 7px;
-}
-
-/* TODO: make cross-browser compatible */
-.tapestry-unselected-slider > input[type='range']::-webkit-slider-thumb{
+.tapestry-slider > input[type='range']::-webkit-slider-thumb{
 	visibility: hidden;
 }
 
 /* TODO: make cross-browser compatible */
-.tapestry-unselected-slider > input[type='range']::-webkit-slider-runnable-track{
-  -webkit-appearance: none;
-  height: 7px;
-}
-
-/* TODO: make cross-browser compatible */
-.tapestry-slanted-bar input[type='range']::-webkit-slider-thumb{
-	display: none;
-}
-
-/* TODO: make cross-browser compatible */
-.tapestry-slanted-bar input[type='range']::-webkit-slider-runnable-track{
+.tapestry-slider > input[type='range']{
   -webkit-appearance: none;
   height: 7px;
   background-image:
@@ -210,13 +167,36 @@ input[type='range'] {
         );
 }
 
+
+
+
+/* TODO: make cross-browser compatible */
+.tapestry-slanted-bar input[type='range']::-webkit-slider-thumb{
+	display: none;
+}
+
+/* TODO: make cross-browser compatible */
+.tapestry-slanted-bar input[type='range']{
+  -webkit-appearance: none;
+  height: 7px;
+  background-image:
+    -webkit-gradient(
+            linear,
+            left top,
+            right top,
+            color-stop(0, #1BB1FF),
+            color-stop(0, #000000)
+        );
+}
+
+
 /* TODO: make cross-browser compatible */
 .tapestry-played-slanted-bar input[type='range']::-webkit-slider-thumb{
 	display: none;
 }
 
 /* TODO: make cross-browser compatible */
-.tapestry-played-slanted-bar input[type='range']::-webkit-slider-runnable-track{
+.tapestry-played-slanted-bar input[type='range']{
   -webkit-appearance: none;
   height: 7px;
   background-image:
@@ -250,17 +230,16 @@ input[type='range'] {
 }
 
 .tapestry-help-text{
-  font-family: 'tapestry-font';
+  height: 8px;
   font-size: 8px;
   color: white;
   margin : 0;
   position: absolute;
-  background-color: gray;
-  border-style: solid;
-  border-width: 0.5px;
-  border-color: #FF2DCB;
+  background-color: #b7b7b7;
   padding-left: 2px;
   padding-right: 2px;
+  padding-top: -2px;
+  padding-bottom: 7px ;
 }
 
 @font-face {

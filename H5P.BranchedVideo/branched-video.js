@@ -26,8 +26,6 @@ H5P.BranchedVideo = (function ($) {
 
   };
 
-
-
   /**
    * Attach function called by H5P framework to insert H5P content into
    * page
@@ -36,7 +34,6 @@ H5P.BranchedVideo = (function ($) {
    */
   C.prototype.attach = function ($container) {
     var self = this;
-    //$container.css({'padding-top': (screen.width / screen.heigh)*100 + '%'});
     // BRANCHES
     function Branch(par){
       this.slug = par.slug;
@@ -47,8 +44,87 @@ H5P.BranchedVideo = (function ($) {
       this.currentTime = 0.00;
       this.watchedTime = 0.00;
       this.nodes = [];  // array of node objects
-      //this.sources = []; //array of source objects
+
+
+      this.playedTime = [[0,0]];
+
+      this.getPlayedTime = function(){
+        return this.playedTime;
+      }
+
+      // parameter: time which is a double of the currentTime of video playing
+      // updates the attribute playedTime, which is an array of pairs of doubles which represents the watched time
+      // returns the attribute playedTime for this branch
+      this.updatePlayedTime = function(time){
+        var roundedTime = Math.round(time*10)/10; // make it 1 decimal
+        var arrayOfPlayedTime = this.getPlayedTime();
+        var index = getIndexForCurrentTime();
+        updateArrayOfPlayedTime();
+        this.playedTime = arrayOfPlayedTime;
+
+        // uses the time parameter for current time
+        // gets index of where the current time is in the arrayOfPlayedTime
+        // if it doesn't exist, it creates the pair of [currentTime,currentTime+0.1] for current time
+        function getIndexForCurrentTime(){
+          var length = arrayOfPlayedTime.length;
+          for (var i = 0 ; i < length; i++){
+            var bottom = arrayOfPlayedTime[i][0];
+            var top = arrayOfPlayedTime[i][1];
+            if (time <= top + 1 && time >= bottom){
+              return i;
+            }
+          }
+          return insertPair();
+        }
+
+        // creates a new pair for current time that doesn't exist
+        // 2 cases:
+        // - checks all the pairs so that the current time is between the current top and next bottom, insert, then sort the rest
+        // - or adds it to the back of the arrayOfPlayedTime
+        function insertPair(){
+          var length = arrayOfPlayedTime.length;
+          for (var j = 0; j < length-1; j++){
+            var currentTop = arrayOfPlayedTime[j][1];
+            var nextBottom = arrayOfPlayedTime[j +1][0];
+            if (time > currentTop && time < nextBottom){
+              arrayOfPlayedTime.push([roundedTime, roundedTime + 0.1]);
+              for (var i = j+1; i < length+1; i++){
+                //sorts it
+                var temp = arrayOfPlayedTime[length];
+                arrayOfPlayedTime[length] = arrayOfPlayedTime[i];
+                arrayOfPlayedTime[i] = temp;
+              }
+              return j+1;
+            }
+          }
+          arrayOfPlayedTime.push([roundedTime,roundedTime + 0.1]);
+          return length;
+        }
+
+        // uses variable index that was used earlier in the function
+        // if the current top is equal or greate than the next bottom, merges it
+        function updateArrayOfPlayedTime(){
+          var top = arrayOfPlayedTime[index][1];
+          if (roundedTime > top){
+            arrayOfPlayedTime[index][1] = roundedTime;
+          }
+          var next = arrayOfPlayedTime[index+1];
+          if (next){
+            var nextBottom = next[0];
+            if(nextBottom < time){
+              arrayOfPlayedTime[index][1] = arrayOfPlayedTime[index+1][1];
+              arrayOfPlayedTime.splice(index+1, 1);
+            }
+          }
+        }
+      }
+
+
+      // TODO: remove limitation where author must put video source first and vtt second
       this.source = par.sourceFiles[0].src; //assume this is source for now
+      if (par.sourceFiles[1] != null){
+        this.ccSource = par.sourceFiles[1].src;
+      }
       //  video part
       this.createVideoDivHTML = function(){
         var videoDiv = document.createElement('div');
@@ -57,12 +133,29 @@ H5P.BranchedVideo = (function ($) {
         videoDiv.style.position = 'relative';
         var video = document.createElement('video');
         video.id = 'tapestry-video-' + this.slug;
-        video.src = this.source;
         video.frameborder = 0;
         video.controls = false;
         videoDiv.appendChild(video);
+
+        // provides source
+        var videoSource = document.createElement('source');
+        videoSource.type = 'video/mp4';
+        videoSource.src = this.source;
+        video.appendChild(videoSource);
+
+        // provides vtt
+        if(this.ccSource != null){
+          var videoVTT = document.createElement('track');
+          videoVTT.label = 'english';
+          videoVTT.kind = 'subtitles';
+          videoVTT.srclang= 'en';
+          videoVTT.src = this.ccSource;
+          video.appendChild(videoVTT);
+          video.textTracks[0].mode = 'hidden';
+        }
         return videoDiv;
       }
+
       // if we dont append it, can't call get documentByID
       $container.append(this.createVideoDivHTML());
 
@@ -77,7 +170,7 @@ H5P.BranchedVideo = (function ($) {
       this.createSliderDivHTML = function(){
         var sliderDiv = document.createElement('div');
         sliderDiv.id = 'tapestry-wrapper-slider-' + this.slug;
-        sliderDiv.className = 'tapestry-start-unselected-slider';
+        sliderDiv.className = 'tapestry-slider';
         sliderDiv.style.position = 'absolute';
         var slider = document.createElement('input');
         slider.id = 'tapestry-slider-' + this.slug;
@@ -97,7 +190,6 @@ H5P.BranchedVideo = (function ($) {
         branchText.style.position = "absolute";
         sliderDiv.appendChild(branchText);
         // creates the time text
-
         var lengthTime = this.videoLength;
         var mins = Math.floor(lengthTime / 60);
         var seconds = Math.floor(lengthTime % 60);
@@ -266,12 +358,16 @@ H5P.BranchedVideo = (function ($) {
       var nextVid = nextBranch.getVideoHTML();
       nextVid.volume = currVid.volume;
 
+      // handle closed caption
+      if( currVid.textTracks[0] != undefined && nextVid.textTracks[0] != undefined){
+        // TODO FINISH UP THIS functions
+        if (currVid.textTracks[0].mode = 'showing'){
+          nextVid.textTracks[0].mode = 'showing';
+        }
+      }
+
       //handle bars
-      currentSliderDiv.classList.remove('tapestry-start-unselected-slider');
       currentSliderDiv.classList.remove('tapestry-selected-slider');
-      currentSliderDiv.classList.add('tapestry-unselected-slider');
-      nextSliderDiv.classList.remove('tapestry-start-unselected-slider');
-      nextSliderDiv.classList.remove('tapestry-unselected-slider');
       nextSliderDiv.classList.add('tapestry-selected-slider');
 
       // handle showing/hiding of videos
@@ -368,6 +464,7 @@ H5P.BranchedVideo = (function ($) {
           attachSliders(nextSlug, nextBranch.nodes, 100, acc + slantedDiff*2);
       }
     }
+
     // attaches listeners for the videos and sliders
     function attachListeners(slug){
       var branch = getBranch(slug);
@@ -382,6 +479,12 @@ H5P.BranchedVideo = (function ($) {
         var time = video.currentTime;
         var val = (time/duration) * 100; // 100 is max value for sliders
         slider.value = val;
+        // slight error in thumb movement due to size of thumb
+        if (time < (branch.videoLength / 4)){
+          slider.value = val - 2;
+        } else  if (time > (3 * branch.videoLength / 4)){
+          slider.value = val + 1;
+        }
 
         // handles buttons appearing and disappearing when video time changes
         for (var i = 0; i < listOfNodes.length ; i++){
@@ -395,17 +498,37 @@ H5P.BranchedVideo = (function ($) {
           }
         }
 
+
         // handles slider color change
         if (branch.getSliderDivHTML().classList.contains('tapestry-start-selected-slider')){
           branch.getSliderDivHTML().classList.remove('tapestry-start-selected-slider');
           branch.getSliderDivHTML().classList.add('tapestry-selected-slider');
         }
-        var val = ($('#tapestry-slider-' + slug).val() - $('#tapestry-slider-' + slug).attr('min')) / ($('#tapestry-slider-' + slug).attr('max') - $('#tapestry-slider-' + slug).attr('min'));
-        $('#tapestry-slider-' + slug).css({'background-image':
-            '-webkit-gradient(linear, left top, right top, '
-            + 'color-stop(' + val + ', #1BB1FF), '
-            + 'color-stop(' + val + ', #000000))'
-          });
+
+        // updates arrayOfPlayedTime
+        branch.updatePlayedTime(time);
+
+        var myArray = branch.getPlayedTime();
+        var part1 = '';
+        var part2 = '';
+        var videoLength = branch.videoLength;
+
+        /* TODO: make cross-browser compatible */
+        for (var i = 0; i < myArray.length; i++) {
+          if( i == 0 ){
+            part1 = "color-stop("+ myArray[0][0] / videoLength +", #000000),"
+            +"color-stop("+ myArray[0][0] / videoLength +", #1BB1FF),"
+            +"color-stop("+ myArray[0][1] / videoLength +", #1BB1FF),"
+            +"color-stop("+ myArray[0][1] / videoLength +", #000000)";
+          }else{
+            part2 += ",color-stop("+ myArray[i][0] / videoLength +", #000000),"
+            +"color-stop("+ myArray[i][0] / videoLength +", #1BB1FF),"
+            +"color-stop("+ myArray[i][1] / videoLength +", #1BB1FF),"
+            +"color-stop("+ myArray[i][1] / videoLength +", #000000)";
+          }
+        }
+        $('#tapestry-slider-' + slug).css('background-image',
+        '-webkit-gradient(linear, left top, right top, '+ part1 + part2);
 
         // handles time text update
         var lengthTime = branch.videoLength;
@@ -442,6 +565,7 @@ H5P.BranchedVideo = (function ($) {
         var valueTime = valueHover * duration;
         slider.value = valueHover * 100;
         video.currentTime = valueTime;
+
 
         // handles select other video sliders
         if (slug != currentVideoPlaying){
@@ -514,8 +638,7 @@ H5P.BranchedVideo = (function ($) {
           currentBranch.stopVideo();
         } else {
           var mainSlider = currentBranch.getSliderDivHTML();
-          mainSlider.classList.remove('tapestry-start-unselected-slider');
-          mainSlider.classList.add('tapestry-start-selected-slider');
+          mainSlider.classList.add('tapestry-selected-slider');
         }
       }
 
@@ -613,39 +736,131 @@ H5P.BranchedVideo = (function ($) {
       volumeSlider.min = 0;
       volumeSlider.max = 100;
       volumeSlider.value = 100;
-      volumeSlider.style.left = '-42px';
-      volumeSlider.style.top = '10px';
+      volumeSlider.style.left = '-17px';
+      volumeSlider.style.top = '35px';
       volumeSlider.style.display = 'none';
+      //volumeSlider.style.background = '#727272';
       volumeButton.onmouseenter = function(){
         volumeSlider.style.display = 'block';
         var currentVid = getBranch(currentVideoPlaying).getVideoHTML();
         var volume = currentVid.volume * 100;
         volumeSlider.value = volume;
+
       };
       volumeDiv.onmouseleave = function(){volumeSlider.style.display = 'none';};
       volumeSlider.oninput = function(){
         var currentVid = getBranch(currentVideoPlaying).getVideoHTML();
         var volume = volumeSlider.value / 100;
         currentVid.volume = volume;
+        var tempVal = volumeSlider.value / volumeSlider.max;
+        /* TODO: make cross-browser compatible */
+        $('.tapestry-volume-slider').css({'background-image':
+            '-webkit-gradient(linear, left top, right top, '
+            + 'color-stop(' + tempVal + ', #FFFFFF), '
+            + 'color-stop(' + tempVal + ', #606060))'
+          });
       }
+
       volumeDiv.appendChild(volumeSlider);
       volumeDiv.appendChild(volumeButton);
 
+      // TODO: update
       // SETTINGS
       var settingsButton = document.createElement('button');
       settingsButton.type = 'button';
       settingsButton.className = 'tapestry-settings-button';
-      var helpNode = document.createElement('h');
-      var helpNodeText = document.createTextNode('help mode enabled');
-      helpNode.className = 'tapestry-time-text';
-      helpNode.style.display = 'none';
-      helpNode.style.position = 'absolute';
-      helpNode.style.top = '90%';
-      helpNode.style.left = '30%';
-      helpNode.appendChild(helpNodeText);
-      rightControls.appendChild(helpNode);
+      var settingsDiv = document.createElement('div');
+      settingsDiv.className = 'tapestry-settings-dropdown-content';
+      settingsDiv.style.display = 'none';
+      rightControls.appendChild(settingsDiv);
 
-      // functions for handling onhover help button
+      // help mode
+      var helpButton = document.createElement('button');
+      helpButton.type = 'button';
+      helpButton.style.position = 'absolute';
+      helpButton.style.fontSize = '10px';
+      helpButton.style.width = '100px';
+      helpButton.style.backgroundColor = 'white';
+      var helpButtonText = document.createTextNode('Help Mode');
+      helpButton.appendChild(helpButtonText);
+      settingsDiv.appendChild(helpButton);
+
+      helpButton.onclick = function(){
+        if (self.helpMode == false){
+          helpButton.innerHTML = 'Help Mode &#10003';
+          self.helpMode = true;
+        } else {
+          helpButton.innerHTML = 'Help Mode';
+          self.helpMode = false;
+        }
+      }
+
+      helpButton.onmouseenter = function(){
+        helpButton.style.backgroundColor = '#3f89ff';
+        helpButton.style.color = 'white';
+      }
+      helpButton.onmouseleave = function(){
+        helpButton.style.backgroundColor = 'white';
+        helpButton.style.color = 'black';
+      }
+
+      // closed caption
+      var ccButton = document.createElement('button');
+      ccButton.style.position = 'absolute';
+      ccButton.style.top = '15px';
+      ccButton.style.fontSize = '10px';
+      ccButton.style.width = '100px';
+      ccButton.type = 'button';
+      var ccButtonText = document.createTextNode('Closed Caption');
+      ccButton.appendChild(ccButtonText);
+      settingsDiv.appendChild(ccButton);
+
+      ccButton.onclick = function(){
+        var currVidHTML = getBranch(currentVideoPlaying).getVideoHTML();
+        var tracks = currVidHTML.textTracks[0];
+        if (tracks == undefined){
+          console.log('no closed caption for this video');
+          return ;
+        }
+        if (tracks.mode == 'hidden'){
+          tracks.mode = 'showing';
+          ccButton.innerHTML = 'Closed Caption &#10003';
+        } else {
+          tracks.mode = 'hidden';
+          ccButton.innerHTML = 'Closed Caption';
+        }
+      }
+
+      ccButton.onmouseenter = function(){
+        ccButton.style.backgroundColor = '#3f89ff';
+        ccButton.style.color = 'white';
+      }
+      ccButton.onmouseleave = function(){
+        ccButton.style.backgroundColor = 'white';
+        ccButton.style.color = 'black';
+      }
+
+      // shows div when we click settings
+      settingsButton.onclick = function(){
+        if (settingsDiv.style.display == 'none'){
+          if (H5P.isFullscreen) {
+              settingsDiv.style.left =  35 +  'px';
+          }
+          settingsDiv.style.display = 'block';
+        } else {
+          settingsDiv.style.display = 'none';
+          settingsDiv.style.left =  '0px';
+        }
+      }
+
+      // removes div when we click anything else
+      window.onclick = function(event) {
+        if (!event.target.matches('.tapestry-settings-button')) {
+          settingsDiv.style.display = 'none';
+        }
+      }
+
+      // function for handling onhover help button
       function getHelpText(id, str){
         var helpTextTemp = document.getElementById(id);
         if (helpTextTemp != null){
@@ -661,15 +876,6 @@ H5P.BranchedVideo = (function ($) {
         helpNode.appendChild(helpNodeText);
         navBar.appendChild(helpNode);
         return helpNode;
-      }
-      settingsButton.onclick = function(){
-        if (self.helpMode == false){
-          helpNode.style.display = 'block';
-          self.helpMode = true;
-        } else {
-          helpNode.style.display = 'none';
-          self.helpMode = false;
-        }
       }
 
       // FULL SCREEN
@@ -745,8 +951,8 @@ H5P.BranchedVideo = (function ($) {
 
       // HELP volume button
       volumeButton.onmouseover = function(){
-        var temp = getHelpText('tapestry-help-volume-button', 'drag slider to update volume ' );
-        temp.style.left = '87%';
+        var temp = getHelpText('tapestry-help-volume-button', 'drag to change volume' );
+        temp.style.left = '83%';
         temp.style.top = '60%';
         if (self.helpMode){
           temp.style.display = 'block';
@@ -754,22 +960,6 @@ H5P.BranchedVideo = (function ($) {
       }
       volumeButton.onmouseout = function(){
         getHelpText('tapestry-help-volume-button', '').style.display = 'none';
-      }
-
-      // HELP settings button
-      settingsButton.onmouseover = function(){
-        if (self.helpMode){
-          var temp = getHelpText('tapestry-help-settings-button', 'turn off help mode' );
-          temp.style.display = 'block';
-        } else {
-          var temp = getHelpText('tapestry-help-settings-button', 'turn on help mode' );
-          temp.style.display = 'block';
-        }
-        temp.style.left = '87%';
-        temp.style.top = '60%';
-      }
-      settingsButton.onmouseout = function(){
-        getHelpText('tapestry-help-settings-button', '').style.display = 'none';
       }
 
       // HELP fullscreen
@@ -797,22 +987,18 @@ H5P.BranchedVideo = (function ($) {
           var currBranch = getBranch(currentVideoPlaying);
           var diffTop = currBranch.getVideoDivHTML().clientHeight;
           temp.style.left = event.clientX - rect.left  + 'px';
-          temp.style.top = event.clientY - (diffTop + rect.top) - 30 + 'px';
+          temp.style.top = event.clientY - (diffTop + rect.top) - 25 + 'px';
           if (H5P.isFullscreen) {
-              temp.style.top = event.clientY - diffTop + 40 +  'px';
+              temp.style.top = event.clientY - diffTop + 45 +  'px';
           }
-          if (self.helpMode){
-            temp.style.display = 'block';
-          } else {
-            temp.style.display = 'none';
-          }
+          temp.style.display = 'block';
         }
 
         // handles leaving mouse: display = none
         currSlider.onmouseout = function(){
           getHelpText('tapestry-help-' + slug + '-slider', '').style.display = 'none';
         }
-        
+
         // handles mouse move: change x position AND update time to jump to
         currSlider.addEventListener('mousemove', function(e) {
           var valueHover = (e.offsetX / e.target.clientWidth);
@@ -827,7 +1013,11 @@ H5P.BranchedVideo = (function ($) {
           if (sec<0 || min < 0){
             time = '0:00';
           }
-          var temp = getHelpText('tapestry-help-'+ slug + '-slider', 'click to jump to ' + slug + ' at ' + time );
+          if (self.helpMode){
+            var temp = getHelpText('tapestry-help-'+ slug + '-slider', 'click to jump to ' + slug + ' at ' + time );
+          } else {
+            var temp = getHelpText('tapestry-help-'+ slug + '-slider',  time );
+          }
           var rect = $container.get(0).getBoundingClientRect();
           temp.style.left = event.clientX - rect.left + 'px';
         });
@@ -835,21 +1025,14 @@ H5P.BranchedVideo = (function ($) {
       for (var key in branched_videos){
         attachOnHoverSlider(key);
       }
-
     }
 
     createAllBranches(this.options.branchedVideos);
 
-    /* NOTE:
-    class="tapestry-slider selected"
-    class="tapestry-slider"
 
-    .tapestry-slider.selected > input[type='range']::-webkit-slider-thumb
-    .tapestry-slider:not(.selected)
-
-    // multiple played section array thing
+    // multiple played section array code
     //https://www.w3schools.com/code/tryit.asp?filename=FTDKFNNTQS1T
-    */
+
 
   };
   return C;
