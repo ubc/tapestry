@@ -906,6 +906,14 @@ H5P.BranchedVideo = (function ($) {
         hideBar();
         seeker.addEventListener('mouseover', showBar, true);
         seeker.addEventListener('mouseout', hideBar, true);
+        // TODO
+        // handle closed caption moving up after entering full screen
+        var track = getBranch(currentVideoPlaying).getVideoHTML().textTracks[0];
+        if (track){
+          for (var x = 0; x < track.cues.length; x++){
+            track.cues[x].line = 1;
+          }
+        }
       });
 
       // Respond to exit full screen event
@@ -915,6 +923,14 @@ H5P.BranchedVideo = (function ($) {
         seeker.removeEventListener('mouseover', showBar, true);
         seeker.removeEventListener('mouseout', hideBar, true);
         showBar();
+        // TODO
+        // handle closed caption moving down after exit full screen
+        var track = getBranch(currentVideoPlaying).getVideoHTML().textTracks[0];
+        if (track){
+          for (var x = 0; x < track.cues.length; x++){
+            track.cues[x].line = 'auto';
+          }
+        }
       });
       fullScreenButton.onclick = function(){toggleFullScreen()};
       rightControls.appendChild(volumeDiv);
