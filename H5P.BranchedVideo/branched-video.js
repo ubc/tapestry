@@ -486,6 +486,12 @@ H5P.BranchedVideo = (function ($) {
         var time = video.currentTime;
         var val = (time/duration) * 100; // 100 is max value for sliders
         slider.value = val;
+        // slight error in thumb movement due to size of thumb
+        if (time < (branch.videoLength / 4)){
+          slider.value = val - 2;
+        } else  if (time > (3 * branch.videoLength / 4)){
+          slider.value = val + 1;
+        } 
 
         // handles buttons appearing and disappearing when video time changes
         for (var i = 0; i < listOfNodes.length ; i++){
