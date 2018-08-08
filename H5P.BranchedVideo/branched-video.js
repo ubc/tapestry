@@ -484,7 +484,7 @@ H5P.BranchedVideo = (function ($) {
           slider.value = val - 2;
         } else  if (time > (3 * branch.videoLength / 4)){
           slider.value = val + 1;
-        } 
+        }
 
         // handles buttons appearing and disappearing when video time changes
         for (var i = 0; i < listOfNodes.length ; i++){
@@ -513,6 +513,7 @@ H5P.BranchedVideo = (function ($) {
         var part2 = '';
         var videoLength = branch.videoLength;
 
+        /* TODO: make cross-browser compatible */
         for (var i = 0; i < myArray.length; i++) {
           if( i == 0 ){
             part1 = "color-stop("+ myArray[0][0] / videoLength +", #000000),"
@@ -528,15 +529,6 @@ H5P.BranchedVideo = (function ($) {
         }
         $('#tapestry-slider-' + slug).css('background-image',
         '-webkit-gradient(linear, left top, right top, '+ part1 + part2);
-
-        /* TODO: make cross-browser compatible */
-        var val = ($('#tapestry-slider-' + slug).val() - $('#tapestry-slider-' + slug).attr('min')) / ($('#tapestry-slider-' + slug).attr('max') - $('#tapestry-slider-' + slug).attr('min'));
-        $('#tapestry-slider-' + slug).css({'background-image':
-            '-webkit-gradient(linear, left top, right top, '
-            + 'color-stop(' + val + ', #1BB1FF), '
-            + 'color-stop(' + val + ', #000000))'
-          });
-        */
 
         // handles time text update
         var lengthTime = branch.videoLength;
