@@ -552,7 +552,6 @@ H5P.BranchedVideo = (function ($) {
       var valueHover = -1;
       slider.addEventListener('mousemove', function(e){
         valueHover = (e.offsetX / e.target.clientWidth);
-        console.log(valueHover);
       })
 
       slider.addEventListener('input', function(){
