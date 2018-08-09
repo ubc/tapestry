@@ -1,0 +1,252 @@
+.tapestry-video-container {
+  width: 100%;
+  margin: 0 ;
+  border: 0;
+  min-width: 300px;
+  line-height: 0;
+}
+
+.tapestry-left-controls {
+  height: 140px;
+  position: relative;
+  float: left;
+  width: 8%;
+  padding-left: 3%
+}
+.tapestry-play-button {
+  background: url('images/play-button.png') no-repeat scroll 0 0 transparent;
+  height: 25px;
+  color: #000000;
+  position: absolute;
+  width: 25px;
+  padding-left: 5%;
+  top: 50%;
+  border:0;
+}
+.tapestry-pause-button {
+  background: url('images/pause.png') no-repeat scroll 0 0 transparent;
+  height: 25px;
+  color: #000000;
+  position: absolute;
+  width: 25px;
+  padding-left: 5%;
+  top: 50%;
+  border:0;
+}
+
+.tapestry-right-controls{
+  height: 140px;
+  position: relative;
+  float:right;
+  width: 15%;
+  padding-right: 0%;
+}
+.tapestry-volume-button {
+  background: url('images/volume-button-before.png') no-repeat scroll 0 0 transparent;
+  height: 25px;
+  color: #000000;
+  position: absolute;
+  width: 20px;
+  padding-left: 6%;
+  top: 50%;
+  border:0;
+}
+.tapestry-volume-button:hover{
+  background: url('images/volume-button-after.png') no-repeat scroll 0 0 transparent;
+}
+.tapestry-volume-div {
+  height: 100%;
+  position: relative;
+  width: 50px;
+  border:0;
+  left: 10%;
+}
+.tapestry-volume-slider {
+    -webkit-appearance: none;
+    position: absolute;
+    width: 50px;
+    height: 5px;
+    outline: none;
+    transform: rotate(-90deg);
+}
+
+/* TODO: make cross-browser compatible */
+.tapestry-volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 4px;
+    height: 7px;
+    margin-top: 1px;
+    background: #bcbcbc;
+    cursor: pointer;
+    border: 0.005px solid #000000;
+}
+.tapestry-settings-button {
+  background: url('images/settings-button-before.png') no-repeat scroll 0 0 transparent;
+  height: 25px;
+  color: #000000;
+  position: absolute;
+  width: 20px;
+  padding-left: 6%;
+  top: 50%;
+  border:0;
+  left: 40%;
+}
+.tapestry-settings-button:focus {
+  background: url('images/settings-button-after.png') no-repeat scroll 0 0 transparent;
+}
+
+.tapestry-settings-dropdown-content {
+    display: none;
+    position: relative;
+    background-color: #f1f1f1;
+    min-width: 20px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1000;
+    top: 30px;
+}
+.tapestry-screen-button {
+  background: url('images/full-screen-arrows.png') no-repeat scroll 0 0 transparent;
+  height: 25px;
+  color: #000000;
+  position: absolute;
+  width: 20px;
+  padding-left: 10%;
+  top: 50%;
+  border:0;
+  left: 70%;
+}
+
+.tapestry-seeker-container{
+  z-index: -100;
+  background-color: #333333;
+  min-width: 400px;
+}
+
+input[type='range'] {
+  -webkit-appearance: none;
+  padding: 0;
+  margin: 0;
+  border: none;
+  border-radius: 0px;
+  -webkit-border-radius: 0px;
+}
+
+
+
+
+/* TODO: make cross-browser compatible */
+.tapestry-selected-slider > input[type='range']::-webkit-slider-thumb{
+  visibility: visible !important;
+  -webkit-appearance: none !important;
+  background-color: #FF2DCB;
+  border: 2px solid #FFFFFF;
+  border-radius: 10px;
+  height: 14px;
+  width: 14px;
+  cursor: pointer;
+  margin-top: 0px;
+}
+
+/* TODO: make cross-browser compatible */
+.tapestry-slider > input[type='range']::-webkit-slider-thumb{
+  visibility: hidden;
+}
+
+/* TODO: make cross-browser compatible */
+.tapestry-slider > input[type='range']{
+  -webkit-appearance: none;
+  height: 7px;
+  background-image:
+    -webkit-gradient(
+            linear,
+            left top,
+            right top,
+            color-stop(0, #1BB1FF),
+            color-stop(0, #000000)
+        );
+}
+
+
+
+
+/* TODO: make cross-browser compatible */
+.tapestry-slanted-bar input[type='range']::-webkit-slider-thumb{
+  display: none;
+}
+
+/* TODO: make cross-browser compatible */
+.tapestry-slanted-bar input[type='range']{
+  -webkit-appearance: none;
+  height: 7px;
+  background-image:
+    -webkit-gradient(
+            linear,
+            left top,
+            right top,
+            color-stop(0, #1BB1FF),
+            color-stop(0, #000000)
+        );
+}
+
+
+/* TODO: make cross-browser compatible */
+.tapestry-played-slanted-bar input[type='range']::-webkit-slider-thumb{
+  display: none;
+}
+
+/* TODO: make cross-browser compatible */
+.tapestry-played-slanted-bar input[type='range']{
+  -webkit-appearance: none;
+  height: 7px;
+  background-image:
+    -webkit-gradient(
+            linear,
+            left top,
+            right top,
+            color-stop(0, #000000),
+            color-stop(0, #1BB1FF)
+        );
+}
+
+.tapestry-branch-button{
+    background: url('images/branch-button.png') no-repeat scroll 0 0 transparent;
+    width: 250px;
+    height: 75px;
+    background-size: 100% 100%;
+    color: #000000;
+    border:0;
+    padding-left: 82px;
+    font-family: 'tapestry-font';
+    font-size: 15px;
+    opacity:0.9;
+}
+
+.tapestry-time-text{
+  font-family: 'tapestry-font';
+  font-size: 8px;
+  color: #FFFFFF;
+  margin : 0;
+}
+
+.tapestry-help-text{
+  height: 8px;
+  font-size: 8px;
+  color: white;
+  margin : 0;
+  position: absolute;
+  background-color: #b7b7b7;
+  padding-left: 2px;
+  padding-right: 2px;
+  padding-top: -2px;
+  padding-bottom: 7px ;
+}
+
+@font-face {
+   font-family: tapestry-font;
+   src: url('fonts/palanquin/palanquin-semibold.ttf');
+}
+
+.h5p-fullscreen{
+  background-color: #FFFFFF;
+}

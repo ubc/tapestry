@@ -1,0 +1,21 @@
+{
+  "title": "Branched Videos",
+  "description": "Creates a module of Branched Videos",
+  "majorVersion": 1,
+  "minorVersion": 0,
+  "patchVersion": 627,
+  "runnable": 1,
+  "author": "Amendor AS",
+  "license": "cc-by-sa",
+  "machineName": "H5P.BranchedVideo",
+  "preloadedJs": [
+    {
+      "path": "branched-video.js"
+    }
+  ],
+  "preloadedCss": [
+    {
+      "path": "branched-video.css"
+    }
+  ]
+}

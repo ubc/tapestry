@@ -1,10 +1,5 @@
 [
-{
-    "name": "mainBranchedVideo",
-    "type": "group",
-    "label": "Branched Video",
-    "description": "Branched Video Editor",
-    "fields": [
+
         {
             "name": "branchedVideos",
             "type": "list",
@@ -68,6 +63,9 @@
                                       {"value": "youtube",
                                         "label": "youtube"
 
+                                      },
+                                      {"value": "vtt",
+                                        "label": "vtt"
                                       }
                                     ]
                                 },
@@ -171,6 +169,4 @@
             "label": "Slug of the Main Branch",
             "description": "input the SLUG of the branch you want to be the main branch"
         }
-    ]
-}
 ]
