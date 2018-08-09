@@ -166,7 +166,7 @@ H5P.BranchedVideo = (function ($) {
         var slider = document.createElement('input');
         slider.id = 'tapestry-slider-' + this.slug;
         slider.type = 'range';
-        slider.value = 0;
+        slider.value = 100;
         slider.min = 0;
         slider.max = 100;
         slider.style.zIndex = 5;
@@ -567,6 +567,20 @@ H5P.BranchedVideo = (function ($) {
         createXAPIStatement('Seeked', 'seekerBarSameVideo');
       });
 
+      // slanted slider listener, onclick itll jump to that branch
+      var slantedBar = document.getElementById('tapestry-slanted-bar-' + slug);
+      if (slantedBar){
+        slantedBar.onclick = function(){
+          if (currentVideoPlaying != slug){
+            slantedBar.classList.remove('tapestry-slanted-bar');
+            slantedBar.classList.add('tapestry-played-slanted-bar');
+            video.currentTime = 0;
+            slider.value = 0;
+            jump(slug);
+          }
+        }
+      }
+
       // creates the return link for all branches
       for (var i = 0; i< listOfNodes.length ; i++){
         var tempSlug = listOfNodes[i].branchSlug;
@@ -615,10 +629,13 @@ H5P.BranchedVideo = (function ($) {
     function attachNodeListeners(node){
       var link = node.getNodeHTML();
       var goToSlug = node.branchSlug;
+      var branch = getBranch(goToSlug);
       link.onclick = function(){
         var slantedBar = document.getElementById('tapestry-slanted-bar-' + goToSlug);
         slantedBar.classList.remove('tapestry-slanted-bar');
         slantedBar.classList.add('tapestry-played-slanted-bar');
+        branch.getVideoHTML().currentTime = 0;
+        branch.getSliderHTML().value = 0;
         jump(goToSlug);
         // handle xAPI
         createXAPIStatement('Seeked', 'link');
@@ -638,6 +655,7 @@ H5P.BranchedVideo = (function ($) {
         } else {
           var mainSlider = currentBranch.getSliderDivHTML();
           mainSlider.classList.add('tapestry-selected-slider');
+          mainSlider.childNodes[0].value = 0;
         }
       }
 
