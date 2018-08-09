@@ -617,7 +617,6 @@ H5P.BranchedVideo = (function ($) {
         pauseButton.style.display = 'none';
         // handle xAPI
         createXAPIStatement('Completed');
-        console.log( ' COOOOOMPLETEEEEED');
       }
     }
 
@@ -1108,7 +1107,6 @@ H5P.BranchedVideo = (function ($) {
          'http://example.com/contentID' : contentID
        }
      }
-     //console.log(xAPIEvent);
      self.trigger(xAPIEvent);
    }
 
