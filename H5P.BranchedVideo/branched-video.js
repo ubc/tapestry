@@ -1095,10 +1095,17 @@ H5P.BranchedVideo = (function ($) {
           return;
      }
      // set context
+     var contentID = '';
+     for (var key in window.H5PIntegration.contents){
+       // theres only one but not sure how to just get the key other than for each
+       contentID = key;
+     }
+
      xAPIEvent.data.statement.context = {
        'extensions' : {
          'http://example.com/slug' : currentVideoPlaying,
-         'http://example.com/videoTime' : parseInt(getBranch(currentVideoPlaying).getVideoHTML().currentTime / 60) +':'+ parseInt(getBranch(currentVideoPlaying).getVideoHTML().currentTime % 60)
+         'http://example.com/videoTime' : parseInt(getBranch(currentVideoPlaying).getVideoHTML().currentTime / 60) +':'+ parseInt(getBranch(currentVideoPlaying).getVideoHTML().currentTime % 60),
+         'http://example.com/contentID' : contentID
        }
      }
      //console.log(xAPIEvent);
@@ -1196,7 +1203,6 @@ H5P.BranchedVideo = (function ($) {
          }
        }
      }
-
 
   };
   return C;
