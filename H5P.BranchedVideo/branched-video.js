@@ -126,6 +126,7 @@ H5P.BranchedVideo = (function ($) {
         video.id = 'tapestry-video-' + this.slug;
         video.frameborder = 0;
         video.controls = false;
+        video.setAttribute('playsinline', 'playsinline');
         videoDiv.appendChild(video);
 
         // provides source
@@ -547,15 +548,24 @@ H5P.BranchedVideo = (function ($) {
       };
 
       // slider listener
-      var valueHover = 0;
+      // it has to be mouse move because input doesnt have an e value
+      var valueHover = -1;
       slider.addEventListener('mousemove', function(e){
         valueHover = (e.offsetX / e.target.clientWidth);
+        console.log(valueHover);
       })
+
       slider.addEventListener('input', function(){
         // updates video current time when slider changes
-        var valueTime = valueHover * duration;
-        slider.value = valueHover * 100;
-        video.currentTime = valueTime;
+        // FOR COMPUTER
+        if (valueHover != -1){
+          var valueTime = valueHover * duration;
+          slider.value = valueHover * 100;
+          video.currentTime = valueTime;
+        } else {
+          // FOR MOBILE WITH NO HOVER
+          video.currentTime = branch.videoLength * slider.value / 100;
+        }
         // handles select other video sliders
         if (slug != currentVideoPlaying){
           jump(slug);
