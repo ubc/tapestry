@@ -8,16 +8,7 @@ H5P.BranchedVideo = (function ($) {
     this.$ = $(this);
     // Extend defaults with provided options
     this.options = $.extend(true, {}, {
-        branchedVideos: [
-          {
-            slug: '',
-            title: '',
-            description: '',
-            length: 0,
-            sourceFiles: {},
-            subBranches: {}
-          }
-        ],
+        branchedVideos: [],
         mainBranchSlug: ''
     }, options);
     // Keep provided id.
