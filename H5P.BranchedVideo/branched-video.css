@@ -8,10 +8,10 @@
 
 .tapestry-left-controls {
   height: 140px;
-	position: relative;
-	float: left;
-	width: 8%;
-	padding-left: 3%
+  position: relative;
+  float: left;
+  width: 8%;
+  padding-left: 3%
 }
 .tapestry-play-button {
   background: url('images/play-button.png') no-repeat scroll 0 0 transparent;
@@ -36,9 +36,9 @@
 
 .tapestry-right-controls{
   height: 140px;
-	position: relative;
-	float:right;
-	width: 15%;
+  position: relative;
+  float:right;
+  width: 15%;
   padding-right: 0%;
 }
 .tapestry-volume-button {
@@ -118,8 +118,8 @@
 }
 
 .tapestry-seeker-container{
-	z-index: -100;
-	background-color: #333333;
+  z-index: -100;
+  background-color: #333333;
   min-width: 400px;
 }
 
@@ -137,7 +137,7 @@ input[type='range'] {
 
 /* TODO: make cross-browser compatible */
 .tapestry-selected-slider > input[type='range']::-webkit-slider-thumb{
-	visibility: visible !important;
+  visibility: visible !important;
   -webkit-appearance: none !important;
   background-color: #FF2DCB;
   border: 2px solid #FFFFFF;
@@ -150,7 +150,7 @@ input[type='range'] {
 
 /* TODO: make cross-browser compatible */
 .tapestry-slider > input[type='range']::-webkit-slider-thumb{
-	visibility: hidden;
+  visibility: hidden;
 }
 
 /* TODO: make cross-browser compatible */
@@ -172,7 +172,7 @@ input[type='range'] {
 
 /* TODO: make cross-browser compatible */
 .tapestry-slanted-bar input[type='range']::-webkit-slider-thumb{
-	display: none;
+  display: none;
 }
 
 /* TODO: make cross-browser compatible */
@@ -192,7 +192,7 @@ input[type='range'] {
 
 /* TODO: make cross-browser compatible */
 .tapestry-played-slanted-bar input[type='range']::-webkit-slider-thumb{
-	display: none;
+  display: none;
 }
 
 /* TODO: make cross-browser compatible */

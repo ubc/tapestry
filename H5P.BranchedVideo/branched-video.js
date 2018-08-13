@@ -8,16 +8,7 @@ H5P.BranchedVideo = (function ($) {
     this.$ = $(this);
     // Extend defaults with provided options
     this.options = $.extend(true, {}, {
-        branchedVideos: [
-          {
-            slug: '',
-            title: '',
-            description: '',
-            length: 0,
-            sourceFiles: {},
-            subBranches: {}
-          }
-        ],
+        branchedVideos: [],
         mainBranchSlug: ''
     }, options);
     // Keep provided id.
@@ -588,12 +579,15 @@ H5P.BranchedVideo = (function ($) {
         var valueTime = valueHover * duration;
         slider.value = valueHover * 100;
         video.currentTime = valueTime;
-
-
         // handles select other video sliders
         if (slug != currentVideoPlaying){
           jump(slug);
+          // handle xAPI
+          createXAPIStatement('Seeked', 'seekerBarDifferentVideo');
+          return;
         }
+        // handle xAPI
+        createXAPIStatement('Seeked', 'seekerBarSameVideo');
       });
 
       // creates the return link for all branches
@@ -618,6 +612,8 @@ H5P.BranchedVideo = (function ($) {
       currentLink.style.display = 'none';
       currentLink.onclick = function(){
         jump(parentSlug);
+        // handle xAPI
+        createXAPIStatement('Seeked', 'returnLink');
       }
       var branch = getBranch(childSlug);
       var videoDiv = branch.getVideoDivHTML();
@@ -628,12 +624,13 @@ H5P.BranchedVideo = (function ($) {
       video.onended = function(){
         // show return link
         currentLink.style.display = 'block';
-
         // handle pause and play button
         var playButton = document.getElementsByClassName('tapestry-play-button')[0];
         playButton.style.display = 'block';
         var pauseButton = document.getElementsByClassName('tapestry-pause-button')[0];
         pauseButton.style.display = 'none';
+        // handle xAPI
+        createXAPIStatement('Completed');
       }
     }
 
@@ -646,6 +643,8 @@ H5P.BranchedVideo = (function ($) {
         slantedBar.classList.remove('tapestry-slanted-bar');
         slantedBar.classList.add('tapestry-played-slanted-bar');
         jump(goToSlug);
+        // handle xAPI
+        createXAPIStatement('Seeked', 'link');
       }
     }
 
@@ -732,12 +731,16 @@ H5P.BranchedVideo = (function ($) {
         currentVid.play();
         playButton.style.display = 'none';
         pauseButton.style.display = 'block';
+        // handle xAPI
+        createXAPIStatement('Played');
       }
       pauseButton.onclick = function(){
         var currentVid = getBranch(currentVideoPlaying).getVideoHTML();
         currentVid.pause();
         pauseButton.style.display = 'none';
         playButton.style.display = 'block';
+        // handle xAPI
+        createXAPIStatement('Paused');
       }
       leftControls.appendChild(playButton);
       leftControls.appendChild(pauseButton);
@@ -768,7 +771,6 @@ H5P.BranchedVideo = (function ($) {
         var currentVid = getBranch(currentVideoPlaying).getVideoHTML();
         var volume = currentVid.volume * 100;
         volumeSlider.value = volume;
-
       };
       volumeDiv.onmouseleave = function(){volumeSlider.style.display = 'none';};
       volumeSlider.oninput = function(){
@@ -782,6 +784,8 @@ H5P.BranchedVideo = (function ($) {
             + 'color-stop(' + tempVal + ', #FFFFFF), '
             + 'color-stop(' + tempVal + ', #606060))'
           });
+        // handlexAPI
+        createXAPIStatement('Interacted', 'volume');
       }
 
       volumeDiv.appendChild(volumeSlider);
@@ -812,9 +816,13 @@ H5P.BranchedVideo = (function ($) {
         if (self.helpMode == false){
           helpButton.innerHTML = 'Help Mode &#10003';
           self.helpMode = true;
+          // handle xAPI
+          createXAPIStatement('Interacted', 'helpModeOn');
         } else {
           helpButton.innerHTML = 'Help Mode';
           self.helpMode = false;
+          // handle xAPI
+          createXAPIStatement('Interacted', 'helpModeOff');
         }
       }
 
@@ -844,16 +852,22 @@ H5P.BranchedVideo = (function ($) {
         var tracks = currVidHTML.textTracks[0];
         if (tracks == undefined){
           console.log('no closed caption for this video');
+          // handle xAPI
+          createXAPIStatement('Interacted', 'closedCaptionNotAvailable');
           return ;
         }
         if (self.closedCaption == false){
           tracks.mode = 'showing';
           ccButton.innerHTML = 'Closed Caption &#10003';
           self.closedCaption = true;
+          // handle xAPI
+          createXAPIStatement('Interacted', 'closedCaptionOn');
         } else {
           tracks.mode = 'hidden';
           ccButton.innerHTML = 'Closed Caption';
           self.closedCaption = false;
+          // handle xAPI
+          createXAPIStatement('Interacted', 'closedCaptionOff');
         }
       }
 
@@ -914,11 +928,13 @@ H5P.BranchedVideo = (function ($) {
       function hideBar(){seeker.style.opacity = 0;}
       var toggleFullScreen = function () {
         if (H5P.isFullscreen) {
-
           H5P.exitFullScreen();
+          // handle xAPI
+          createXAPIStatement('Interacted', 'fullScreenOff');
         } else {
-
-          H5P.fullScreen($container, self);;
+          H5P.fullScreen($container, self);
+          // handle xAPI
+          createXAPIStatement('Interacted', 'fullScreenOn');
         }
       };
 
@@ -1065,9 +1081,152 @@ H5P.BranchedVideo = (function ($) {
     createAllBranches(this.options.branchedVideos);
 
 
-    // multiple played section array code
-    //https://www.w3schools.com/code/tryit.asp?filename=FTDKFNNTQS1T
+   // XAPI
+   // TODO
 
+   // verb: string of what verb
+   // extra: anything that may be useful for xAPI statements
+   // object: H5P instance?
+   function createXAPIStatement(verb, extra){
+     var xAPIEvent = new H5P.XAPIEvent();
+     // set verb
+     xAPIEvent.data.statement.verb = {
+       'id':'https://w3id.org/xapi/video/verbs/' + verb.toLowerCase(),
+       'display' : {
+         'en-us' : verb
+       }
+     };
+     // set actor
+     xAPIEvent.setActor();
+     // set object
+     switch(verb){
+       case 'Played':
+         handleXAPIPlayPause(xAPIEvent, currentVideoPlaying, 'play button');
+         break;
+       case 'Paused':
+         handleXAPIPlayPause(xAPIEvent, currentVideoPlaying, 'pause button');
+         break;
+       case 'Seeked':
+         handleXAPISeek(xAPIEvent, currentVideoPlaying, extra);
+         break;
+       case 'Completed':
+         handleXAPIPlaying(xAPIEvent, verb, currentVideoPlaying);
+         break;
+       case 'Interacted':
+         handleXAPIRightControls(xAPIEvent, extra);
+         break;
+       default:
+          console.log("couldn't find verb: " + verb);
+          return;
+     }
+     // set context
+     var contentID = '';
+     for (var key in window.H5PIntegration.contents){
+       // theres only one but not sure how to just get the key other than for each
+       contentID = key;
+     }
+
+     xAPIEvent.data.statement.context = {
+       'extensions' : {
+         'http://example.com/slug' : currentVideoPlaying,
+         'http://example.com/videoTime' : parseInt(getBranch(currentVideoPlaying).getVideoHTML().currentTime / 60) +':'+ parseInt(getBranch(currentVideoPlaying).getVideoHTML().currentTime % 60),
+         'http://example.com/contentID' : contentID
+       }
+     }
+     self.trigger(xAPIEvent);
+   }
+
+
+   // handles play and pause button
+   function handleXAPIPlayPause(xapiEvent, slug, component){
+     xapiEvent.data.statement.object = {
+       'objectType' : 'Activity',
+       'id' : 'http://www.example.com/video/' + slug,
+       'definition': {
+         'type': 'http://adlnet.gov/expapi/activities/interaction',
+         'name': {
+           'en-us': 'interaction'
+         },
+         'description' : {
+           'en-us' : slug + ' video interacted with ' + component
+         }
+       }
+     }
+   }
+
+
+   // handles when we seek to different parts of videos,
+   // whether it be by link, return link, seeker to the same video or seeker to another videos
+   // type: 'link', 'returnLink' , 'seekerBarSameVideo', 'seekerBarDifferentVideo',
+   function handleXAPISeek(xapiEvent, slug, type){
+     xapiEvent.data.statement.object = {
+       'objectType' : 'Activity',
+       'id' : 'http://www.example.com/video/' + slug,
+       'definition': {
+         'type': 'http://adlnet.gov/expapi/activities/interaction',
+         'name': {
+           'en-us': 'interaction'
+         },
+         'description' : {
+           'en-us' : 'seeked to ' + slug + ' video with  '+ type
+         }
+       }
+     }
+   }
+
+   // handles video ontime update and video on ended
+   // verb(string): ['Completed']
+   function handleXAPIPlaying(xapiEvent, verb, slug){
+     // handle verb
+     xapiEvent.data.statement.verb = {
+       'id':'http://adlnet.gov/expapi/verbs/' + verb.toLowerCase(),
+       'display' : {
+         'en-us' : verb
+       }
+     };
+     // handle object
+     xapiEvent.data.statement.object = {
+       'objectType' : 'Activity',
+       'id' : 'http://www.example.com/video/' + slug,
+       'definition': {
+         'type': 'http://adlnet.gov/expapi/activities/interaction',
+         'name': {
+           'en-us': 'interaction'
+         },
+         'description' : {
+           'en-us' : slug + 'video was ' + verb
+         }
+       }
+     }
+   }
+
+
+    //handles right controls like full volume, settings and full screen
+    // type(String) : ['volume', 'fullScreenOff', 'fullScreenOn',  'closedCaptionOn',
+    //                 'closedCaptionOff','closedCaptionNotAvailable', 'helpModeOn', 'helpModeOff']
+    function handleXAPIRightControls(xapiEvent, type){
+      // handle verb
+      xapiEvent.data.statement.verb = {
+         'id':'http://adlnet.gov/expapi/verbs/interacted',
+         'display' : {
+           'en-us' : 'Interacted'
+         }
+        };
+     // handle object
+     xapiEvent.data.statement.object = {
+         'objectType' : 'Activity',
+         'id' : 'http://www.example.com/button/' + type,
+         'definition': {
+           'type': 'http://adlnet.gov/expapi/activities/interaction',
+           'name': {
+             'en-us': 'interaction'
+           },
+           'description' : {
+             'en-us' : 'user clicked ' + type + 'button'
+           }
+         }
+       }
+     }
 
   };
   return C;
