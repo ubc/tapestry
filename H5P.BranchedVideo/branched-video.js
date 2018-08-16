@@ -124,6 +124,7 @@ H5P.BranchedVideo = (function ($) {
         videoDiv.style.position = 'relative';
         var video = document.createElement('video');
         video.id = 'tapestry-video-' + this.slug;
+        video.className = 'tapestry-video-container';
         video.frameborder = 0;
         video.controls = false;
         videoDiv.appendChild(video);
@@ -781,10 +782,7 @@ H5P.BranchedVideo = (function ($) {
       // help mode
       var helpButton = document.createElement('button');
       helpButton.type = 'button';
-      helpButton.style.position = 'absolute';
-      helpButton.style.fontSize = '10px';
-      helpButton.style.width = '100px';
-      helpButton.style.backgroundColor = 'white';
+      helpButton.style.top = '0px';
       var helpButtonText = document.createTextNode('Help Mode');
       helpButton.appendChild(helpButtonText);
       settingsDiv.appendChild(helpButton);
@@ -814,10 +812,7 @@ H5P.BranchedVideo = (function ($) {
 
       // closed caption
       var ccButton = document.createElement('button');
-      ccButton.style.position = 'absolute';
       ccButton.style.top = '15px';
-      ccButton.style.fontSize = '10px';
-      ccButton.style.width = '100px';
       ccButton.type = 'button';
       var ccButtonText = document.createTextNode('Closed Caption');
       ccButton.appendChild(ccButtonText);
@@ -913,12 +908,19 @@ H5P.BranchedVideo = (function ($) {
 
       // Respond to enter full screen event
       self.on('enterFullScreen', function () {
-        var mainVideo = mainBranch.getVideoHTML();
-        var vidHeight = mainVideo.videoHeight;
         var screenHeight = screen.height;
+        var vidHeight = getBranch(currentVideoPlaying).getVideoHTML().videoHeight * (screen.width / getBranch(currentVideoPlaying).getVideoHTML().videoWidth ) ;
         var difference = vidHeight - screenHeight;
-        $container.css({'top': -difference/2 + 'px'});
-        seeker.style.top = difference + difference/2 + 5 + 'px';
+        if (difference < 0){
+          $container.css({'top': -difference/2 + 'px'});
+          seeker.style.top = difference + difference/2 + 5 + 'px';
+        } else {
+          getBranch(currentVideoPlaying).getVideoHTML().style.maxHeight =screen.height + 'px';
+          getBranch(currentVideoPlaying).getVideoDivHTML().style.maxHeight = screen.height + 'px';
+          $container.css({'top': 0 + 'px'});
+          seeker.style.top = '-' + seeker.style.height;
+        }
+
         hideBar();
         seeker.addEventListener('mouseover', showBar, true);
         seeker.addEventListener('mouseout', hideBar, true);

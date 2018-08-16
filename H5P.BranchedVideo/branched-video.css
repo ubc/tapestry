@@ -117,6 +117,32 @@
   left: 70%;
 }
 
+.tapestry-play-button:hover , .tapestry-play-button:focus{
+  background: url('images/play-button.png') no-repeat scroll 0 0 transparent;
+}
+.tapestry-pause-button:hover , .tapestry-pause-button:focus{
+  background: url('images/pause.png') no-repeat scroll 0 0 transparent;
+}
+.tapestry-settings-button:hover {
+  background: url('images/settings-button-after.png') no-repeat scroll 0 0 transparent;
+}
+.tapestry-volume-button:focus{
+  background: url('images/volume-button-after.png') no-repeat scroll 0 0 transparent;
+}
+.tapestry-screen-button:hover , .tapestry-screen-button:focus{
+  background: url('images/full-screen-arrows.png') no-repeat scroll 0 0 transparent;
+}
+
+.tapestry-settings-dropdown-content > button {
+  position: absolute;
+  font-size: 8px;
+  width: 100px;
+  height: 15px;
+  background-color: white;
+  color: black;
+  padding-top: 1px;
+}
+
 .tapestry-seeker-container{
   z-index: -100;
   background-color: #333333;
@@ -222,6 +248,12 @@ input[type='range'] {
     opacity:0.9;
 }
 
+.tapestry-branch-button:hover , .tapestry-branch-button:focus{
+  background: url('images/branch-button.png') no-repeat scroll 0 0 transparent;
+  opacity:1.0;
+  background-size: 100% 100%;
+}
+
 .tapestry-time-text{
   font-family: 'tapestry-font';
   font-size: 8px;
@@ -230,7 +262,7 @@ input[type='range'] {
 }
 
 .tapestry-help-text{
-  height: 8px;
+  height: 12px;
   font-size: 8px;
   color: white;
   margin : 0;
@@ -238,8 +270,7 @@ input[type='range'] {
   background-color: #b7b7b7;
   padding-left: 2px;
   padding-right: 2px;
-  padding-top: -2px;
-  padding-bottom: 7px ;
+  padding-top: 0px;
 }
 
 @font-face {
