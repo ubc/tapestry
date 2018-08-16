@@ -380,6 +380,9 @@ H5P.BranchedVideo = (function ($) {
         }
       }
 
+      // handle playback speed
+      nextVid.playbackRate = currVid.playbackRate;
+
       //handle bars
       currentSliderDiv.classList.remove('tapestry-selected-slider');
       nextSliderDiv.classList.add('tapestry-selected-slider');
