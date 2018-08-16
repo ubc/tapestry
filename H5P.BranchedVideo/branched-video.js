@@ -820,6 +820,76 @@ H5P.BranchedVideo = (function ($) {
       settingsDiv.style.display = 'none';
       rightControls.appendChild(settingsDiv);
 
+      // playback speed
+      var speedButton = document.createElement('button');
+      speedButton.type = 'button';
+      speedButton.style.top = '-15px';
+      speedButton.id = 'tapestry-speed-button';
+      var speedButtonText = document.createTextNode('Speed');
+      speedButton.appendChild(speedButtonText);
+      settingsDiv.appendChild(speedButton);
+
+      var speedDiv = document.createElement('div');
+      speedDiv.className = 'tapestry-settings-dropdown-content';
+      speedDiv.style.display = 'none';
+      rightControls.appendChild(speedDiv);
+
+      var speed1 = document.createElement('button');
+      speed1.style.top = '-30px';
+      var speed1Text = document.createTextNode('0.5');
+      speed1.appendChild(speed1Text);
+      speedDiv.appendChild(speed1);
+
+      var speed2 = document.createElement('button');
+      speed2.style.top = '-15px';
+      var speed2Text = document.createTextNode('Normal');
+      speed2.appendChild(speed2Text);
+      speedDiv.appendChild(speed2);
+
+      var speed3 = document.createElement('button');
+      speed3.style.top = '0px';
+      var speed3Text = document.createTextNode('1.5');
+      speed3.appendChild(speed3Text);
+      speedDiv.appendChild(speed3);
+
+      var speed4 = document.createElement('button');
+      speed4.style.top = '15px';
+      var speed4Text = document.createTextNode('2.0');
+      speed4.appendChild(speed4Text);
+      speedDiv.appendChild(speed4);
+
+      // multiplier(double):  0.5, 1, 1.5, 2
+      function switchSpeed(multiplier){
+        switch(multiplier){
+          case 0.5:
+            getBranch(currentVideoPlaying).getVideoHTML().playbackRate = 0.5;
+            speedButton.innerHTML = 'Speed : 0.5';
+            break;
+          case 1:
+            getBranch(currentVideoPlaying).getVideoHTML().playbackRate = 1;
+            speedButton.innerHTML = 'Speed : Normal';
+            break;
+          case 1.5:
+            getBranch(currentVideoPlaying).getVideoHTML().playbackRate = 1.5;
+            speedButton.innerHTML = 'Speed : 1.5';
+            break;
+          case 2:
+            getBranch(currentVideoPlaying).getVideoHTML().playbackRate = 2.0;
+            speedButton.innerHTML = 'Speed : 2.0';
+            break;
+          default: console.log('unable to find playback speed of ' + multiplier);
+        }
+      }
+
+      speed1.onclick = function(){switchSpeed(0.5);}
+      speed2.onclick = function(){switchSpeed(1);}
+      speed3.onclick = function(){switchSpeed(1.5);}
+      speed4.onclick = function(){switchSpeed(2);}
+
+      speedButton.onclick = function(){
+        speedDiv.style.display = 'block';
+      }
+
       // help mode
       var helpButton = document.createElement('button');
       helpButton.type = 'button';
@@ -914,6 +984,9 @@ H5P.BranchedVideo = (function ($) {
       window.onclick = function(event) {
         if (!event.target.matches('.tapestry-settings-button')) {
           settingsDiv.style.display = 'none';
+        }
+        if (!event.target.matches('#tapestry-speed-button')){
+          speedDiv.style.display = 'none';
         }
       }
 
