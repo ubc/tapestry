@@ -252,6 +252,27 @@ H5P.BranchedVideo = (function ($) {
         return this.nodes;
       }
 
+      // handles citation links
+      this.createAllCitationLinks = function(){
+        var arr = [];
+        for(var i = 0; i < par.links.length; i ++){
+          if (par.links[0].branchSlug == undefined){return [];}
+          var node = new Node(par.links[i] , this.slug);
+          if (node != null){
+            arr.push(node);
+            var currVideoDiv = this.getVideoDivHTML();
+            var currNodeHTML = node.getNodeHTML();
+            currNodeHTML.className = 'tapestry-citation-button';
+            currVideoDiv.appendChild(currNodeHTML);
+          }
+        }
+        return arr;
+      }
+      this.citationLinks = this.createAllCitationLinks();
+      this.getCitationLinks = function(){
+        return this.citationLinks;
+      }
+
       // FUNCTIONS FOR THE ACTUAL BRANCH
       // hide and pause video div
       this.stopVideo = function(){
@@ -503,6 +524,7 @@ H5P.BranchedVideo = (function ($) {
       var slider = branch.getSliderHTML();
       var listOfNodes = branch.getNodes();
       var duration = branch.videoLength;
+      var listOfCitations = branch.getCitationLinks();
 
       //video listener
       video.ontimeupdate = function(){
@@ -526,6 +548,18 @@ H5P.BranchedVideo = (function ($) {
             node.showLink();
           } else {
             node.hideLink();
+          }
+        }
+
+        // handles citation listeners
+        for (var i = 0; i < listOfCitations.length ; i++){
+          var citation = listOfCitations[i];
+          var start = citation.startTime;
+          var end = citation.endTime;
+          if (time >= start && time <= end){
+            citation.showLink();
+          } else {
+            citation.hideLink();
           }
         }
 
@@ -666,7 +700,7 @@ H5P.BranchedVideo = (function ($) {
       }
     }
 
-    // attaches listeners for the links/buttons
+    // attaches listeners for the links/buttons that jumps to another video
     function attachNodeListeners(node){
       var link = node.getNodeHTML();
       var goToSlug = node.branchSlug;
@@ -680,6 +714,20 @@ H5P.BranchedVideo = (function ($) {
         jump(goToSlug);
         // handle xAPI
         createXAPIStatement('Seeked', 'link');
+      }
+    }
+
+    // attaches listeners for citation links
+    function attachCitationListeners(node){
+      var link = node.getNodeHTML();
+      var url = node.branchSlug;
+      link.onclick = function(){
+        getBranch(currentVideoPlaying).getVideoHTML().pause();
+        var playButton = document.getElementsByClassName('tapestry-play-button')[0];
+        playButton.style.display = 'block';
+        var pauseButton = document.getElementsByClassName('tapestry-pause-button')[0];
+        pauseButton.style.display = 'none';
+        window.open(url, "_blank");
       }
     }
 
@@ -749,6 +797,11 @@ H5P.BranchedVideo = (function ($) {
           for (var i = 0; i < lon.length; i++){
             var node = lon[i];
             attachNodeListeners(node);
+          }
+          var loc = branched_videos[key].getCitationLinks();
+          for (var j = 0; j < loc.length; j++){
+            var citation = loc[j];
+            attachCitationListeners(citation);
           }
       }
 
