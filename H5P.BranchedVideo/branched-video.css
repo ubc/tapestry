@@ -118,6 +118,15 @@
   background-color: #3f89ff;
   color: white;
 }
+.tapestry-settings-dropdown-content button:nth-child(1){
+  top: -15px;
+}
+.tapestry-settings-dropdown-content button:nth-child(2){
+  top: 0px;
+}
+.tapestry-settings-dropdown-content button:nth-child(3){
+  top: 15px;
+}
 .tapestry-speed-dropdown-content{
     display: none;
     position: relative;

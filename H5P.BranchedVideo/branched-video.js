@@ -826,7 +826,6 @@ H5P.BranchedVideo = (function ($) {
       // playback speed
       var speedButton = document.createElement('button');
       speedButton.type = 'button';
-      speedButton.style.top = '-15px';
       speedButton.id = 'tapestry-speed-button';
       var speedButtonText = document.createTextNode('Speed');
       speedButton.appendChild(speedButtonText);
@@ -892,7 +891,6 @@ H5P.BranchedVideo = (function ($) {
       // help mode
       var helpButton = document.createElement('button');
       helpButton.type = 'button';
-      helpButton.style.top = '0px';
       var helpButtonText = document.createTextNode('Help Mode');
       helpButton.appendChild(helpButtonText);
       settingsDiv.appendChild(helpButton);
@@ -913,7 +911,6 @@ H5P.BranchedVideo = (function ($) {
 
       // closed caption
       var ccButton = document.createElement('button');
-      ccButton.style.top = '15px';
       ccButton.type = 'button';
       var ccButtonText = document.createTextNode('Closed Caption');
       ccButton.appendChild(ccButtonText);
