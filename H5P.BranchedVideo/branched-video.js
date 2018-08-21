@@ -367,7 +367,6 @@ H5P.BranchedVideo = (function ($) {
 
       // handle closed caption
       if(self.closedCaption){
-        // TODO FINISH UP THIS functions
         if (currVid.textTracks[0]){
           currVid.textTracks[0].mode = 'hidden';
           getBranch(currentVideoPlaying).moveClosedCaption('down');
@@ -791,7 +790,6 @@ H5P.BranchedVideo = (function ($) {
       volumeDiv.appendChild(volumeSlider);
       volumeDiv.appendChild(volumeButton);
 
-      // TODO: update
       // SETTINGS
       var settingsButton = document.createElement('button');
       settingsButton.type = 'button';
@@ -949,10 +947,8 @@ H5P.BranchedVideo = (function ($) {
         hideBar();
         seeker.addEventListener('mouseover', showBar, true);
         seeker.addEventListener('mouseout', hideBar, true);
-        // TODO
         // handle closed caption moving up after entering full screen
         getBranch(currentVideoPlaying).moveClosedCaption('up');
-
       });
 
 
@@ -963,7 +959,6 @@ H5P.BranchedVideo = (function ($) {
         seeker.removeEventListener('mouseover', showBar, true);
         seeker.removeEventListener('mouseout', hideBar, true);
         showBar();
-        // TODO
         // handle closed caption moving down after exit full screen
         getBranch(currentVideoPlaying).moveClosedCaption('down');
       });
