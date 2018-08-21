@@ -133,11 +133,11 @@ input[type='range'] {
 }
 
 input:focus {
-  outline: 0;
+  outline: none;
 }
 
 button:focus {
-  outline: 0;
+  outline: none;
 }
 
 
