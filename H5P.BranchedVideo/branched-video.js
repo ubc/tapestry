@@ -833,30 +833,26 @@ H5P.BranchedVideo = (function ($) {
       settingsDiv.appendChild(speedButton);
 
       var speedDiv = document.createElement('div');
-      speedDiv.className = 'tapestry-settings-dropdown-content';
+      speedDiv.className = 'tapestry-speed-dropdown-content';
       speedDiv.style.display = 'none';
       rightControls.appendChild(speedDiv);
 
       var speed1 = document.createElement('button');
-      speed1.style.top = '-30px';
       var speed1Text = document.createTextNode('0.5');
       speed1.appendChild(speed1Text);
       speedDiv.appendChild(speed1);
 
       var speed2 = document.createElement('button');
-      speed2.style.top = '-15px';
       var speed2Text = document.createTextNode('Normal');
       speed2.appendChild(speed2Text);
       speedDiv.appendChild(speed2);
 
       var speed3 = document.createElement('button');
-      speed3.style.top = '0px';
       var speed3Text = document.createTextNode('1.5');
       speed3.appendChild(speed3Text);
       speedDiv.appendChild(speed3);
 
       var speed4 = document.createElement('button');
-      speed4.style.top = '15px';
       var speed4Text = document.createTextNode('2.0');
       speed4.appendChild(speed4Text);
       speedDiv.appendChild(speed4);
@@ -915,16 +911,6 @@ H5P.BranchedVideo = (function ($) {
         }
       }
 
-      // just change color when hovering on button
-      helpButton.onmouseenter = function(){
-        helpButton.style.backgroundColor = '#3f89ff';
-        helpButton.style.color = 'white';
-      }
-      helpButton.onmouseleave = function(){
-        helpButton.style.backgroundColor = 'white';
-        helpButton.style.color = 'black';
-      }
-
       // closed caption
       var ccButton = document.createElement('button');
       ccButton.style.top = '15px';
@@ -958,16 +944,6 @@ H5P.BranchedVideo = (function ($) {
           // handle xAPI
           createXAPIStatement('Interacted', 'closedCaptionOff');
         }
-      }
-
-      // just change color on hover
-      ccButton.onmouseenter = function(){
-        ccButton.style.backgroundColor = '#3f89ff';
-        ccButton.style.color = 'white';
-      }
-      ccButton.onmouseleave = function(){
-        ccButton.style.backgroundColor = 'white';
-        ccButton.style.color = 'black';
       }
 
       // shows div when we click settings
