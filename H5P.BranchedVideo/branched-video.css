@@ -281,3 +281,17 @@ input[type='range'] {
 .h5p-fullscreen{
   background-color: #FFFFFF;
 }
+
+.tapestry-video-preview-normal{
+  width: 100px;
+  position: absolute;
+  z-index: 100;
+  display: none;
+}
+
+.tapestry-video-preview-fullscreen{
+  width: 200px;
+  position: absolute;
+  z-index: 100;
+  display: none;
+}

@@ -158,18 +158,15 @@ H5P.BranchedVideo = (function ($) {
       this.getVideoHTML = function(){
         return document.getElementById('tapestry-video-' + this.slug);
       }
-
+      // TODO
       // video preview part
       this.createVideoPreview = function(){
         var videoPreview = document.createElement('video');
         videoPreview.id = 'tapestry-video-preview-' + this.slug;
-        videoPreview.style.width = '100px';
-        videoPreview.style.position = 'absolute';
+        videoPreview.className = 'tapestry-video-preview-normal';
         videoPreview.frameborder = 0;
         videoPreview.controls = false;
         videoPreview.src = this.source;
-        videoPreview.style.zIndex = 100;
-        videoPreview.style.display = 'none';
         return videoPreview;
       }
 
@@ -1038,12 +1035,12 @@ H5P.BranchedVideo = (function ($) {
           var videoPreview = getBranch(slug).getVideoPreview();
           videoPreview.style.left = event.clientX - rect.left  + 'px';
           videoPreview.style.top = event.clientY - (diffTop + rect.top) - 70 + 'px';
-          videoPreview.style.width = '100px';
-          videoPreview.style.display = 'block';
+          videoPreview.className = 'tapestry-video-preview-normal';
           if (H5P.isFullscreen){
-            videoPreview.style.width = '200px';
+            videoPreview.className = 'tapestry-video-preview-fullscreen';
             videoPreview.style.top = event.clientY - diffTop - 56 + 'px';
           }
+          videoPreview.style.display = 'block';
         }
 
         // handles leaving mouse: display = none
