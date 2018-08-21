@@ -853,6 +853,9 @@ H5P.BranchedVideo = (function ($) {
           tracks.mode = 'showing';
           ccButton.innerHTML = 'Closed Caption &#10003';
           self.closedCaption = true;
+          if (H5P.isFullscreen){
+            getBranch(currentVideoPlaying).moveClosedCaption('up');
+          }
           // handle xAPI
           createXAPIStatement('Interacted', 'closedCaptionOn');
         } else {
