@@ -158,7 +158,13 @@ input[type='range'] {
   -webkit-border-radius: 0px;
 }
 
+input:focus {
+  outline: none;
+}
 
+button:focus {
+  outline: none;
+}
 
 
 /* TODO: make cross-browser compatible */

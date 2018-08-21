@@ -765,7 +765,6 @@ H5P.BranchedVideo = (function ($) {
       volumeSlider.style.left = '-17px';
       volumeSlider.style.top = '35px';
       volumeSlider.style.display = 'none';
-      //volumeSlider.style.background = '#727272';
       volumeButton.onmouseenter = function(){
         volumeSlider.style.display = 'block';
         var currentVid = getBranch(currentVideoPlaying).getVideoHTML();
@@ -897,24 +896,6 @@ H5P.BranchedVideo = (function ($) {
         }
       }
 
-      // function for handling onhover help button
-      function getHelpText(id, str){
-        var helpTextTemp = document.getElementById(id);
-        if (helpTextTemp != null){
-          helpTextTemp.innerHTML = str;
-          return helpTextTemp;
-        }
-        var helpNode = document.createElement('h');
-        helpNode.id = id;
-        helpNode.style.zIndex = 100;
-        var helpNodeText = document.createTextNode(str);
-        helpNode.className = 'tapestry-help-text';
-        helpNode.style.display = 'none';
-        helpNode.appendChild(helpNodeText);
-        navBar.appendChild(helpNode);
-        return helpNode;
-      }
-
       // FULL SCREEN
       var fullScreenButton = document.createElement('button');
       fullScreenButton.type = 'button';
@@ -967,13 +948,70 @@ H5P.BranchedVideo = (function ($) {
         // handle closed caption moving down after exit full screen
         getBranch(currentVideoPlaying).moveClosedCaption('down');
       });
-      fullScreenButton.onclick = function(){toggleFullScreen()};
+      fullScreenButton.onclick = function(){
+        toggleFullScreen()
+        fullScreenButton.blur();
+      };
       rightControls.appendChild(volumeDiv);
       rightControls.appendChild(settingsButton);
       rightControls.appendChild(fullScreenButton);
       navBar.appendChild(rightControls);
 
-      // HELP EVENTS; on mouseover
+      // ADDING KEYBOARD FUNCTIONALITY
+      // stops it from moving the tab down when spacebar
+      document.onkeypress = function(e){
+        if (e.which == 32){
+          e.preventDefault();
+        }
+      }
+      document.onkeyup = function(e){
+        var currVid = getBranch(currentVideoPlaying).getVideoHTML();
+        switch(e.which){
+          case 32:
+            var playButton = document.getElementsByClassName('tapestry-play-button')[0];
+            var pauseButton = document.getElementsByClassName('tapestry-pause-button')[0];
+            if (playButton.style.display == 'none'){
+              // means playing, thus we want to pause
+              pauseButton.style.display = 'none';
+              playButton.style.display = 'block';
+              currVid.pause();
+            } else {
+              // means paused, thus we want to play
+              pauseButton.style.display = 'block';
+              playButton.style.display = 'none';
+              currVid.play();
+            }
+            break;
+          case 39:
+            currVid.currentTime += 5;
+            break;
+          case 37:
+            currVid.currentTime -= 5;
+            break;
+        }
+      }
+
+
+      // HELP FEATURE
+      // function for handling onhover help button
+      function getHelpText(id, str){
+        var helpTextTemp = document.getElementById(id);
+        if (helpTextTemp != null){
+          helpTextTemp.innerHTML = str;
+          return helpTextTemp;
+        }
+        var helpNode = document.createElement('h');
+        helpNode.id = id;
+        helpNode.style.zIndex = 100;
+        var helpNodeText = document.createTextNode(str);
+        helpNode.className = 'tapestry-help-text';
+        helpNode.style.display = 'none';
+        helpNode.appendChild(helpNodeText);
+        navBar.appendChild(helpNode);
+        return helpNode;
+      }
+
+      // HELP EVENTS: on mouseover
       // HELP play button
       playButton.onmouseover = function(){
         var temp = getHelpText('tapestry-help-play-button', 'click to play video' );
@@ -1073,6 +1111,7 @@ H5P.BranchedVideo = (function ($) {
           temp.style.left = event.clientX - rect.left + 'px';
         });
       }
+
       for (var key in branched_videos){
         attachOnHoverSlider(key);
       }
