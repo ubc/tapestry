@@ -984,13 +984,18 @@ H5P.BranchedVideo = (function ($) {
               playButton.style.display = 'none';
               currVid.play();
             }
+            createXAPIStatement('Pressed', 'spacebar');
             break;
           case 39:
             currVid.currentTime += 5;
+            createXAPIStatement('Pressed', 'rightArrowKey');
             break;
           case 37:
             currVid.currentTime -= 5;
+            createXAPIStatement('Pressed', 'leftArrowKey');
             break;
+          default:
+            createXAPIStatement('Pressed', 'unknownKey:'+e.which);
         }
       }
 
@@ -1157,6 +1162,9 @@ H5P.BranchedVideo = (function ($) {
        case 'Interacted':
          handleXAPIRightControls(xAPIEvent, extra);
          break;
+       case 'Pressed':
+         handleXAPIKeyboard(xAPIEvent, extra);
+         break;
        default:
           console.log("couldn't find verb: " + verb);
           return;
@@ -1269,6 +1277,33 @@ H5P.BranchedVideo = (function ($) {
          }
        }
      }
+
+    // handles when user presses 'spacebar', '> arrow key', '< arrow key'
+    // key(string) : 'spacebar' , 'leftArrowKey', 'rightArrowKey', 'unknownKey:__'
+    // unknown key is to see if users try to do some sort of keyboard interaction that we haven't implemented
+    function handleXAPIKeyboard(xapiEvent, key){
+      // handle verb
+      xapiEvent.data.statement.verb = {
+        'id':'http://future-learning.info/xAPI/verb/pressed',
+        'display' : {
+          'en-us' : 'pressed'
+        }
+      };
+      // handle object
+      xapiEvent.data.statement.object = {
+        'objectType' : 'Activity',
+        'id' : 'http://www.example.com/keyboard/' + key,
+        'definition': {
+          'type': 'http://adlnet.gov/expapi/activities/interaction',
+          'name': {
+            'en-us': 'interaction'
+          },
+          'description' : {
+            'en-us' : 'user clicked ' + key + ' button'
+          }
+        }
+      }
+    }
 
   };
   return C;
