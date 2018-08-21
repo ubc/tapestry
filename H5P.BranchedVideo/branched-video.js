@@ -586,6 +586,7 @@ H5P.BranchedVideo = (function ($) {
           createXAPIStatement('Seeked', 'seekerBarDifferentVideo');
           return;
         }
+        slider.blur();
         // handle xAPI
         createXAPIStatement('Seeked', 'seekerBarSameVideo');
       });
@@ -783,9 +784,11 @@ H5P.BranchedVideo = (function ($) {
             + 'color-stop(' + tempVal + ', #FFFFFF), '
             + 'color-stop(' + tempVal + ', #606060))'
           });
+        volumeSlider.blur();
         // handlexAPI
         createXAPIStatement('Interacted', 'volume');
       }
+
 
       volumeDiv.appendChild(volumeSlider);
       volumeDiv.appendChild(volumeButton);
