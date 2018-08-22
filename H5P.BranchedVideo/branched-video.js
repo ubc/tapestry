@@ -255,6 +255,9 @@ H5P.BranchedVideo = (function ($) {
       // handles citation links
       this.createAllCitationLinks = function(){
         var arr = [];
+        if (par.links == undefined){
+          return arr;
+        }
         for(var i = 0; i < par.links.length; i ++){
           if (par.links[0].branchSlug == undefined){return [];}
           var node = new Node(par.links[i] , this.slug);
