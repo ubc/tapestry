@@ -366,3 +366,30 @@ button:focus {
   z-index: 100;
   display: none;
 }
+
+@media all and (max-width: 480px) {
+  .tapestry-branch-button{
+      background: url('images/branch-button.png') no-repeat scroll 0 0 transparent;
+      width: 100px;
+      height: 30px;
+      background-size: 100% 100%;
+      color: #000000;
+      border:0;
+      padding-left: 35px;
+      font-family: 'tapestry-font';
+      font-size: 0.4em;
+      opacity:0.9;
+  }
+  .tapestry-citation-button{
+    background: url('images/citation-button.png') no-repeat scroll 0 0 transparent;
+    width: 100px;
+    height: 25px;
+    background-size: 100% 100%;
+    color: #000000;
+    border:0;
+    padding-top: 3px;
+    font-family: 'tapestry-font';
+    font-size: 0.4em;
+    opacity:0.9;
+  }
+}
