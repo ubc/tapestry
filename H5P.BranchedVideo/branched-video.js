@@ -127,6 +127,7 @@ H5P.BranchedVideo = (function ($) {
         video.id = 'tapestry-video-' + this.slug;
         video.className = 'tapestry-video-container';
         video.frameborder = 0;
+        video.setAttribute('playsinline', 'playsinline');
         video.controls = false;
         videoDiv.appendChild(video);
 
@@ -378,6 +379,13 @@ H5P.BranchedVideo = (function ($) {
     var mainSlug = this.options.mainBranchSlug;
     var currentVideoPlaying = mainSlug;
 
+    // check if it is mobile
+    self.isMobile = false; //initiate as false
+    // device detection
+    if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
+        self.isMobile = true;
+    }
+
     // sets background to black
     $container.css({'background-color':'#000001'});
 
@@ -627,26 +635,45 @@ H5P.BranchedVideo = (function ($) {
       };
 
       // slider listener
-      var valueHover = 0;
-      slider.addEventListener('mousemove', function(e){
-        valueHover = (e.offsetX / e.target.clientWidth);
-      })
-      slider.addEventListener('input', function(){
-        // updates video current time when slider changes
-        var valueTime = valueHover * duration;
-        slider.value = valueHover * 100;
-        video.currentTime = valueTime;
-        // handles select other video sliders
-        if (slug != currentVideoPlaying){
-          jump(slug);
+      // for non mobile slider listener
+      if (self.isMobile == false){
+        var valueHover = 0;
+        slider.addEventListener('mousemove', function(e){
+          valueHover = (e.offsetX / e.target.clientWidth);
+        })
+
+        slider.addEventListener('input', function(){
+          // updates video current time when slider changes
+          var valueTime = valueHover * duration;
+          slider.value = valueHover * 100;
+          video.currentTime = valueTime;
+          // handles select other video sliders
+          if (slug != currentVideoPlaying){
+            jump(slug);
+            // handle xAPI
+            createXAPIStatement('Seeked', 'seekerBarDifferentVideo');
+            return;
+          }
+          slider.blur();
           // handle xAPI
-          createXAPIStatement('Seeked', 'seekerBarDifferentVideo');
-          return;
+          createXAPIStatement('Seeked', 'seekerBarSameVideo');
+        });
+      }
+
+      // for mobile slider listeners
+      if (self.isMobile){
+        slider.oninput =  function(){
+          video.currentTime = slider.value * duration / 100;
+          createXAPIStatement('Seeked', 'seekerBarSameVideoMobile');
         }
-        slider.blur();
-        // handle xAPI
-        createXAPIStatement('Seeked', 'seekerBarSameVideo');
-      });
+        slider.onclick = function(){
+          if (currentVideoPlaying != slug){
+            video.currentTime = 0;
+            slider.value = 0;
+            jump(slug);
+          }
+        }
+      }
 
       // slanted slider listener, onclick itll jump to that branch
       var slantedBar = document.getElementById('tapestry-slanted-bar-' + slug);
@@ -1221,6 +1248,9 @@ H5P.BranchedVideo = (function ($) {
 
         // handles enter mouse: sets position
         currSlider.onmouseover = function(){
+          if (self.isMobile){
+            return;
+          }
           var temp = getHelpText('tapestry-help-'+ slug + '-slider', 'click to jump to ' + slug );
           var dom = $container.get(0);
           var rect = dom.getBoundingClientRect();
