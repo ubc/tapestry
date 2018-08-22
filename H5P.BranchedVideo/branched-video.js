@@ -942,7 +942,7 @@ H5P.BranchedVideo = (function ($) {
       speedDiv.appendChild(speed1);
 
       var speed2 = document.createElement('button');
-      var speed2Text = document.createTextNode('Normal');
+      var speed2Text = document.createTextNode('Normal &#10003');
       speed2.appendChild(speed2Text);
       speedDiv.appendChild(speed2);
 
@@ -958,22 +958,30 @@ H5P.BranchedVideo = (function ($) {
 
       // multiplier(double):  0.5, 1, 1.5, 2
       function switchSpeed(multiplier){
+        speed1.innerHTML = '0.5';
+        speed2.innerHTML = 'Normal';
+        speed3.innerHTML = '1.5';
+        speed4.innerHTML = '2.0';
         switch(multiplier){
           case 0.5:
             getBranch(currentVideoPlaying).getVideoHTML().playbackRate = 0.5;
             speedButton.innerHTML = 'Speed : 0.5';
+            speed1.innerHTML = '0.5 &#10003';
             break;
           case 1:
             getBranch(currentVideoPlaying).getVideoHTML().playbackRate = 1;
             speedButton.innerHTML = 'Speed : Normal';
+            speed2.innerHTML = 'Normal &#10003';
             break;
           case 1.5:
             getBranch(currentVideoPlaying).getVideoHTML().playbackRate = 1.5;
             speedButton.innerHTML = 'Speed : 1.5';
+            speed3.innerHTML = '1.5 &#10003';
             break;
           case 2:
             getBranch(currentVideoPlaying).getVideoHTML().playbackRate = 2.0;
             speedButton.innerHTML = 'Speed : 2.0';
+            speed4.innerHTML = '2.0 &#10003';
             break;
           default: console.log('unable to find playback speed of ' + multiplier);
         }
@@ -1047,12 +1055,12 @@ H5P.BranchedVideo = (function ($) {
       settingsButton.onclick = function(){
         if (settingsDiv.style.display == 'none'){
           if (H5P.isFullscreen) {
-              settingsDiv.style.left =  35 +  'px';
+            settingsDiv.style.left =  30 +  'px';
           }
           settingsDiv.style.display = 'block';
         } else {
           settingsDiv.style.display = 'none';
-          settingsDiv.style.left =  '0px';
+          settingsDiv.style.left =  '';
         }
       }
 
