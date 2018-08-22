@@ -306,6 +306,25 @@ button:focus {
   background-size: 100% 100%;
 }
 
+.tapestry-citation-button{
+  background: url('images/citation-button.png') no-repeat scroll 0 0 transparent;
+  width: 200px;
+  height: 50px;
+  background-size: 100% 100%;
+  color: #000000;
+  border:0;
+  padding-top: 4px;
+  font-family: 'tapestry-font';
+  font-size: 15px;
+  opacity:0.9;
+}
+
+.tapestry-citation-button:hover , .tapestry-citation-button:focus{
+  background: url('images/citation-button.png') no-repeat scroll 0 0 transparent;
+  opacity:1.0;
+  background-size: 100% 100%;
+}
+
 .tapestry-time-text{
   font-family: 'tapestry-font';
   font-size: 8px;
