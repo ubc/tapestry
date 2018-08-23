@@ -203,7 +203,7 @@ button:focus {
   height: 14px;
   width: 14px;
   cursor: pointer;
-  margin-top: 0px;
+  margin: -4px 0 -3px;
 }
 
 /* TODO: make cross-browser compatible */
@@ -237,6 +237,7 @@ button:focus {
 .tapestry-slanted-bar input[type='range']{
   -webkit-appearance: none;
   height: 7px;
+  z-index: 0;
   background-image:
     -webkit-gradient(
             linear,
@@ -257,6 +258,7 @@ button:focus {
 .tapestry-played-slanted-bar input[type='range']{
   -webkit-appearance: none;
   height: 7px;
+  z-index: 0;
   background-image:
     -webkit-gradient(
             linear,
