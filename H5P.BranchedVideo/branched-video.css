@@ -71,6 +71,7 @@
 }
 
 /* TODO: make cross-browser compatible */
+/* Chrome & Safari */
 .tapestry-volume-slider::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
@@ -81,6 +82,27 @@
     cursor: pointer;
     border: 0.005px solid #000000;
 }
+
+/* Firefox */
+.tapestry-volume-slider::-moz-range-thumb {
+    border: 0.005px solid #000000;
+    height: 7px;
+    width: 4px;
+    background: #bcbcbc;
+    cursor: pointer;
+    margin-top: 1px;
+}
+
+/* IE */
+.tapestry-volume-slider::-ms-slider-thumb {
+    border: 0.005px solid #000000;
+    height: 7px;
+    width: 4px;
+    background: #bcbcbc;
+    cursor: pointer;
+    margin-top: 1px;
+}
+
 .tapestry-settings-button {
   background: url('images/settings-button-before.png') no-repeat scroll 0 0 transparent;
   height: 25px;
@@ -168,6 +190,7 @@ button:focus {
 
 
 /* TODO: make cross-browser compatible */
+/* Chrome & Safari */
 .tapestry-selected-slider > input[type='range']::-webkit-slider-thumb{
   visibility: visible !important;
   -webkit-appearance: none !important;
@@ -180,15 +203,53 @@ button:focus {
   margin-top: 0px;
 }
 
+/* Firefox */
+.tapestry-selected-slider > input[type='range']::-moz-range-thumb{
+  visibility: visible !important;
+  background-color: #FF2DCB;
+  border: 2px solid #FFFFFF;
+  border-radius: 10px;
+  height: 14px;
+  width: 14px;
+  cursor: pointer;
+  margin-top: 0px;
+}
+
+/* IE */
+.tapestry-selected-slider > input[type='range']::-ms-slider-thumb{
+  visibility: visible !important;
+  background-color: #FF2DCB;
+  border: 2px solid #FFFFFF;
+  height: 14px;
+  width: 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-top: 0px;
+}
+
 /* TODO: make cross-browser compatible */
+/* Chrome & Safari */
 .tapestry-slider > input[type='range']::-webkit-slider-thumb{
   visibility: hidden;
 }
 
+/* Firefox */
+.tapestry-slider > input[type='range']::-moz-range-thumb{
+  visibility: hidden;
+}
+
+/* IE */
+.tapestry-slider > input[type='range']::-ms-slider-thumb{
+  visibility: hidden;
+}
+
 /* TODO: make cross-browser compatible */
+
 .tapestry-slider > input[type='range']{
   -webkit-appearance: none;
   height: 7px;
+
+/* Chrome & Safari */
   background-image:
     -webkit-gradient(
             linear,
@@ -197,13 +258,41 @@ button:focus {
             color-stop(0, #1BB1FF),
             color-stop(0, #000000)
         );
+
+ /* Firefox */ 
+  background-image: 
+    -moz-gradient(
+          linear,
+          left top,
+          right top,
+          color-stop(0, #1BB1FF),
+          color-stop(0, #000000)
+    );
+
+ /* IE 10+ */
+  background-image: 
+    -ms-gradient(
+          linear,
+          left top,
+          right top,
+          color-stop(0, #1BB1FF),
+          color-stop(0, #000000)
+    );
 }
 
-
-
-
 /* TODO: make cross-browser compatible */
+/* Chrome & Safari */
 .tapestry-slanted-bar input[type='range']::-webkit-slider-thumb{
+  display: none;
+}
+
+/* Firefox */
+.tapestry-slanted-bar input[type='range']::-moz-range-thumb{
+  display: none;
+}
+
+/* IE */
+.tapestry-slanted-bar input[type='range']::-ms-slider-thumb{
   display: none;
 }
 
@@ -211,19 +300,49 @@ button:focus {
 .tapestry-slanted-bar input[type='range']{
   -webkit-appearance: none;
   height: 7px;
+
   background-image:
     -webkit-gradient(
             linear,
             left top,
             right top,
             color-stop(0, #1BB1FF),
-            color-stop(0, #000000)
+            color-stop(0, #000000)1
         );
+
+  background-image:
+    -moz-gradient(
+            linear,
+            left top,
+            right top,
+            color-stop(0, #1BB1FF),
+            color-stop(0, #000000)1
+        );
+
+  background-image: 
+    -ms-gradient(
+          linear,
+          left top,
+          right top,
+          color-stop(0, #1BB1FF),
+          color-stop(0, #000000)
+    );
 }
 
 
 /* TODO: make cross-browser compatible */
+/* Chrome & Safari */
 .tapestry-played-slanted-bar input[type='range']::-webkit-slider-thumb{
+  display: none;
+}
+
+/* Firefox */
+.tapestry-played-slanted-bar input[type='range']::-moz-range-thumb{
+  display: none;
+}
+
+/* IE */
+.tapestry-played-slanted-bar input[type='range']::-ms-slider-thumb{
   display: none;
 }
 
@@ -231,8 +350,27 @@ button:focus {
 .tapestry-played-slanted-bar input[type='range']{
   -webkit-appearance: none;
   height: 7px;
+
   background-image:
     -webkit-gradient(
+            linear,
+            left top,
+            right top,
+            color-stop(0, #000000),
+            color-stop(0, #1BB1FF)
+        );
+
+  background-image:
+    -moz-gradient(
+            linear,
+            left top,
+            right top,
+            color-stop(0, #000000),
+            color-stop(0, #1BB1FF)
+        );
+
+  background-image:
+    -ms-gradient(
             linear,
             left top,
             right top,
