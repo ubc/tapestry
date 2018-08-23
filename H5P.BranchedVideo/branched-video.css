@@ -70,9 +70,12 @@
     transform: rotate(-90deg);
 }
 
-/* TODO: make cross-browser compatible */
 /* Chrome & Safari */
-.tapestry-volume-slider::-webkit-slider-thumb {
+.tapestry-volume-slider::-webkit-slider-thumb, 
+/* Firefox */
+.tapestry-volume-slider::-moz-range-thumb,
+/* IE */
+.tapestry-volume-slider::-ms-slider-thumb{
     -webkit-appearance: none;
     appearance: none;
     width: 4px;
@@ -81,26 +84,6 @@
     background: #bcbcbc;
     cursor: pointer;
     border: 0.005px solid #000000;
-}
-
-/* Firefox */
-.tapestry-volume-slider::-moz-range-thumb {
-    border: 0.005px solid #000000;
-    height: 7px;
-    width: 4px;
-    background: #bcbcbc;
-    cursor: pointer;
-    margin-top: 1px;
-}
-
-/* IE */
-.tapestry-volume-slider::-ms-slider-thumb {
-    border: 0.005px solid #000000;
-    height: 7px;
-    width: 4px;
-    background: #bcbcbc;
-    cursor: pointer;
-    margin-top: 1px;
 }
 
 .tapestry-settings-button {
@@ -188,10 +171,12 @@ button:focus {
   outline: none;
 }
 
-
-/* TODO: make cross-browser compatible */
 /* Chrome & Safari */
-.tapestry-selected-slider > input[type='range']::-webkit-slider-thumb{
+.tapestry-selected-slider > input[type='range']::-webkit-slider-thumb,
+/* Firefox */
+.tapestry-selected-slider > input[type='range']::-moz-range-thumb,
+/* IE */
+.tapestry-selected-slider > input[type='range']::-ms-slider-thumb{
   visibility: visible !important;
   -webkit-appearance: none !important;
   background-color: #FF2DCB;
@@ -203,47 +188,14 @@ button:focus {
   margin-top: 0px;
 }
 
-/* Firefox */
-.tapestry-selected-slider > input[type='range']::-moz-range-thumb{
-  visibility: visible !important;
-  background-color: #FF2DCB;
-  border: 2px solid #FFFFFF;
-  border-radius: 10px;
-  height: 14px;
-  width: 14px;
-  cursor: pointer;
-  margin-top: 0px;
-}
-
-/* IE */
-.tapestry-selected-slider > input[type='range']::-ms-slider-thumb{
-  visibility: visible !important;
-  background-color: #FF2DCB;
-  border: 2px solid #FFFFFF;
-  height: 14px;
-  width: 14px;
-  border-radius: 10px;
-  cursor: pointer;
-  margin-top: 0px;
-}
-
-/* TODO: make cross-browser compatible */
 /* Chrome & Safari */
-.tapestry-slider > input[type='range']::-webkit-slider-thumb{
-  visibility: hidden;
-}
-
+.tapestry-slider > input[type='range']::-webkit-slider-thumb,
 /* Firefox */
-.tapestry-slider > input[type='range']::-moz-range-thumb{
-  visibility: hidden;
-}
-
+.tapestry-slider > input[type='range']::-moz-range-thumb,
 /* IE */
 .tapestry-slider > input[type='range']::-ms-slider-thumb{
   visibility: hidden;
 }
-
-/* TODO: make cross-browser compatible */
 
 .tapestry-slider > input[type='range']{
   -webkit-appearance: none;
@@ -280,23 +232,15 @@ button:focus {
     );
 }
 
-/* TODO: make cross-browser compatible */
 /* Chrome & Safari */
-.tapestry-slanted-bar input[type='range']::-webkit-slider-thumb{
-  display: none;
-}
-
+.tapestry-slanted-bar input[type='range']::-webkit-slider-thumb,
 /* Firefox */
-.tapestry-slanted-bar input[type='range']::-moz-range-thumb{
-  display: none;
-}
-
+.tapestry-slanted-bar input[type='range']::-moz-range-thumb,
 /* IE */
 .tapestry-slanted-bar input[type='range']::-ms-slider-thumb{
   display: none;
 }
 
-/* TODO: make cross-browser compatible */
 .tapestry-slanted-bar input[type='range']{
   -webkit-appearance: none;
   height: 7px;
@@ -329,24 +273,15 @@ button:focus {
     );
 }
 
-
-/* TODO: make cross-browser compatible */
 /* Chrome & Safari */
-.tapestry-played-slanted-bar input[type='range']::-webkit-slider-thumb{
-  display: none;
-}
-
+.tapestry-played-slanted-bar input[type='range']::-webkit-slider-thumb,
 /* Firefox */
-.tapestry-played-slanted-bar input[type='range']::-moz-range-thumb{
-  display: none;
-}
-
+.tapestry-played-slanted-bar input[type='range']::-moz-range-thumb,
 /* IE */
 .tapestry-played-slanted-bar input[type='range']::-ms-slider-thumb{
   display: none;
 }
 
-/* TODO: make cross-browser compatible */
 .tapestry-played-slanted-bar input[type='range']{
   -webkit-appearance: none;
   height: 7px;
