@@ -70,11 +70,8 @@
     transform: rotate(-90deg);
 }
 
-/* Chrome & Safari */
 .tapestry-volume-slider::-webkit-slider-thumb, 
-/* Firefox */
 .tapestry-volume-slider::-moz-range-thumb,
-/* IE */
 .tapestry-volume-slider::-ms-slider-thumb{
     -webkit-appearance: none;
     appearance: none;
@@ -171,11 +168,8 @@ button:focus {
   outline: none;
 }
 
-/* Chrome & Safari */
 .tapestry-selected-slider > input[type='range']::-webkit-slider-thumb,
-/* Firefox */
 .tapestry-selected-slider > input[type='range']::-moz-range-thumb,
-/* IE */
 .tapestry-selected-slider > input[type='range']::-ms-slider-thumb{
   visibility: visible !important;
   -webkit-appearance: none !important;
@@ -188,11 +182,8 @@ button:focus {
   margin-top: 0px;
 }
 
-/* Chrome & Safari */
 .tapestry-slider > input[type='range']::-webkit-slider-thumb,
-/* Firefox */
 .tapestry-slider > input[type='range']::-moz-range-thumb,
-/* IE */
 .tapestry-slider > input[type='range']::-ms-slider-thumb{
   visibility: hidden;
 }
@@ -201,7 +192,6 @@ button:focus {
   -webkit-appearance: none;
   height: 7px;
 
-/* Chrome & Safari */
   background-image:
     -webkit-gradient(
             linear,
@@ -211,7 +201,6 @@ button:focus {
             color-stop(0, #000000)
         );
 
- /* Firefox */ 
   background-image: 
     -moz-gradient(
           linear,
@@ -221,7 +210,6 @@ button:focus {
           color-stop(0, #000000)
     );
 
- /* IE 10+ */
   background-image: 
     -ms-gradient(
           linear,
@@ -232,11 +220,9 @@ button:focus {
     );
 }
 
-/* Chrome & Safari */
+
 .tapestry-slanted-bar input[type='range']::-webkit-slider-thumb,
-/* Firefox */
 .tapestry-slanted-bar input[type='range']::-moz-range-thumb,
-/* IE */
 .tapestry-slanted-bar input[type='range']::-ms-slider-thumb{
   display: none;
 }
@@ -273,11 +259,8 @@ button:focus {
     );
 }
 
-/* Chrome & Safari */
 .tapestry-played-slanted-bar input[type='range']::-webkit-slider-thumb,
-/* Firefox */
 .tapestry-played-slanted-bar input[type='range']::-moz-range-thumb,
-/* IE */
 .tapestry-played-slanted-bar input[type='range']::-ms-slider-thumb{
   display: none;
 }
