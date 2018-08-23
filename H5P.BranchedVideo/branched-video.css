@@ -87,18 +87,8 @@
     -webkit-appearance: none;
     appearance: none;
     width: 4px;
-    height: 7px;
-    margin-top: 2px;
-    background: #bcbcbc;
-    cursor: pointer;
-    border: 0.005px solid #000000;
-}
-
-.tapestry-volume-slider::-moz-range-thumb{
-    appearance: none;
-    width: 4px;
-    height: 7px;
-    margin-top: 2px;
+    height: 9px;
+    margin-top: -0.1px;
     background: #bcbcbc;
     cursor: pointer;
     border: 0.005px solid #000000;
@@ -441,8 +431,8 @@ input[type=range]:focus {
 }
 
 .tapestry-time-text{
-  font-family: 'tapestry-font';
   font-size: 10px;
+  font-family: Arial;
   color: #FFFFFF;
   margin : 0;
   min-width : 50px;
@@ -455,7 +445,7 @@ input[type=range]:focus {
 
 .tapestry-help-text{
   height: 12px;
-  font-size: 8px;
+  font-size: 10px;
   color: white;
   margin : 0;
   position: absolute;
@@ -491,7 +481,7 @@ input[type=range]:focus {
       color: #000000;
       border:0;
       padding-left: 35px;
-      font-family: 'tapestry-font';
+      font-family: tapestry-font;
       font-size: 0.4em;
       opacity:0.9;
   }
@@ -503,7 +493,7 @@ input[type=range]:focus {
     color: #000000;
     border:0;
     padding-top: 3px;
-    font-family: 'tapestry-font';
+    font-family: tapestry-font;
     font-size: 0.4em;
     opacity:0.9;
   }
