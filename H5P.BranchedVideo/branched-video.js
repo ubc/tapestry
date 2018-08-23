@@ -207,7 +207,7 @@ H5P.BranchedVideo = (function ($) {
           seconds = "0"+ seconds;
         }
         var timeText = document.createElement('p');
-        var text = document.createTextNode("0:00/" + mins + ':' + seconds);
+        var text = document.createTextNode("0:00 / " + mins + ':' + seconds);
         timeText.id = 'tapestry-time-text-' + this.slug;
         timeText.classList.add('tapestry-time-text');
         timeText.style.position = 'absolute';
@@ -523,7 +523,7 @@ H5P.BranchedVideo = (function ($) {
           }
           branchText.style.left = slantedDiff * 2 + 13 + 'px';
           var timeText = nextBranch.getTimeTextHTML();
-          timeText.style.left = 'calc( 103%  + ' + (slantedDiff*2 + 5*(tempLevel-1)) + 'px )';
+          timeText.style.left = 'calc( 103%  + ' + (slantedDiff*2 + 5*(tempLevel-1)) + 6 + 'px )';
           timeText.style.top = -3 + 'px';
 
           // recurse
@@ -625,7 +625,7 @@ H5P.BranchedVideo = (function ($) {
         }
         var textStart = minsStart + ':' + secondsStart;
         var time = branch.getTimeTextHTML();
-        time.innerHTML = textStart + '/' + textEnd;
+        time.innerHTML = textStart + ' / ' + textEnd;
 
         // removes return text
         var returnLink = document.getElementById('tapestry-link-return-' + slug);
@@ -634,7 +634,6 @@ H5P.BranchedVideo = (function ($) {
         }
       };
 
-      // CHANGED
       // video on click listener
       video.onclick = function(){
         if (!video.paused){
@@ -797,7 +796,6 @@ H5P.BranchedVideo = (function ($) {
           var mainSlider = currentBranch.getSliderDivHTML();
           mainSlider.classList.add('tapestry-selected-slider');
           mainSlider.childNodes[0].value = 0;
-          // CHANGED
           // removes play button for main video on ended
           currentBranch.getVideoHTML().onended = function(){
             var playButton = document.getElementsByClassName('tapestry-play-button')[0];
@@ -1224,7 +1222,7 @@ H5P.BranchedVideo = (function ($) {
       // HELP EVENTS: on mouseover
       // HELP play button
       playButton.onmouseover = function(){
-        var temp = getHelpText('tapestry-help-play-button', 'CLICK TO PLAY VIDEO' );
+        var temp = getHelpText('tapestry-help-play-button', 'Click to play video' );
         temp.style.left = '2%';
         temp.style.top = '60%';
         if (self.helpMode){
@@ -1232,12 +1230,12 @@ H5P.BranchedVideo = (function ($) {
         }
       }
       playButton.onmouseout = function(){
-        getHelpText('tapestry-help-play-button', 'CLICK TO PLAY VIDEO').style.display = 'none';
+        getHelpText('tapestry-help-play-button', '').style.display = 'none';
       }
 
       // HELP pause button
       pauseButton.onmouseover = function(){
-        var temp = getHelpText('tapestry-help-pause-button', 'CLICK TO PAUSE VIDEO' );
+        var temp = getHelpText('tapestry-help-pause-button', 'Click to pause video' );
         temp.style.left = '2%';
         temp.style.top = '60%';
         if (self.helpMode){
@@ -1245,12 +1243,12 @@ H5P.BranchedVideo = (function ($) {
         }
       }
       pauseButton.onmouseout = function(){
-        getHelpText('tapestry-help-pause-button', 'CLICK TO PAUSE VIDEO').style.display = 'none';
+        getHelpText('tapestry-help-pause-button', '').style.display = 'none';
       }
 
       // HELP volume button
       volumeButton.onmouseover = function(){
-        var temp = getHelpText('tapestry-help-volume-button', 'DRAG TO CHANGE VOLUME' );
+        var temp = getHelpText('tapestry-help-volume-button', 'Drag to change volume' );
         temp.style.left = '83%';
         temp.style.top = '60%';
         if (self.helpMode){
@@ -1263,7 +1261,7 @@ H5P.BranchedVideo = (function ($) {
 
       // HELP fullscreen
       fullScreenButton.onmouseover = function(){
-        var temp = getHelpText('tapestry-help-fullScreen-button', 'TOGGLE FULL SCREEN' );
+        var temp = getHelpText('tapestry-help-fullScreen-button', 'Toggle fullscreen' );
         temp.style.left = '87%';
         temp.style.top = '60%';
         if (self.helpMode){
@@ -1286,7 +1284,7 @@ H5P.BranchedVideo = (function ($) {
           if (self.isMobile){
             return;
           }
-          var temp = getHelpText('tapestry-help-'+ slug + '-slider', 'CLICK TO JUMP TO ' + slug );
+          var temp = getHelpText('tapestry-help-'+ slug + '-slider', 'Click to jump to ' + slug );
           var dom = $container.get(0);
           var rect = dom.getBoundingClientRect();
           var currBranch = getBranch(currentVideoPlaying);
@@ -1331,7 +1329,7 @@ H5P.BranchedVideo = (function ($) {
             time = '0:00';
           }
           if (self.helpMode){
-            var temp = getHelpText('tapestry-help-'+ slug + '-slider', 'CLICK TO JUMP TO ' + slug + ' at ' + time );
+            var temp = getHelpText('tapestry-help-'+ slug + '-slider', 'Click to jump to ' + slug + ' at ' + time );
           } else {
             var temp = getHelpText('tapestry-help-'+ slug + '-slider',  time );
           }

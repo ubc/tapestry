@@ -238,14 +238,7 @@ button:focus {
   -webkit-appearance: none;
   height: 7px;
   z-index: 0;
-  background-image:
-    -webkit-gradient(
-            linear,
-            left top,
-            right top,
-            color-stop(0, #1BB1FF),
-            color-stop(0, #000000)
-        );
+  background: #000000
 }
 
 
@@ -259,14 +252,7 @@ button:focus {
   -webkit-appearance: none;
   height: 7px;
   z-index: 0;
-  background-image:
-    -webkit-gradient(
-            linear,
-            left top,
-            right top,
-            color-stop(0, #000000),
-            color-stop(0, #1BB1FF)
-        );
+  background: #1BB1FF;
 }
 
 .tapestry-branch-button{
@@ -312,6 +298,7 @@ button:focus {
   font-size: 8px;
   color: #FFFFFF;
   margin : 0;
+  min-width : 50px;
 }
 
 .tapestry-help-text{
