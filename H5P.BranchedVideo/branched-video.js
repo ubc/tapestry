@@ -517,14 +517,14 @@ H5P.BranchedVideo = (function ($) {
           // arrange branch text and time text
           var branchText = nextBranch.getBranchTextHTML();
           if (nextBranch.getType() == 'top'){
-            branchText.style.top = - 10  + 'px';
+            branchText.style.top = - 9  + 'px';
           } else {
             branchText.style.top = 6 + 'px';
           }
           branchText.style.left = slantedDiff * 2 + 13 + 'px';
           var timeText = nextBranch.getTimeTextHTML();
           timeText.style.left = 'calc( 103%  + ' + (slantedDiff*2 + 5*(tempLevel-1)) + 6 + 'px )';
-          timeText.style.top = -3 + 'px';
+          timeText.style.top = -1 + 'px';
 
           // recurse
           attachSliders(nextSlug, nextBranch.nodes, 100, acc + slantedDiff*2);
@@ -837,7 +837,7 @@ H5P.BranchedVideo = (function ($) {
       mainBranchText.style.display = 'none';
       var mainTimeText = mainBranch.getTimeTextHTML();
       mainTimeText.style.left = '101%';
-      mainTimeText.style.top = '-3px';
+      mainTimeText.style.top = '-1px';
 
       // attaches all the sliders starting from the end to the main slider
       attachSliders(mainSlug, mainBranch.nodes, 25, 0);
@@ -960,7 +960,7 @@ H5P.BranchedVideo = (function ($) {
       speedDiv.appendChild(speed1);
 
       var speed2 = document.createElement('button');
-      var speed2Text = document.createTextNode('Normal &#10003');
+      var speed2Text = document.createTextNode('Normal');
       speed2.appendChild(speed2Text);
       speedDiv.appendChild(speed2);
 

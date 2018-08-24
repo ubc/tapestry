@@ -113,6 +113,7 @@
   background-color: white;
   color: black;
   padding-top: 1px;
+  font-family: 'tapestry-font';
 }
 .tapestry-settings-dropdown-content > button:hover , .tapestry-speed-dropdown-content > button:hover {
   background-color: #3f89ff;
@@ -295,7 +296,7 @@ button:focus {
 
 .tapestry-time-text{
   font-family: 'tapestry-font';
-  font-size: 8px;
+  font-size: 7px;
   color: #FFFFFF;
   margin : 0;
   min-width : 50px;
@@ -315,7 +316,7 @@ button:focus {
 
 @font-face {
    font-family: tapestry-font;
-   src: url('fonts/palanquin/palanquin-semibold.ttf');
+   src: url('fonts/arial/arial.ttf');
 }
 
 .h5p-fullscreen{
