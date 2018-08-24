@@ -7,59 +7,58 @@
 }
 
 .tapestry-left-controls {
-  height: 140px;
+  height: 100%;
   position: relative;
   float: left;
-  width: 8%;
-  padding-left: 3%
+  width: 10px;
+  padding-left: 3%;
+  padding-top: 1%;
 }
 .tapestry-play-button {
   background: url('images/play-button.png') no-repeat scroll 0 0 transparent;
   height: 25px;
-  color: #000000;
-  position: absolute;
   width: 25px;
-  padding-left: 5%;
-  top: 50%;
+  position: absolute;
+  top: 45%;
   border:0;
+  opacity: 0.9;
 }
 .tapestry-pause-button {
   background: url('images/pause.png') no-repeat scroll 0 0 transparent;
   height: 25px;
-  color: #000000;
-  position: absolute;
   width: 25px;
-  padding-left: 5%;
-  top: 50%;
+  position: absolute;
+  top: 45%;
   border:0;
+  opacity: 0.9;
 }
 
 .tapestry-right-controls{
-  height: 140px;
+  height: 100%;
   position: relative;
   float:right;
   width: 15%;
-  padding-right: 0%;
 }
 .tapestry-volume-button {
   background: url('images/volume-button-before.png') no-repeat scroll 0 0 transparent;
   height: 25px;
-  color: #000000;
   position: absolute;
   width: 20px;
   padding-left: 6%;
-  top: 50%;
+  top: 45%;
   border:0;
+  opacity: 0.9;
 }
 .tapestry-volume-button:hover{
   background: url('images/volume-button-after.png') no-repeat scroll 0 0 transparent;
+  opacity: 1;
 }
 .tapestry-volume-div {
   height: 100%;
   position: relative;
   width: 50px;
   border:0;
-  left: 10%;
+  opacity: 0.9;
 }
 .tapestry-volume-slider {
     -webkit-appearance: none;
@@ -84,16 +83,16 @@
 .tapestry-settings-button {
   background: url('images/settings-button-before.png') no-repeat scroll 0 0 transparent;
   height: 25px;
-  color: #000000;
   position: absolute;
   width: 20px;
-  padding-left: 6%;
-  top: 50%;
+  top: 45%;
   border:0;
-  left: 40%;
+  left: 30%;
+  opacity: 0.9;
 }
 .tapestry-settings-button:focus {
   background: url('images/settings-button-after.png') no-repeat scroll 0 0 transparent;
+  opacity: 1;
 }
 
 .tapestry-settings-dropdown-content , .tapestry-speed-dropdown-content {
@@ -117,6 +116,7 @@
 .tapestry-settings-dropdown-content > button:hover , .tapestry-speed-dropdown-content > button:hover {
   background-color: #3f89ff;
   color: white;
+  opacity: 1;
 }
 .tapestry-settings-dropdown-content button:nth-child(1){
   top: -15px;
@@ -144,29 +144,33 @@
 .tapestry-screen-button {
   background: url('images/full-screen-arrows.png') no-repeat scroll 0 0 transparent;
   height: 25px;
-  color: #000000;
   position: absolute;
   width: 20px;
-  padding-left: 10%;
-  top: 50%;
+  top: 45%;
   border:0;
-  left: 70%;
+  left: 60%;
+  opacity: 0.9;
 }
 
 .tapestry-play-button:hover , .tapestry-play-button:focus{
   background: url('images/play-button.png') no-repeat scroll 0 0 transparent;
+  opacity: 1;
 }
 .tapestry-pause-button:hover , .tapestry-pause-button:focus{
   background: url('images/pause.png') no-repeat scroll 0 0 transparent;
+  opacity: 1;
 }
 .tapestry-settings-button:hover {
   background: url('images/settings-button-after.png') no-repeat scroll 0 0 transparent;
+  opacity: 1;
 }
 .tapestry-volume-button:focus{
   background: url('images/volume-button-after.png') no-repeat scroll 0 0 transparent;
+  opacity: 1;
 }
 .tapestry-screen-button:hover , .tapestry-screen-button:focus{
   background: url('images/full-screen-arrows.png') no-repeat scroll 0 0 transparent;
+  opacity: 1;
 }
 
 .tapestry-seeker-container{
