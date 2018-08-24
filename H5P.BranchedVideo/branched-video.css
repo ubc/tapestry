@@ -203,7 +203,7 @@ button:focus {
   height: 14px;
   width: 14px;
   cursor: pointer;
-  margin-top: 0px;
+  margin: -4px 0 -3px;
 }
 
 /* TODO: make cross-browser compatible */
@@ -237,14 +237,8 @@ button:focus {
 .tapestry-slanted-bar input[type='range']{
   -webkit-appearance: none;
   height: 7px;
-  background-image:
-    -webkit-gradient(
-            linear,
-            left top,
-            right top,
-            color-stop(0, #1BB1FF),
-            color-stop(0, #000000)
-        );
+  z-index: 0;
+  background: #000000
 }
 
 
@@ -257,14 +251,8 @@ button:focus {
 .tapestry-played-slanted-bar input[type='range']{
   -webkit-appearance: none;
   height: 7px;
-  background-image:
-    -webkit-gradient(
-            linear,
-            left top,
-            right top,
-            color-stop(0, #000000),
-            color-stop(0, #1BB1FF)
-        );
+  z-index: 0;
+  background: #1BB1FF;
 }
 
 .tapestry-branch-button{
@@ -310,6 +298,7 @@ button:focus {
   font-size: 8px;
   color: #FFFFFF;
   margin : 0;
+  min-width : 50px;
 }
 
 .tapestry-help-text{
