@@ -517,9 +517,9 @@ H5P.BranchedVideo = (function ($) {
           // arrange branch text and time text
           var branchText = nextBranch.getBranchTextHTML();
           if (nextBranch.getType() == 'top'){
-            branchText.style.top = - 12  + 'px';
+            branchText.style.top = - 10  + 'px';
           } else {
-            branchText.style.top = 8 + 'px';
+            branchText.style.top = 6 + 'px';
           }
           branchText.style.left = slantedDiff * 2 + 13 + 'px';
           var timeText = nextBranch.getTimeTextHTML();
