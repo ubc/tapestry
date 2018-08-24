@@ -159,6 +159,80 @@
                                 }
                             ]
                         }
+                    },
+                    {
+                        "name": "links",
+                        "type": "list",
+                        "label": "citations or links",
+                        "entity": "links",
+                        "optional": true,
+                        "description": "add a URL in this video",
+                        "field": {
+                            "name": "link",
+                            "type": "group",
+                            "label": "link interaction",
+                            "fields": [
+                                {
+                                    "name": "branchSlug",
+                                    "type": "text",
+                                    "label": "URL",
+                                    "description": "the URL destination"
+                                },
+                                {
+                                    "name": "branchTimeFrom",
+                                    "type": "number",
+                                    "label": "start time",
+                                    "description": "what time should the interaction option appear in this video"
+                                },
+                                {
+                                    "name": "branchTimeTo",
+                                    "type": "number",
+                                    "label": "end time",
+                                    "description": "what time should the interaction option disappear in this video"
+                                },
+                                {
+                                    "name": "bubble",
+                                    "type": "group",
+                                    "label": "interaction option",
+                                    "fields": [
+                                        {
+                                            "name": "text",
+                                            "type": "text",
+                                            "label": "input text"
+                                        },
+                                        {
+                                            "name": "style",
+                                            "type": "select",
+                                            "label": "choose style",
+                                            "options": [
+                                              {"value": "circle",
+                                               "label": "circle"
+                                             },
+                                              {"value": "square",
+                                                "label": "square"
+
+                                              }
+                                            ]
+                                        },
+                                        {
+                                            "name": "color",
+                                            "type": "text",
+                                            "label": "choose color of interaction"
+                                        },
+                                        {
+                                            "name": "positionX",
+                                            "type": "number",
+                                            "label": "x position of the interaction"
+                                        },
+                                        {
+                                            "name": "positionY",
+                                            "type": "number",
+                                            "label": "y position of the interaction"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
                     }
                 ]
             }

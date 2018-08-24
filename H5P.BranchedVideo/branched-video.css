@@ -2,7 +2,7 @@
   width: 100%;
   margin: 0 ;
   border: 0;
-  min-width: 300px;
+  min-width: 400px;
   line-height: 0;
 }
 
@@ -98,7 +98,7 @@
   background: url('images/settings-button-after.png') no-repeat scroll 0 0 transparent;
 }
 
-.tapestry-settings-dropdown-content {
+.tapestry-settings-dropdown-content , .tapestry-speed-dropdown-content {
     display: none;
     position: relative;
     background-color: #f1f1f1;
@@ -107,6 +107,42 @@
     z-index: 1000;
     top: 30px;
 }
+.tapestry-settings-dropdown-content > button , .tapestry-speed-dropdown-content > button {
+  position: absolute;
+  font-size: 8px;
+  width: 100px;
+  height: 15px;
+  background-color: white;
+  color: black;
+  padding-top: 1px;
+}
+.tapestry-settings-dropdown-content > button:hover , .tapestry-speed-dropdown-content > button:hover {
+  background-color: #3f89ff;
+  color: white;
+}
+.tapestry-settings-dropdown-content button:nth-child(1){
+  top: -15px;
+}
+.tapestry-settings-dropdown-content button:nth-child(2){
+  top: 0px;
+}
+.tapestry-settings-dropdown-content button:nth-child(3){
+  top: 15px;
+}
+
+.tapestry-speed-dropdown-content button:nth-child(1){
+  top: -30px;
+}
+.tapestry-speed-dropdown-content button:nth-child(2){
+  top: -15px;
+}
+.tapestry-speed-dropdown-content button:nth-child(3){
+  top: 0px;
+}
+.tapestry-speed-dropdown-content button:nth-child(4){
+  top: 15px;
+}
+
 .tapestry-screen-button {
   background: url('images/full-screen-arrows.png') no-repeat scroll 0 0 transparent;
   height: 25px;
@@ -133,16 +169,6 @@
 }
 .tapestry-screen-button:hover , .tapestry-screen-button:focus{
   background: url('images/full-screen-arrows.png') no-repeat scroll 0 0 transparent;
-}
-
-.tapestry-settings-dropdown-content > button {
-  position: absolute;
-  font-size: 8px;
-  width: 100px;
-  height: 15px;
-  background-color: white;
-  color: black;
-  padding-top: 1px;
 }
 
 .tapestry-seeker-container{
@@ -179,7 +205,7 @@ button:focus {
   height: 14px;
   width: 14px;
   cursor: pointer;
-  margin-top: 0px;
+  margin: -4px 0 -3px;
 }
 
 .tapestry-slider > input[type='range']::-webkit-slider-thumb,
@@ -229,34 +255,11 @@ button:focus {
 
 .tapestry-slanted-bar input[type='range']{
   -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
   height: 7px;
-
-  background-image:
-    -webkit-gradient(
-            linear,
-            left top,
-            right top,
-            color-stop(0, #1BB1FF),
-            color-stop(0, #000000)1
-        );
-
-  background-image:
-    -moz-gradient(
-            linear,
-            left top,
-            right top,
-            color-stop(0, #1BB1FF),
-            color-stop(0, #000000)1
-        );
-
-  background-image: 
-    -ms-gradient(
-          linear,
-          left top,
-          right top,
-          color-stop(0, #1BB1FF),
-          color-stop(0, #000000)
-    );
+  z-index: 0;
+  background: #000000
 }
 
 .tapestry-played-slanted-bar input[type='range']::-webkit-slider-thumb,
@@ -267,34 +270,11 @@ button:focus {
 
 .tapestry-played-slanted-bar input[type='range']{
   -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
   height: 7px;
-
-  background-image:
-    -webkit-gradient(
-            linear,
-            left top,
-            right top,
-            color-stop(0, #000000),
-            color-stop(0, #1BB1FF)
-        );
-
-  background-image:
-    -moz-gradient(
-            linear,
-            left top,
-            right top,
-            color-stop(0, #000000),
-            color-stop(0, #1BB1FF)
-        );
-
-  background-image:
-    -ms-gradient(
-            linear,
-            left top,
-            right top,
-            color-stop(0, #000000),
-            color-stop(0, #1BB1FF)
-        );
+  z-index: 0;
+  background: #1BB1FF;
 }
 
 .tapestry-branch-button{
@@ -316,11 +296,31 @@ button:focus {
   background-size: 100% 100%;
 }
 
+.tapestry-citation-button{
+  background: url('images/citation-button.png') no-repeat scroll 0 0 transparent;
+  width: 200px;
+  height: 50px;
+  background-size: 100% 100%;
+  color: #000000;
+  border:0;
+  padding-top: 4px;
+  font-family: 'tapestry-font';
+  font-size: 15px;
+  opacity:0.9;
+}
+
+.tapestry-citation-button:hover , .tapestry-citation-button:focus{
+  background: url('images/citation-button.png') no-repeat scroll 0 0 transparent;
+  opacity:1.0;
+  background-size: 100% 100%;
+}
+
 .tapestry-time-text{
   font-family: 'tapestry-font';
   font-size: 8px;
   color: #FFFFFF;
   margin : 0;
+  min-width : 50px;
 }
 
 .tapestry-help-text{
@@ -356,4 +356,31 @@ button:focus {
   position: absolute;
   z-index: 100;
   display: none;
+}
+
+@media all and (max-width: 480px) {
+  .tapestry-branch-button{
+      background: url('images/branch-button.png') no-repeat scroll 0 0 transparent;
+      width: 100px;
+      height: 30px;
+      background-size: 100% 100%;
+      color: #000000;
+      border:0;
+      padding-left: 35px;
+      font-family: 'tapestry-font';
+      font-size: 0.4em;
+      opacity:0.9;
+  }
+  .tapestry-citation-button{
+    background: url('images/citation-button.png') no-repeat scroll 0 0 transparent;
+    width: 100px;
+    height: 25px;
+    background-size: 100% 100%;
+    color: #000000;
+    border:0;
+    padding-top: 3px;
+    font-family: 'tapestry-font';
+    font-size: 0.4em;
+    opacity:0.9;
+  }
 }
