@@ -307,7 +307,7 @@ button:focus {
   color: white;
   margin : 0;
   position: absolute;
-  background-color: #b7b7b7;
+  background-color: #111111;
   padding-left: 2px;
   padding-right: 2px;
   padding-top: 0px;
@@ -323,14 +323,14 @@ button:focus {
 }
 
 .tapestry-video-preview-normal{
-  width: 100px;
+  width: 200px;
   position: absolute;
   z-index: 100;
   display: none;
 }
 
 .tapestry-video-preview-fullscreen{
-  width: 200px;
+  width: 300px;
   position: absolute;
   z-index: 100;
   display: none;

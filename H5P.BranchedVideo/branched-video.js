@@ -721,7 +721,7 @@ H5P.BranchedVideo = (function ($) {
       currentLink.id = 'tapestry-link-return-' + childSlug;
       currentLink.className = 'tapestry-branch-button';
       currentLink.type = 'button';
-      currentLink.innerHTML = 'would you like to return to ' + parentSlug;
+      currentLink.innerHTML = 'click to return to ' + parentSlug;
       currentLink.style.position = 'absolute';
       currentLink.style.left = '35%';
       currentLink.style.top = '35%';
@@ -1278,6 +1278,8 @@ H5P.BranchedVideo = (function ($) {
         var currSlider = currBranch.getSliderHTML();
         // attach all video previews to container
         navBar.appendChild(getBranch(slug).createVideoPreview());
+        var videoPreview = getBranch(slug).getVideoPreview();
+        var videoPreviewWidth = 200;
 
         // handles enter mouse: sets position
         currSlider.onmouseover = function(){
@@ -1289,22 +1291,26 @@ H5P.BranchedVideo = (function ($) {
           var rect = dom.getBoundingClientRect();
           var currBranch = getBranch(currentVideoPlaying);
           var diffTop = currBranch.getVideoDivHTML().clientHeight;
-          temp.style.left = event.clientX - rect.left  + 'px';
+          temp.style.left = event.clientX - rect.left - (videoPreviewWidth/2)  + 'px';
           temp.style.top = event.clientY - (diffTop + rect.top) - 25 + 'px';
           if (H5P.isFullscreen) {
               temp.style.top = event.clientY - diffTop + 45 +  'px';
           }
           temp.style.display = 'block';
-
           // handles video preview
-          var videoPreview = getBranch(slug).getVideoPreview();
-          videoPreview.style.left = event.clientX - rect.left  + 'px';
-          videoPreview.style.top = event.clientY - (diffTop + rect.top) - 70 + 'px';
-          videoPreview.className = 'tapestry-video-preview-normal';
+
           if (H5P.isFullscreen){
             videoPreview.className = 'tapestry-video-preview-fullscreen';
-            videoPreview.style.top = event.clientY - diffTop - 56 + 'px';
+            videoPreviewWidth = 300;
+            var videoPreviewHeight = videoPreview.videoHeight / videoPreview.videoWidth * videoPreviewWidth;
+            videoPreview.style.top = event.clientY - diffTop + 56 - videoPreviewHeight + 'px';
+          } else {
+            videoPreview.className = 'tapestry-video-preview-normal';
+            videoPreviewWidth = 200;
+            var videoPreviewHeight = videoPreview.videoHeight / videoPreview.videoWidth * videoPreviewWidth;
+            videoPreview.style.top = event.clientY - (diffTop + rect.top) - videoPreviewHeight - 14 + 'px';
           }
+          videoPreview.style.left = event.clientX - rect.left - (videoPreviewWidth/2)  + 'px';
           videoPreview.style.display = 'block';
         }
 
@@ -1334,12 +1340,11 @@ H5P.BranchedVideo = (function ($) {
             var temp = getHelpText('tapestry-help-'+ slug + '-slider',  time );
           }
           var rect = $container.get(0).getBoundingClientRect();
-          temp.style.left = event.clientX - rect.left + 'px';
+          temp.style.left = event.clientX - rect.left - (videoPreviewWidth/2) + 'px';
 
           // handles video preview
-          var videoPrev = getBranch(slug).getVideoPreview();
-          videoPrev.style.left = event.clientX - rect.left + 'px';
-          videoPrev.currentTime = valueTime;
+          videoPreview.style.left = event.clientX - rect.left - (videoPreviewWidth/2) + 'px';
+          videoPreview.currentTime = valueTime;
         });
       }
 
