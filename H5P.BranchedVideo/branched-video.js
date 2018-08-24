@@ -194,7 +194,7 @@ H5P.BranchedVideo = (function ($) {
         sliderDiv.appendChild(slider);
         // create branch text
         var branchText = document.createElement('p');
-        branchText.appendChild(document.createTextNode(this.slug));
+        branchText.appendChild(document.createTextNode(this.title));
         branchText.id = 'tapestry-branch-text-' + this.slug;
         branchText.classList.add('tapestry-time-text');
         branchText.style.position = "absolute";
@@ -575,13 +575,6 @@ H5P.BranchedVideo = (function ($) {
           } else {
             citation.hideLink();
           }
-        }
-
-
-        // handles slider color change
-        if (branch.getSliderDivHTML().classList.contains('tapestry-start-selected-slider')){
-          branch.getSliderDivHTML().classList.remove('tapestry-start-selected-slider');
-          branch.getSliderDivHTML().classList.add('tapestry-selected-slider');
         }
 
         // updates arrayOfPlayedTime
