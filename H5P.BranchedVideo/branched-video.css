@@ -70,8 +70,9 @@
     transform: rotate(-90deg);
 }
 
-/* TODO: make cross-browser compatible */
-.tapestry-volume-slider::-webkit-slider-thumb {
+.tapestry-volume-slider::-webkit-slider-thumb, 
+.tapestry-volume-slider::-moz-range-thumb,
+.tapestry-volume-slider::-ms-slider-thumb{
     -webkit-appearance: none;
     appearance: none;
     width: 4px;
@@ -81,6 +82,7 @@
     cursor: pointer;
     border: 0.005px solid #000000;
 }
+
 .tapestry-settings-button {
   background: url('images/settings-button-before.png') no-repeat scroll 0 0 transparent;
   height: 25px;
@@ -192,9 +194,9 @@ button:focus {
   outline: none;
 }
 
-
-/* TODO: make cross-browser compatible */
-.tapestry-selected-slider > input[type='range']::-webkit-slider-thumb{
+.tapestry-selected-slider > input[type='range']::-webkit-slider-thumb,
+.tapestry-selected-slider > input[type='range']::-moz-range-thumb,
+.tapestry-selected-slider > input[type='range']::-ms-slider-thumb{
   visibility: visible !important;
   -webkit-appearance: none !important;
   background-color: #FF2DCB;
@@ -206,15 +208,16 @@ button:focus {
   margin: -4px 0 -3px;
 }
 
-/* TODO: make cross-browser compatible */
-.tapestry-slider > input[type='range']::-webkit-slider-thumb{
+.tapestry-slider > input[type='range']::-webkit-slider-thumb,
+.tapestry-slider > input[type='range']::-moz-range-thumb,
+.tapestry-slider > input[type='range']::-ms-slider-thumb{
   visibility: hidden;
 }
 
-/* TODO: make cross-browser compatible */
 .tapestry-slider > input[type='range']{
   -webkit-appearance: none;
   height: 7px;
+
   background-image:
     -webkit-gradient(
             linear,
@@ -223,33 +226,52 @@ button:focus {
             color-stop(0, #1BB1FF),
             color-stop(0, #000000)
         );
+
+  background-image: 
+    -moz-gradient(
+          linear,
+          left top,
+          right top,
+          color-stop(0, #1BB1FF),
+          color-stop(0, #000000)
+    );
+
+  background-image: 
+    -ms-gradient(
+          linear,
+          left top,
+          right top,
+          color-stop(0, #1BB1FF),
+          color-stop(0, #000000)
+    );
 }
 
 
-
-
-/* TODO: make cross-browser compatible */
-.tapestry-slanted-bar input[type='range']::-webkit-slider-thumb{
+.tapestry-slanted-bar input[type='range']::-webkit-slider-thumb,
+.tapestry-slanted-bar input[type='range']::-moz-range-thumb,
+.tapestry-slanted-bar input[type='range']::-ms-slider-thumb{
   display: none;
 }
 
-/* TODO: make cross-browser compatible */
 .tapestry-slanted-bar input[type='range']{
   -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
   height: 7px;
   z-index: 0;
   background: #000000
 }
 
-
-/* TODO: make cross-browser compatible */
-.tapestry-played-slanted-bar input[type='range']::-webkit-slider-thumb{
+.tapestry-played-slanted-bar input[type='range']::-webkit-slider-thumb,
+.tapestry-played-slanted-bar input[type='range']::-moz-range-thumb,
+.tapestry-played-slanted-bar input[type='range']::-ms-slider-thumb{
   display: none;
 }
 
-/* TODO: make cross-browser compatible */
 .tapestry-played-slanted-bar input[type='range']{
   -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
   height: 7px;
   z-index: 0;
   background: #1BB1FF;
