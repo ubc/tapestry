@@ -1298,16 +1298,11 @@ H5P.BranchedVideo = (function ($) {
           }
           temp.style.display = 'block';
           // handles video preview
-
+          videoPreview.className = 'tapestry-video-preview-normal';
+          var videoPreviewHeight = videoPreview.videoHeight / videoPreview.videoWidth * videoPreviewWidth;
           if (H5P.isFullscreen){
-            videoPreview.className = 'tapestry-video-preview-fullscreen';
-            videoPreviewWidth = 300;
-            var videoPreviewHeight = videoPreview.videoHeight / videoPreview.videoWidth * videoPreviewWidth;
             videoPreview.style.top = event.clientY - diffTop + 56 - videoPreviewHeight + 'px';
           } else {
-            videoPreview.className = 'tapestry-video-preview-normal';
-            videoPreviewWidth = 200;
-            var videoPreviewHeight = videoPreview.videoHeight / videoPreview.videoWidth * videoPreviewWidth;
             videoPreview.style.top = event.clientY - (diffTop + rect.top) - videoPreviewHeight - 14 + 'px';
           }
           videoPreview.style.left = event.clientX - rect.left - (videoPreviewWidth/2)  + 'px';

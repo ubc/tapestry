@@ -329,13 +329,6 @@ button:focus {
   display: none;
 }
 
-.tapestry-video-preview-fullscreen{
-  width: 300px;
-  position: absolute;
-  z-index: 100;
-  display: none;
-}
-
 @media all and (max-width: 480px) {
   .tapestry-branch-button{
       background: url('images/branch-button.png') no-repeat scroll 0 0 transparent;
