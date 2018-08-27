@@ -14,7 +14,10 @@
   padding-left: 3%
 }
 .tapestry-play-button {
-  background: url('images/play-button.png') no-repeat scroll 0 0 transparent;
+  background: url('images/tapestry-play.png') no-repeat scroll 0 0 transparent;
+  background-size: 16px;
+  height: 30px !important;
+  width: 30px !important;
   height: 25px;
   color: #000000;
   position: absolute;
@@ -22,9 +25,13 @@
   padding-left: 5%;
   top: 50%;
   border:0;
+  opacity: 0.9;
 }
 .tapestry-pause-button {
-  background: url('images/pause.png') no-repeat scroll 0 0 transparent;
+  background: url('images/tapestry-pause.png') no-repeat scroll 0 0 transparent;
+  background-size: 16px;
+  height: 30px !important;
+  width: 30px !important;
   height: 25px;
   color: #000000;
   position: absolute;
@@ -32,6 +39,7 @@
   padding-left: 5%;
   top: 50%;
   border:0;
+  opacity: 0.9;
 }
 
 .tapestry-right-controls{
@@ -42,7 +50,10 @@
   padding-right: 0%;
 }
 .tapestry-volume-button {
-  background: url('images/volume-button-before.png') no-repeat scroll 0 0 transparent;
+  background: url('images/tapestry-volume.png') no-repeat scroll 0 0 transparent;
+  background-size: 16px;
+  height: 30px !important;
+  width: 30px !important;
   height: 25px;
   color: #000000;
   position: absolute;
@@ -50,14 +61,13 @@
   padding-left: 6%;
   top: 50%;
   border:0;
+  opacity: 0.9;
 }
-.tapestry-volume-button:hover{
-  background: url('images/volume-button-after.png') no-repeat scroll 0 0 transparent;
-}
+
 .tapestry-volume-div {
   height: 100%;
   position: relative;
-  width: 50px;
+  width: 30px;
   border:0;
   left: 10%;
 }
@@ -68,7 +78,10 @@
     height: 5px;
     outline: none;
     transform: rotate(-90deg);
-}
+    left: -17px !important;
+    width: 50px !important;
+    top: 30px !important;
+  }
 
 .tapestry-volume-slider::-webkit-slider-thumb, 
 .tapestry-volume-slider::-moz-range-thumb,
@@ -77,14 +90,17 @@
     appearance: none;
     width: 4px;
     height: 7px;
-    margin-top: 1px;
+    margin-top: 2px;
     background: #bcbcbc;
     cursor: pointer;
     border: 0.005px solid #000000;
 }
 
 .tapestry-settings-button {
-  background: url('images/settings-button-before.png') no-repeat scroll 0 0 transparent;
+  background: url('images/tapestry-settings.png') no-repeat scroll 0 0 transparent;
+  background-size: 16px;
+  height: 30px !important;
+  width: 30px !important;
   height: 25px;
   color: #000000;
   position: absolute;
@@ -93,9 +109,7 @@
   top: 50%;
   border:0;
   left: 40%;
-}
-.tapestry-settings-button:focus {
-  background: url('images/settings-button-after.png') no-repeat scroll 0 0 transparent;
+  opacity: 0.9;
 }
 
 .tapestry-settings-dropdown-content , .tapestry-speed-dropdown-content {
@@ -115,6 +129,7 @@
   background-color: white;
   color: black;
   padding-top: 1px;
+  font-family: 'tapestry-font';
 }
 .tapestry-settings-dropdown-content > button:hover , .tapestry-speed-dropdown-content > button:hover {
   background-color: #3f89ff;
@@ -143,9 +158,11 @@
   top: 15px;
 }
 
-.tapestry-screen-button {
-  background: url('images/full-screen-arrows.png') no-repeat scroll 0 0 transparent;
-  height: 25px;
+.tapestry-big-screen-button {
+  background: url('images/tapestry-fullscreen.png') no-repeat scroll 0 0 transparent;
+  background-size: 16px;
+  height: 30px !important;
+  width: 30px !important;
   color: #000000;
   position: absolute;
   width: 20px;
@@ -153,22 +170,53 @@
   top: 50%;
   border:0;
   left: 70%;
+  opacity: 0.9;
 }
 
-.tapestry-play-button:hover , .tapestry-play-button:focus{
-  background: url('images/play-button.png') no-repeat scroll 0 0 transparent;
+.tapestry-small-screen-button {
+  background: url('images/tapestry-fullscreen-small.png') no-repeat scroll 0 0 transparent;
+  background-size: 16px;
+  height: 30px !important;
+  width: 30px !important;
+  color: #000000;
+  position: absolute;
+  width: 20px;
+  padding-left: 10%;
+  top: 50%;
+  border:0;
+  left: 70%;
+  opacity: 0.9;
 }
-.tapestry-pause-button:hover , .tapestry-pause-button:focus{
-  background: url('images/pause.png') no-repeat scroll 0 0 transparent;
+
+.tapestry-play-button:hover , .tapestry-play-button:focus {
+  background: url('images/tapestry-play.png') no-repeat scroll 0 0 transparent;
+  background-size: 16px;
+  opacity: 1.0;
 }
-.tapestry-settings-button:hover {
-  background: url('images/settings-button-after.png') no-repeat scroll 0 0 transparent;
+.tapestry-pause-button:hover , .tapestry-pause-button:focus {
+  background: url('images/tapestry-pause.png') no-repeat scroll 0 0 transparent;
+  background-size: 16px;
+  opacity: 1.0;
 }
-.tapestry-volume-button:focus{
-  background: url('images/volume-button-after.png') no-repeat scroll 0 0 transparent;
+.tapestry-big-screen-button:hover , .tapestry-big-screen-button:focus {
+  background: url('images/tapestry-fullscreen.png') no-repeat scroll 0 0 transparent;
+  background-size: 16px;
+  opacity: 1.0;
 }
-.tapestry-screen-button:hover , .tapestry-screen-button:focus{
-  background: url('images/full-screen-arrows.png') no-repeat scroll 0 0 transparent;
+.tapestry-small-screen-button:hover , .tapestry-small-screen-button:focus {
+  background: url('images/tapestry-fullscreen-small.png') no-repeat scroll 0 0 transparent;
+  background-size: 16px;
+  opacity: 1.0;
+}
+.tapestry-volume-button:hover , .tapestry-volume-button:focus {
+  background: url('images/tapestry-volume.png') no-repeat scroll 0 0 transparent;
+  background-size: 16px;
+  opacity: 1.0;
+}
+.tapestry-settings-button:hover , .tapestry-settings-button:focus{
+  background: url('images/tapestry-settings.png') no-repeat scroll 0 0 transparent;
+  background-size: 16px;
+  opacity: 1.0;
 }
 
 .tapestry-seeker-container{
@@ -317,10 +365,15 @@ button:focus {
 
 .tapestry-time-text{
   font-family: 'tapestry-font';
-  font-size: 8px;
+  font-size: 7px;
   color: #FFFFFF;
   margin : 0;
   min-width : 50px;
+  max-height: 8px;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .tapestry-help-text{
@@ -329,7 +382,7 @@ button:focus {
   color: white;
   margin : 0;
   position: absolute;
-  background-color: #b7b7b7;
+  background-color: #111111;
   padding-left: 2px;
   padding-right: 2px;
   padding-top: 0px;
@@ -337,7 +390,7 @@ button:focus {
 
 @font-face {
    font-family: tapestry-font;
-   src: url('fonts/palanquin/palanquin-semibold.ttf');
+   src: url('fonts/quicksand/Quicksand-Regular.otf');
 }
 
 .h5p-fullscreen{
@@ -345,17 +398,11 @@ button:focus {
 }
 
 .tapestry-video-preview-normal{
-  width: 100px;
-  position: absolute;
-  z-index: 100;
-  display: none;
-}
-
-.tapestry-video-preview-fullscreen{
   width: 200px;
   position: absolute;
   z-index: 100;
   display: none;
+  box-shadow: rgba(0, 0, 0, 0.5) 0 0 20px;
 }
 
 @media all and (max-width: 480px) {
