@@ -714,7 +714,7 @@ H5P.BranchedVideo = (function ($) {
       currentLink.id = 'tapestry-link-return-' + childSlug;
       currentLink.className = 'tapestry-branch-button';
       currentLink.type = 'button';
-      currentLink.innerHTML = 'click to return to ' + parentSlug;
+      currentLink.innerHTML = 'Click to return to ' + parentSlug;
       currentLink.style.position = 'absolute';
       currentLink.style.left = '35%';
       currentLink.style.top = '35%';
@@ -1095,17 +1095,19 @@ H5P.BranchedVideo = (function ($) {
       // FULL SCREEN
       var fullScreenButton = document.createElement('button');
       fullScreenButton.type = 'button';
-      fullScreenButton.className = 'tapestry-screen-button';
+      fullScreenButton.className = 'tapestry-big-screen-button';
       var seeker = document.getElementById('tapestry-nav-bar');
       function showBar(){seeker.style.opacity = 1;};
       function hideBar(){seeker.style.opacity = 0;}
       var toggleFullScreen = function () {
         if (H5P.isFullscreen) {
           H5P.exitFullScreen();
+          fullScreenButton.className = 'tapestry-big-screen-button';
           // handle xAPI
           createXAPIStatement('Interacted', 'fullScreenOff');
         } else {
           H5P.fullScreen($container, self);
+          fullScreenButton.className = 'tapestry-small-screen-button';
           // handle xAPI
           createXAPIStatement('Interacted', 'fullScreenOn');
         }
