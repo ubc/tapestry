@@ -282,7 +282,7 @@ button:focus {
   cursor: pointer;
   margin: -4px 0 -3px;
 }
-.tapestry-selected-slider > input[type='range']::-ms-slider-thumb{
+.tapestry-selected-slider > input[type='range']::-ms-thumb{
   visibility: visible !important;
   background-color: #FF2DCB;
   border: 2px solid #FFFFFF;
@@ -291,6 +291,12 @@ button:focus {
   width: 14px;
   cursor: pointer;
   margin: -4px 0 -3px;
+    border: none;
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    background: #FF2DCB;
+    border: 2px solid #FFFFFF;
 }
 
 .tapestry-slider > input[type='range']::-webkit-slider-thumb{
@@ -337,9 +343,19 @@ button:focus {
     background: transparent;
 }
 
-.tapestry-slider > input[type='range']{
-    height: 7px;
+input[type=range]:focus {
+    outline: none;
+}
 
+.tapestry-slider > input[type='range']::-ms-track{
+    height: 5px;
+    background: transparent;
+    border-color: transparent;
+    border-width: 7px 0;
+    color: transparent;
+}
+
+.tapestry-slider > input[type='range']{
     background-image: 
     -ms-gradient(
           linear,
@@ -373,7 +389,7 @@ button:focus {
 .tapestry-slanted-bar input[type='range']{
   -webkit-appearance: none;
   -moz-appearance: none;
-  -ms-appearance: none;
+  /*-ms-appearance: none;*/
   height: 7px;
   z-index: 0;
   background: #000000
@@ -382,7 +398,7 @@ button:focus {
 .tapestry-played-slanted-bar input[type='range']{
   -webkit-appearance: none;
   -moz-appearance: none;
-  -ms-appearance: none;
+  /*-ms-appearance: none;*/
   height: 7px;
   z-index: 0;
   background: #1BB1FF;
