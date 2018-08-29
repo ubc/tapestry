@@ -522,9 +522,9 @@ H5P.BranchedVideo = (function ($) {
           } else {
             branchText.style.top = -14 + 'px';
           }
-          branchText.style.left = slantedDiff * 2 + 14 + 'px';
+          branchText.style.left = slantedDiff * 2 + 5*(tempLevel) + 'px';
           var timeText = nextBranch.getTimeTextHTML();
-          timeText.style.left = 'calc( 103%  + ' + (slantedDiff*2 + 5*(tempLevel-1)) + 6 + 'px )';
+          timeText.style.left = 'calc( 103%  + ' + (slantedDiff*2 + 6*(tempLevel-1)) + 6 + 'px )';
           timeText.style.top = -4 + 'px';
 
           // recurse
