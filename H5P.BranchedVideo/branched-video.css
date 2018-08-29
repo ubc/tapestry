@@ -83,7 +83,7 @@
     top: 30px !important;
   }
 
-.tapestry-volume-slider::-webkit-slider-thumb, 
+.tapestry-volume-slider::-webkit-slider-thumb,
 .tapestry-volume-slider::-moz-range-thumb,
 .tapestry-volume-slider::-ms-slider-thumb{
     -webkit-appearance: none;
@@ -275,7 +275,7 @@ button:focus {
             color-stop(0, #000000)
         );
 
-  background-image: 
+  background-image:
     -moz-gradient(
           linear,
           left top,
@@ -284,7 +284,7 @@ button:focus {
           color-stop(0, #000000)
     );
 
-  background-image: 
+  background-image:
     -ms-gradient(
           linear,
           left top,
@@ -365,11 +365,11 @@ button:focus {
 
 .tapestry-time-text{
   font-family: 'tapestry-font';
-  font-size: 7px;
+  font-size: 10px;
   color: #FFFFFF;
   margin : 0;
   min-width : 50px;
-  max-height: 8px;
+  max-height: 13px;
   width: 100%;
   white-space: nowrap;
   overflow: hidden;

@@ -467,6 +467,7 @@ H5P.BranchedVideo = (function ($) {
       var duration = branch.videoLength;
       var levelTop = 1;
       var levelBottom = 1;
+      var spaceBetweenBranches = 20;
       for (var i = listOfNodes.length-1;  i >= 0 ; i--){
           //appends the slider to the div
           var nextSlug = listOfNodes[i].branchSlug;
@@ -476,10 +477,10 @@ H5P.BranchedVideo = (function ($) {
           var nextSliderDiv = nextBranch.getSliderDivHTML();
           nextSliderDiv.style.left = xpos + '%';
           if (nextBranch.getType() == 'top'){
-            nextSliderDiv.style.top = -15*levelTop + 'px';
+            nextSliderDiv.style.top = -spaceBetweenBranches*levelTop + 'px';
             levelTop++;
           } else {
-            nextSliderDiv.style.top = 15*levelBottom + 'px';
+            nextSliderDiv.style.top = spaceBetweenBranches*levelBottom + 'px';
             levelBottom++;
           }
           nextSliderDiv.style.width = w + '%';
@@ -496,18 +497,18 @@ H5P.BranchedVideo = (function ($) {
           slantedBar.style.position = 'absolute';
           if (nextBranch.getType() == 'top'){
             var tempLevel = levelTop;
-            var tempW = (tempLevel-1)*15;
+            var tempW = (tempLevel-1)*spaceBetweenBranches;
             slantedBar.style.top = tempW/2 + 'px';
             slantedBar.style.transform = 'rotate(-45deg)';
           } else {
             var tempLevel = levelBottom;
-            var tempW = (tempLevel-1)*15;
+            var tempW = (tempLevel-1)*spaceBetweenBranches;
             slantedBar.style.top = -tempW/2 + 'px';
             slantedBar.style.transform = 'rotate(45deg)';
           }
-          slantedBar.style.width = tempW + 3.5*tempLevel + 'px';
+          slantedBar.style.width = tempW + 6*tempLevel + 'px';
           var slantedDiff = Math.abs(Math.sqrt(((Math.pow((tempW/2),2))/2)));
-          slantedBar.style.left = -tempW/2 + 3.5 + slantedDiff + 'px';
+          slantedBar.style.left = -tempW/2 + slantedDiff - (0.5*(tempLevel)) + 'px';
           var nextSlider = nextBranch.getSliderHTML();
           nextSlider.style.left = slantedDiff * 2 + 3.5*tempLevel+'px';
           nextSliderDiv.style.left = 'calc('+nextSliderDiv.style.left + ' + ' + (acc + slantedDiff) + 'px' + ')';
@@ -517,14 +518,14 @@ H5P.BranchedVideo = (function ($) {
           // arrange branch text and time text
           var branchText = nextBranch.getBranchTextHTML();
           if (nextBranch.getType() == 'top'){
-            branchText.style.top = - 9  + 'px';
+            branchText.style.top = 1 + spaceBetweenBranches/4  + 'px';
           } else {
-            branchText.style.top = 6 + 'px';
+            branchText.style.top = 1 - 10 - spaceBetweenBranches/4 + 'px'; //10 here is for the fontsize, need to change if different fonts
           }
-          branchText.style.left = slantedDiff * 2 + 13 + 'px';
+          branchText.style.left = slantedDiff * 2 + 5*(tempLevel) + 'px';
           var timeText = nextBranch.getTimeTextHTML();
-          timeText.style.left = 'calc( 103%  + ' + (slantedDiff*2 + 5*(tempLevel-1)) + 6 + 'px )';
-          timeText.style.top = -1 + 'px';
+          timeText.style.left = 'calc( 103%  + ' + (slantedDiff*2 + 6*(tempLevel-1)) + 6 + 'px )';
+          timeText.style.top = -4 + 'px';
 
           // recurse
           attachSliders(nextSlug, nextBranch.nodes, 100, acc + slantedDiff*2);
@@ -837,7 +838,7 @@ H5P.BranchedVideo = (function ($) {
       mainBranchText.style.display = 'none';
       var mainTimeText = mainBranch.getTimeTextHTML();
       mainTimeText.style.left = '101%';
-      mainTimeText.style.top = '-1px';
+      mainTimeText.style.top = '-4px';
 
       // attaches all the sliders starting from the end to the main slider
       attachSliders(mainSlug, mainBranch.nodes, 25, 0);
