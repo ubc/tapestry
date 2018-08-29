@@ -5,15 +5,17 @@ H5P.BranchedVideo = (function ($) {
    * Constructor function.
    */
   function C(options, id) {
+
     this.$ = $(this);
+
     // Extend defaults with provided options
     this.options = $.extend(true, {}, {
         branchedVideos: [],
         mainBranchSlug: ''
     }, options);
+
     // Keep provided id.
     this.id = id;
-
 
   };
 
@@ -24,9 +26,34 @@ H5P.BranchedVideo = (function ($) {
    * @param {jQuery} $container
    */
   C.prototype.attach = function ($container) {
+
+    /************************************
+     * INITIALIZE
+     ************************************/
+
     var self = this;
-    // BRANCHES
+    self.helpMode = false;
+    self.closedCaption = false;
+    self.BranchedVideos = {};
+    self.currentPlayingSlug = self.options.mainBranchSlug;
+
+    self.isMobile = false;
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+        self.isMobile = true;
+    }
+
+    createAllBranches(this.options.branchedVideos);
+
+    // sets background to black (workaround for full-screen)
+    $container.css({'background-color':'#000001'});
+
+    /* Done! Everything after here is supportive */
+
+    /************************************
+     * CLASS: BRANCH
+     ************************************/
     function Branch(par){
+
       this.slug = par.slug;
       this.title = par.title;
       this.description = par.description;
@@ -35,18 +62,91 @@ H5P.BranchedVideo = (function ($) {
       this.currentTime = 0.00;
       this.watchedTime = 0.00;
       this.nodes = [];  // array of node objects
-
-
       this.playedTime = [[0,0]];
 
-      this.getPlayedTime = function(){
-        return this.playedTime;
+      /************************************
+       * VIDEOS
+       ************************************/
+
+      this.createVideoDivHTML = function(){
+        var videoDiv = document.createElement('div');
+        videoDiv.id = 'tapestry-wrapper-video-' + this.slug;
+        videoDiv.className = 'tapestry-video-container';
+        videoDiv.style.position = 'relative';
+        var video = document.createElement('video');
+        video.id = 'tapestry-video-' + this.slug;
+        video.className = 'tapestry-video-container';
+        video.frameborder = 0;
+        video.setAttribute('playsinline', 'playsinline');
+        video.controls = false;
+        videoDiv.appendChild(video);
+
+        // provides source
+        var videoSource = document.createElement('source');
+        videoSource.type = 'video/mp4';
+        videoSource.src = this.source;
+        video.appendChild(videoSource);
+
+        // provides vtt
+        if(this.ccSource != null){
+          var videoVTT = document.createElement('track');
+          videoVTT.label = 'english';
+          videoVTT.kind = 'subtitles';
+          videoVTT.srclang= 'en';
+          videoVTT.src = this.ccSource;
+          video.appendChild(videoVTT);
+          video.textTracks[0].mode = 'hidden';
+        }
+        return videoDiv;
+      }
+      this.getVideoDivHTML = function(){
+        return document.getElementById('tapestry-wrapper-video-' + this.slug);
+      }
+      this.getVideoHTML = function(){
+        return document.getElementById('tapestry-video-' + this.slug);
       }
 
-      // parameter: time which is a double of the currentTime of video playing
+      // hide and pause video div
+      this.stopVideo = function(){
+        var videoDiv = this.getVideoDivHTML();
+        videoDiv.style.display = 'none';
+        var video = this.getVideoHTML();
+        video.pause();
+      }
+      // show and play video div
+      this.playVideo = function(){
+        var videoDiv = this.getVideoDivHTML();
+        videoDiv.style.display = 'block';
+        var video = this.getVideoHTML();
+        video.play();
+      }
+      // sets type of videos
+      this.setType = function(text){
+        this.type = text;
+      }
+      // gets type of Videos
+      this.getType = function(){
+        return this.type;
+      }
+      // moves closed caption  if exists
+      // location(String): 'up', 'down'
+      this.moveClosedCaption = function(location){
+        var lineVal = 'auto';
+        if (location == 'up'){
+          lineVal = 1;
+          // sets the line value to 1 for the cues, which moves it up
+        }
+        var track = this.getVideoHTML().textTracks[0];
+        if (track){
+          for (var x = 0; x < track.cues.length; x++){
+            track.cues[x].line = lineVal;
+          }
+        }
+      }
       // updates the attribute playedTime, which is an array of pairs of doubles which represents the watched time
-      // returns the attribute playedTime for this branch
-      this.updatePlayedTime = function(time){
+      // @time double: the currentTime of video playing
+      this.updatePlayedTime = function(time) {
+
         var roundedTime = Math.round(time*10)/10; // make it 1 decimal
         var arrayOfPlayedTime = this.getPlayedTime();
         var index = getIndexForCurrentTime();
@@ -56,7 +156,7 @@ H5P.BranchedVideo = (function ($) {
         // uses the time parameter for current time
         // gets index of where the current time is in the arrayOfPlayedTime
         // if it doesn't exist, it creates the pair of [currentTime,currentTime+0.1] for current time
-        function getIndexForCurrentTime(){
+        function getIndexForCurrentTime() {
           var length = arrayOfPlayedTime.length;
           for (var i = 0 ; i < length; i++){
             var bottom = arrayOfPlayedTime[i][0];
@@ -72,7 +172,7 @@ H5P.BranchedVideo = (function ($) {
         // 2 cases:
         // - checks all the pairs so that the current time is between the current top and next bottom, insert, then sort the rest
         // - or adds it to the back of the arrayOfPlayedTime
-        function insertPair(){
+        function insertPair() {
           var length = arrayOfPlayedTime.length;
           for (var j = 0; j < length-1; j++){
             var currentTop = arrayOfPlayedTime[j][1];
@@ -110,57 +210,9 @@ H5P.BranchedVideo = (function ($) {
         }
       }
 
-
-      // TODO: remove limitation where author must put video source first and vtt second
-      this.source = par.sourceFiles[0].src; //assume this is source for now
-      if (par.sourceFiles[1] != null){
-        this.ccSource = par.sourceFiles[1].src;
-      }
-
-      //  video part
-      this.createVideoDivHTML = function(){
-        var videoDiv = document.createElement('div');
-        videoDiv.id = 'tapestry-wrapper-video-' + this.slug;
-        videoDiv.className = 'tapestry-video-container';
-        videoDiv.style.position = 'relative';
-        var video = document.createElement('video');
-        video.id = 'tapestry-video-' + this.slug;
-        video.className = 'tapestry-video-container';
-        video.frameborder = 0;
-        video.setAttribute('playsinline', 'playsinline');
-        video.controls = false;
-        videoDiv.appendChild(video);
-
-        // provides source
-        var videoSource = document.createElement('source');
-        videoSource.type = 'video/mp4';
-        videoSource.src = this.source;
-        video.appendChild(videoSource);
-
-        // provides vtt
-        if(this.ccSource != null){
-          var videoVTT = document.createElement('track');
-          videoVTT.label = 'english';
-          videoVTT.kind = 'subtitles';
-          videoVTT.srclang= 'en';
-          videoVTT.src = this.ccSource;
-          video.appendChild(videoVTT);
-          video.textTracks[0].mode = 'hidden';
-        }
-        return videoDiv;
-      }
-
-      // if we dont append it, can't call get documentByID
-      $container.append(this.createVideoDivHTML());
-
-      this.getVideoDivHTML = function(){
-        return document.getElementById('tapestry-wrapper-video-' + this.slug);
-      }
-      this.getVideoHTML = function(){
-        return document.getElementById('tapestry-video-' + this.slug);
-      }
-      // TODO
-      // video preview part
+      /************************************
+       * VIDEO PREVIEW
+       ************************************/
       this.createVideoPreview = function(){
         var videoPreview = document.createElement('video');
         videoPreview.id = 'tapestry-video-preview-' + this.slug;
@@ -170,13 +222,13 @@ H5P.BranchedVideo = (function ($) {
         videoPreview.src = this.source;
         return videoPreview;
       }
-
-      // getter for video preview
       this.getVideoPreview = function(){
         return document.getElementById('tapestry-video-preview-' + this.slug);
       }
 
-      //  slider part
+      /************************************
+       * SLIDERS
+       ************************************/
       this.createSliderDivHTML = function(){
         var sliderDiv = document.createElement('div');
         sliderDiv.id = 'tapestry-wrapper-slider-' + this.slug;
@@ -217,7 +269,6 @@ H5P.BranchedVideo = (function ($) {
         // return it
         return sliderDiv;
       }
-      this.sliderDivHTML = this.createSliderDivHTML();
 
       this.getSliderDivHTML = function(){
         return this.sliderDivHTML;
@@ -232,7 +283,9 @@ H5P.BranchedVideo = (function ($) {
         return document.getElementById('tapestry-time-text-' + this.slug);
       }
 
-    // handles the nodes creation
+      /************************************
+       * NODES (BUBBLES)
+       ************************************/
       this.createAllNodes = function(){
         // sort it here
         var arr = [];
@@ -248,12 +301,13 @@ H5P.BranchedVideo = (function ($) {
         }
         return arr;
       }
-      this.nodes = this.createAllNodes(); // gotta call it
       this.getNodes = function(){
         return this.nodes;
       }
 
-      // handles citation links
+      /************************************
+       * CITATIONS
+       ************************************/
       this.createAllCitationLinks = function(){
         var arr = [];
         if (par.links == undefined){
@@ -272,65 +326,46 @@ H5P.BranchedVideo = (function ($) {
         }
         return arr;
       }
-      this.citationLinks = this.createAllCitationLinks();
       this.getCitationLinks = function(){
         return this.citationLinks;
       }
 
-      // FUNCTIONS FOR THE ACTUAL BRANCH
-      // hide and pause video div
-      this.stopVideo = function(){
-        var videoDiv = this.getVideoDivHTML();
-        videoDiv.style.display = 'none';
-        var video = this.getVideoHTML();
-        video.pause();
-      }
-      // show and play video div
-      this.playVideo = function(){
-        var videoDiv = this.getVideoDivHTML();
-        videoDiv.style.display = 'block';
-        var video = this.getVideoHTML();
-        video.play();
-      }
-      // sets type of videos
-      this.setType = function(text){
-        this.type = text;
-      }
-      // gets type of Videos
-      this.getType = function(){
-        return this.type;
-      }
-      // moves closed caption  if exists
-      // location(String): 'up', 'down'
-      this.moveClosedCaption = function(location){
-        var lineVal = 'auto';
-        if (location == 'up'){
-          lineVal = 1;
-          // sets the line value to 1 for the cues, which moves it up
-        }
-        var track = this.getVideoHTML().textTracks[0];
-        if (track){
-          for (var x = 0; x < track.cues.length; x++){
-            track.cues[x].line = lineVal;
-          }
-        }
+      // TODO: remove limitation where author must put video source first and vtt second
+      this.source = par.sourceFiles[0].src; //assume this is source for now
+      if (par.sourceFiles[1] != null){
+        this.ccSource = par.sourceFiles[1].src;
       }
 
-    } // end of branch
+      // if we dont append it, can't call get documentByID
+      var videoDivHTML = this.createVideoDivHTML();
+      $container.append(videoDivHTML);
+      this.sliderDivHTML = this.createSliderDivHTML();
+      this.nodes = this.createAllNodes();
+      this.citationLinks = this.createAllCitationLinks();
 
+      this.getPlayedTime = function() {
+        return this.playedTime;
+      }
 
+    } // End of Branch()
 
-    // NODE
+    /************************************
+     * CLASS: NODE
+     ************************************/
     function Node(subBranch, parentSlug){
-      if (subBranch.branchSlug == undefined){return null;}
+
+      if (subBranch.branchSlug == undefined) {
+        return null;
+      }
+
       this.startTime = subBranch.branchTimeFrom;
       this.endTime = subBranch.branchTimeTo;
       this.branchSlug = subBranch.branchSlug;
       this.link =  new Link(subBranch.bubble, this.branchSlug);
+
       this.getNodeHTML = function(){
         return this.link.getLinkHTML();
       }
-      // functions to show and hide
       this.showLink = function(){
         var linkHTML = this.getNodeHTML();
         linkHTML.style.display='block';
@@ -339,73 +374,63 @@ H5P.BranchedVideo = (function ($) {
         var linkHTML = this.getNodeHTML();
         linkHTML.style.display='none';
       }
-      // BUBBLE
-      function Link(bubble, slug){
-        this.text = bubble.text;
-        this.style = bubble.style;
-        this.color = bubble.color;
-        this.positionX = bubble.positionX;
-        this.positionY = bubble.positionY;
-      // returns the HTML component
-        this.createLinkHTML = function(){
-          if (slug == undefined){
-            return null;
-          }
-          var currentLink = document.createElement('button');
-          currentLink.id = 'tapestry-link-' + slug;
-          currentLink.className = 'tapestry-branch-button';
-          currentLink.type = 'button';
-          currentLink.innerHTML = this.text;
-          currentLink.style.position = 'absolute';
-          currentLink.style.left = this.positionX + '%';
-          currentLink.style.top = this.positionY + '%';
-          currentLink.style.zIndex = 2147483647;
-          currentLink.style.display = 'none';
-          return currentLink;
+
+    } // End of Node()
+
+    /************************************
+     * CLASS: LINK
+     ************************************/
+    function Link(bubble, slug){
+
+      this.text = bubble.text;
+      this.style = bubble.style;
+      this.color = bubble.color;
+      this.positionX = bubble.positionX;
+      this.positionY = bubble.positionY;
+
+      this.createLinkHTML = function(){
+        if (slug == undefined){
+          return null;
         }
-        this.linkHTML = this.createLinkHTML();
-        this.getLinkHTML = function(){
-          return this.linkHTML;
-        }
-      }// end of bubble
-    }// end of node
+        var currentLink = document.createElement('button');
+        currentLink.id = 'tapestry-link-' + slug;
+        currentLink.className = 'tapestry-branch-button';
+        currentLink.type = 'button';
+        currentLink.innerHTML = this.text;
+        currentLink.style.position = 'absolute';
+        currentLink.style.left = this.positionX + '%';
+        currentLink.style.top = this.positionY + '%';
+        currentLink.style.zIndex = 2147483647;
+        currentLink.style.display = 'none';
+        return currentLink;
+      }
+      this.getLinkHTML = function(){
+        return this.linkHTML;
+      }
 
+      this.linkHTML = this.createLinkHTML();
 
+    } // End of Link()
 
-
-//  INITIALIZE
-    self.helpMode = false;
-    self.closedCaption = false;
-    var mainSlug = this.options.mainBranchSlug;
-    var currentVideoPlaying = mainSlug;
-
-    // check if it is mobile
-    self.isMobile = false; //initiate as false
-    // device detection
-    if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
-        self.isMobile = true;
-    }
-
-    // sets background to black
-    $container.css({'background-color':'#000001'});
-
-    // create associative array temporarily
-    var branched_videos = {};
+    /************************************
+     * GENERAL
+     ************************************/
 
     // given slug, returns branch
-    function getBranch(slug){
-      return branched_videos[slug];
+    function getBranch(slug) {
+      return self.BranchedVideos[slug];
     }
 
     // handles jump and jump helpers
-    function jump(goToSlug){
-      var currentBranch = getBranch(currentVideoPlaying);
+    function jump(goToSlug) {
+
+      var currentBranch = getBranch(self.currentPlayingSlug);
       var nextBranch = getBranch(goToSlug);
       var currentSliderDiv = currentBranch.getSliderDivHTML();
       var nextSliderDiv = nextBranch.getSliderDivHTML();
 
       // hides return link everytime we jump, regardless if we click or not
-      var retLink = document.getElementById('tapestry-link-return-' + currentVideoPlaying);
+      var retLink = document.getElementById('tapestry-link-return-' + self.currentPlayingSlug);
       if(retLink != null){
         retLink.style.display = 'none';
       }
@@ -419,7 +444,7 @@ H5P.BranchedVideo = (function ($) {
       if(self.closedCaption){
         if (currVid.textTracks[0]){
           currVid.textTracks[0].mode = 'hidden';
-          getBranch(currentVideoPlaying).moveClosedCaption('down');
+          getBranch(self.currentPlayingSlug).moveClosedCaption('down');
         }
         if (nextVid.textTracks[0]){
           nextVid.textTracks[0].mode = 'showing';
@@ -439,7 +464,7 @@ H5P.BranchedVideo = (function ($) {
       // handle showing/hiding of videos
       currentBranch.stopVideo();
       nextBranch.playVideo();
-      currentVideoPlaying = goToSlug;
+      self.currentPlayingSlug = goToSlug;
 
       // gotta show the play button and hide the pause button
       var playButton = document.getElementsByClassName('tapestry-play-button')[0];
@@ -449,7 +474,8 @@ H5P.BranchedVideo = (function ($) {
     }
 
     // gives type to the branch and sets type to itself and all its subranches
-    function setTypeBranches(slug, type){
+    function setTypeBranches(slug, type) {
+
       var branch = getBranch(slug);
       var lon = branch.getNodes();
       branch.setType(type);
@@ -461,7 +487,7 @@ H5P.BranchedVideo = (function ($) {
 
     //attaches the sliders
     // parameters: parentSlug, listOfNodes
-    function attachSliders(parentSlug, listOfNodes, w , acc){
+    function attachSliders(parentSlug, listOfNodes, w , acc) {
       var branch = getBranch(parentSlug);
       var sliderDiv = branch.getSliderDivHTML();
       var duration = branch.videoLength;
@@ -533,7 +559,7 @@ H5P.BranchedVideo = (function ($) {
     }
 
     // attaches listeners for the videos and sliders
-    function attachListeners(slug){
+    function attachListeners(slug) {
       var branch = getBranch(slug);
       var video = branch.getVideoHTML();
       var slider = branch.getSliderHTML();
@@ -659,7 +685,7 @@ H5P.BranchedVideo = (function ($) {
           slider.value = valueHover * 100;
           video.currentTime = valueTime;
           // handles select other video sliders
-          if (slug != currentVideoPlaying){
+          if (slug != self.currentPlayingSlug){
             jump(slug);
             // handle xAPI
             createXAPIStatement('Seeked', 'seekerBarDifferentVideo');
@@ -678,7 +704,7 @@ H5P.BranchedVideo = (function ($) {
           createXAPIStatement('Seeked', 'seekerBarSameVideoMobile');
         }
         slider.onclick = function(){
-          if (currentVideoPlaying != slug){
+          if (self.currentPlayingSlug != slug){
             video.currentTime = 0;
             slider.value = 0;
             jump(slug);
@@ -690,7 +716,7 @@ H5P.BranchedVideo = (function ($) {
       var slantedBar = document.getElementById('tapestry-slanted-bar-' + slug);
       if (slantedBar){
         slantedBar.childNodes[0].onclick = function(){
-          if (currentVideoPlaying != slug){
+          if (self.currentPlayingSlug != slug){
             slantedBar.childNodes[0].style.zIndex = 0;
             slantedBar.classList.remove('tapestry-slanted-bar');
             slantedBar.classList.add('tapestry-played-slanted-bar');
@@ -709,7 +735,7 @@ H5P.BranchedVideo = (function ($) {
     }
 
     // creates a return Link - helper function fora attach Listeners
-    function createReturnLink(parentSlug, childSlug){
+    function createReturnLink(parentSlug, childSlug) {
       // create return link
       var currentLink = document.createElement('button');
       currentLink.id = 'tapestry-link-return-' + childSlug;
@@ -746,7 +772,7 @@ H5P.BranchedVideo = (function ($) {
     }
 
     // attaches listeners for the links/buttons that jumps to another video
-    function attachNodeListeners(node){
+    function attachNodeListeners(node) {
       var link = node.getNodeHTML();
       var goToSlug = node.branchSlug;
       var branch = getBranch(goToSlug);
@@ -763,11 +789,11 @@ H5P.BranchedVideo = (function ($) {
     }
 
     // attaches listeners for citation links
-    function attachCitationListeners(node){
+    function attachCitationListeners(node) {
       var link = node.getNodeHTML();
       var url = node.branchSlug;
       link.onclick = function(){
-        getBranch(currentVideoPlaying).getVideoHTML().pause();
+        getBranch(self.currentPlayingSlug).getVideoHTML().pause();
         var playButton = document.getElementsByClassName('tapestry-play-button')[0];
         playButton.style.display = 'block';
         var pauseButton = document.getElementsByClassName('tapestry-pause-button')[0];
@@ -777,14 +803,14 @@ H5P.BranchedVideo = (function ($) {
     }
 
     // given list of H5P branched videos, creates all branches
-    function createAllBranches(par){
+    function createAllBranches(par) {
       // CREATE ALL BRANCHES
       for (var i = 0 ; i < par.length ; i++){
         var temp_slug = par[i].slug;
-        branched_videos[temp_slug] = new Branch(par[i]);
-        var currentBranch = branched_videos[temp_slug];
+        self.BranchedVideos[temp_slug] = new Branch(par[i]);
+        var currentBranch = self.BranchedVideos[temp_slug];
         $container.append(currentBranch.getVideoDivHTML());
-        if (temp_slug != mainSlug){
+        if (temp_slug != self.options.mainBranchSlug){
           currentBranch.stopVideo();
         } else {
           var mainSlider = currentBranch.getSliderDivHTML();
@@ -801,7 +827,7 @@ H5P.BranchedVideo = (function ($) {
       }
 
       // GIVES TYPE TO ALL BRANCHES
-      var mainBranch = branched_videos[mainSlug];
+      var mainBranch = self.BranchedVideos[self.options.mainBranchSlug];
       mainBranch.setType('main');
       var mainBranchLON = mainBranch.getNodes();
       for (var i = 0; i<mainBranchLON.length; i++){
@@ -841,16 +867,16 @@ H5P.BranchedVideo = (function ($) {
       mainTimeText.style.top = '-4px';
 
       // attaches all the sliders starting from the end to the main slider
-      attachSliders(mainSlug, mainBranch.nodes, 25, 0);
+      attachSliders(self.options.mainBranchSlug, mainBranch.nodes, 25, 0);
       // create ALL EVENT LISTENERS
-      for (var key in branched_videos){
+      for (var key in self.BranchedVideos){
           attachListeners(key);
-          var lon = branched_videos[key].getNodes();
+          var lon = self.BranchedVideos[key].getNodes();
           for (var i = 0; i < lon.length; i++){
             var node = lon[i];
             attachNodeListeners(node);
           }
-          var loc = branched_videos[key].getCitationLinks();
+          var loc = self.BranchedVideos[key].getCitationLinks();
           for (var j = 0; j < loc.length; j++){
             var citation = loc[j];
             attachCitationListeners(citation);
@@ -868,7 +894,7 @@ H5P.BranchedVideo = (function ($) {
       pauseButton.className = 'tapestry-pause-button';
       pauseButton.style.display = 'none';
       playButton.onclick = function(){
-        var currentVid = getBranch(currentVideoPlaying).getVideoHTML();
+        var currentVid = getBranch(self.currentPlayingSlug).getVideoHTML();
         currentVid.play();
         playButton.style.display = 'none';
         pauseButton.style.display = 'block';
@@ -876,7 +902,7 @@ H5P.BranchedVideo = (function ($) {
         createXAPIStatement('Played');
       }
       pauseButton.onclick = function(){
-        var currentVid = getBranch(currentVideoPlaying).getVideoHTML();
+        var currentVid = getBranch(self.currentPlayingSlug).getVideoHTML();
         currentVid.pause();
         pauseButton.style.display = 'none';
         playButton.style.display = 'block';
@@ -906,13 +932,13 @@ H5P.BranchedVideo = (function ($) {
       volumeSlider.style.display = 'none';
       volumeButton.onmouseenter = function(){
         volumeSlider.style.display = 'block';
-        var currentVid = getBranch(currentVideoPlaying).getVideoHTML();
+        var currentVid = getBranch(self.currentPlayingSlug).getVideoHTML();
         var volume = currentVid.volume * 100;
         volumeSlider.value = volume;
       };
       volumeDiv.onmouseleave = function(){volumeSlider.style.display = 'none';};
       volumeSlider.oninput = function(){
-        var currentVid = getBranch(currentVideoPlaying).getVideoHTML();
+        var currentVid = getBranch(self.currentPlayingSlug).getVideoHTML();
         var volume = volumeSlider.value / 100;
         currentVid.volume = volume;
         var tempVal = volumeSlider.value / volumeSlider.max;
@@ -960,6 +986,7 @@ H5P.BranchedVideo = (function ($) {
 
       var speed2 = document.createElement('button');
       var speed2Text = document.createTextNode('Normal');
+      speed2Text.innerHTML = 'Normal &#10003;';
       speed2.appendChild(speed2Text);
       speedDiv.appendChild(speed2);
 
@@ -981,24 +1008,24 @@ H5P.BranchedVideo = (function ($) {
         speed4.innerHTML = '2.0';
         switch(multiplier){
           case 0.5:
-            getBranch(currentVideoPlaying).getVideoHTML().playbackRate = 0.5;
+            getBranch(self.currentPlayingSlug).getVideoHTML().playbackRate = 0.5;
             speedButton.innerHTML = 'Speed : 0.5';
-            speed1.innerHTML = '0.5 &#10003';
+            speed1.innerHTML = '0.5 &#10003;';
             break;
           case 1:
-            getBranch(currentVideoPlaying).getVideoHTML().playbackRate = 1;
+            getBranch(self.currentPlayingSlug).getVideoHTML().playbackRate = 1;
             speedButton.innerHTML = 'Speed : Normal';
-            speed2.innerHTML = 'Normal &#10003';
+            speed2.innerHTML = 'Normal &#10003;';
             break;
           case 1.5:
-            getBranch(currentVideoPlaying).getVideoHTML().playbackRate = 1.5;
+            getBranch(self.currentPlayingSlug).getVideoHTML().playbackRate = 1.5;
             speedButton.innerHTML = 'Speed : 1.5';
-            speed3.innerHTML = '1.5 &#10003';
+            speed3.innerHTML = '1.5 &#10003;';
             break;
           case 2:
-            getBranch(currentVideoPlaying).getVideoHTML().playbackRate = 2.0;
+            getBranch(self.currentPlayingSlug).getVideoHTML().playbackRate = 2.0;
             speedButton.innerHTML = 'Speed : 2.0';
-            speed4.innerHTML = '2.0 &#10003';
+            speed4.innerHTML = '2.0 &#10003;';
             break;
           default: console.log('unable to find playback speed of ' + multiplier);
         }
@@ -1042,7 +1069,7 @@ H5P.BranchedVideo = (function ($) {
       settingsDiv.appendChild(ccButton);
 
       ccButton.onclick = function(){
-        var currVidHTML = getBranch(currentVideoPlaying).getVideoHTML();
+        var currVidHTML = getBranch(self.currentPlayingSlug).getVideoHTML();
         var tracks = currVidHTML.textTracks[0];
         if (tracks == undefined){
           console.log('no closed caption for this video');
@@ -1055,7 +1082,7 @@ H5P.BranchedVideo = (function ($) {
           ccButton.innerHTML = 'Closed Caption &#10003';
           self.closedCaption = true;
           if (H5P.isFullscreen){
-            getBranch(currentVideoPlaying).moveClosedCaption('up');
+            getBranch(self.currentPlayingSlug).moveClosedCaption('up');
           }
           // handle xAPI
           createXAPIStatement('Interacted', 'closedCaptionOn');
@@ -1071,13 +1098,9 @@ H5P.BranchedVideo = (function ($) {
       // shows div when we click settings
       settingsButton.onclick = function(){
         if (settingsDiv.style.display == 'none'){
-          if (H5P.isFullscreen) {
-            settingsDiv.style.left =  30 +  'px';
-          }
           settingsDiv.style.display = 'block';
         } else {
           settingsDiv.style.display = 'none';
-          settingsDiv.style.left =  '';
         }
       }
 
@@ -1115,14 +1138,14 @@ H5P.BranchedVideo = (function ($) {
       // Respond to enter full screen event
       self.on('enterFullScreen', function () {
         var screenHeight = screen.height;
-        var vidHeight = getBranch(currentVideoPlaying).getVideoHTML().videoHeight * (screen.width / getBranch(currentVideoPlaying).getVideoHTML().videoWidth ) ;
+        var vidHeight = getBranch(self.currentPlayingSlug).getVideoHTML().videoHeight * (screen.width / getBranch(self.currentPlayingSlug).getVideoHTML().videoWidth ) ;
         var difference = vidHeight - screenHeight;
         if (difference < 0){
           $container.css({'top': -difference/2 + 'px'});
           seeker.style.top = difference + difference/2 + 5 + 'px';
         } else {
-          getBranch(currentVideoPlaying).getVideoHTML().style.maxHeight =screen.height + 'px';
-          getBranch(currentVideoPlaying).getVideoDivHTML().style.maxHeight = screen.height + 'px';
+          getBranch(self.currentPlayingSlug).getVideoHTML().style.maxHeight =screen.height + 'px';
+          getBranch(self.currentPlayingSlug).getVideoDivHTML().style.maxHeight = screen.height + 'px';
           $container.css({'top': 0 + 'px'});
           seeker.style.top = '-' + seeker.style.height;
         }
@@ -1131,7 +1154,7 @@ H5P.BranchedVideo = (function ($) {
         seeker.addEventListener('mouseover', showBar, true);
         seeker.addEventListener('mouseout', hideBar, true);
         // handle closed caption moving up after entering full screen
-        getBranch(currentVideoPlaying).moveClosedCaption('up');
+        getBranch(self.currentPlayingSlug).moveClosedCaption('up');
       });
 
 
@@ -1143,7 +1166,7 @@ H5P.BranchedVideo = (function ($) {
         seeker.removeEventListener('mouseout', hideBar, true);
         showBar();
         // handle closed caption moving down after exit full screen
-        getBranch(currentVideoPlaying).moveClosedCaption('down');
+        getBranch(self.currentPlayingSlug).moveClosedCaption('down');
       });
       fullScreenButton.onclick = function(){
         toggleFullScreen()
@@ -1162,7 +1185,7 @@ H5P.BranchedVideo = (function ($) {
         }
       }
       document.onkeyup = function(e){
-        var currVid = getBranch(currentVideoPlaying).getVideoHTML();
+        var currVid = getBranch(self.currentPlayingSlug).getVideoHTML();
         switch(e.which){
           case 32:
             var playButton = document.getElementsByClassName('tapestry-play-button')[0];
@@ -1217,7 +1240,7 @@ H5P.BranchedVideo = (function ($) {
       // HELP play button
       playButton.onmouseover = function(){
         var temp = getHelpText('tapestry-help-play-button', 'Click to play video' );
-        temp.style.left = '2%';
+        temp.style.left = '10px';
         temp.style.top = '60%';
         if (self.helpMode){
           temp.style.display = 'block';
@@ -1230,7 +1253,7 @@ H5P.BranchedVideo = (function ($) {
       // HELP pause button
       pauseButton.onmouseover = function(){
         var temp = getHelpText('tapestry-help-pause-button', 'Click to pause video' );
-        temp.style.left = '2%';
+        temp.style.left = '10px';
         temp.style.top = '60%';
         if (self.helpMode){
           temp.style.display = 'block';
@@ -1243,7 +1266,7 @@ H5P.BranchedVideo = (function ($) {
       // HELP volume button
       volumeButton.onmouseover = function(){
         var temp = getHelpText('tapestry-help-volume-button', 'Drag to change volume' );
-        temp.style.left = '83%';
+        temp.style.right = '80px';
         temp.style.top = '60%';
         if (self.helpMode){
           temp.style.display = 'block';
@@ -1256,7 +1279,7 @@ H5P.BranchedVideo = (function ($) {
       // HELP fullscreen
       fullScreenButton.onmouseover = function(){
         var temp = getHelpText('tapestry-help-fullScreen-button', 'Toggle fullscreen' );
-        temp.style.left = '87%';
+        temp.style.right = '10px';
         temp.style.top = '60%';
         if (self.helpMode){
           temp.style.display = 'block';
@@ -1283,7 +1306,7 @@ H5P.BranchedVideo = (function ($) {
           var temp = getHelpText('tapestry-help-'+ slug + '-slider', 'Click to jump to ' + slug );
           var dom = $container.get(0);
           var rect = dom.getBoundingClientRect();
-          var currBranch = getBranch(currentVideoPlaying);
+          var currBranch = getBranch(self.currentPlayingSlug);
           var diffTop = currBranch.getVideoDivHTML().clientHeight;
           temp.style.left = event.clientX - rect.left - (videoPreviewWidth/2)  + 'px';
           temp.style.top = event.clientY - (diffTop + rect.top) - 25 + 'px';
@@ -1337,136 +1360,132 @@ H5P.BranchedVideo = (function ($) {
         });
       }
 
-      for (var key in branched_videos){
+      for (var key in self.BranchedVideos){
         attachOnHoverSlider(key);
       }
     }
 
-    createAllBranches(this.options.branchedVideos);
+    /************************************
+     * XAPI FUNCTIONALITY
+     ************************************/
 
-
-   // XAPI
-   // TODO
-
-   // verb: string of what verb
-   // extra: anything that may be useful for xAPI statements
-   // object: H5P instance?
-   function createXAPIStatement(verb, extra){
-     var xAPIEvent = new H5P.XAPIEvent();
-     // set verb
-     xAPIEvent.data.statement.verb = {
-       'id':'https://w3id.org/xapi/video/verbs/' + verb.toLowerCase(),
-       'display' : {
-         'en-us' : verb
-       }
-     };
-     // set actor
-     xAPIEvent.setActor();
-     // set object
-     switch(verb){
-       case 'Played':
-         handleXAPIPlayPause(xAPIEvent, currentVideoPlaying, 'play button');
-         break;
-       case 'Paused':
-         handleXAPIPlayPause(xAPIEvent, currentVideoPlaying, 'pause button');
-         break;
-       case 'Seeked':
-         handleXAPISeek(xAPIEvent, currentVideoPlaying, extra);
-         break;
-       case 'Completed':
-         handleXAPIPlaying(xAPIEvent, verb, currentVideoPlaying);
-         break;
-       case 'Interacted':
-         handleXAPIRightControls(xAPIEvent, extra);
-         break;
-       case 'Pressed':
-         handleXAPIKeyboard(xAPIEvent, extra);
-         break;
-       default:
+    // creates XAPI statements
+    // verb: string of what verb
+    // extra: anything that may be useful for xAPI statements
+    // object: H5P instance?
+    function createXAPIStatement(verb, extra){
+      var xAPIEvent = new H5P.XAPIEvent();
+      // set verb
+      xAPIEvent.data.statement.verb = {
+        'id':'https://w3id.org/xapi/video/verbs/' + verb.toLowerCase(),
+        'display' : {
+          'en-us' : verb
+        }
+      };
+      // set actor
+      xAPIEvent.setActor();
+      // set object
+      switch(verb){
+        case 'Played':
+          handleXAPIPlayPause(xAPIEvent, self.currentPlayingSlug, 'play button');
+          break;
+        case 'Paused':
+          handleXAPIPlayPause(xAPIEvent, self.currentPlayingSlug, 'pause button');
+          break;
+        case 'Seeked':
+          handleXAPISeek(xAPIEvent, self.currentPlayingSlug, extra);
+          break;
+        case 'Completed':
+          handleXAPIPlaying(xAPIEvent, verb, self.currentPlayingSlug);
+          break;
+        case 'Interacted':
+          handleXAPIRightControls(xAPIEvent, extra);
+          break;
+        case 'Pressed':
+          handleXAPIKeyboard(xAPIEvent, extra);
+          break;
+        default:
           console.log("couldn't find verb: " + verb);
           return;
-     }
-     // set context
-     var contentID = '';
-     for (var key in window.H5PIntegration.contents){
-       // theres only one but not sure how to just get the key other than for each
-       contentID = key;
-     }
+      }
+      // set context
+      var contentID = '';
+      for (var key in window.H5PIntegration.contents){
+        // theres only one but not sure how to just get the key other than for each
+        contentID = key;
+      }
 
-     xAPIEvent.data.statement.context = {
-       'extensions' : {
-         'http://example.com/slug' : currentVideoPlaying,
-         'http://example.com/videoTime' : parseInt(getBranch(currentVideoPlaying).getVideoHTML().currentTime / 60) +':'+ parseInt(getBranch(currentVideoPlaying).getVideoHTML().currentTime % 60),
-         'http://example.com/contentID' : contentID
-       }
-     }
-     self.trigger(xAPIEvent);
-   }
+      xAPIEvent.data.statement.context = {
+        'extensions' : {
+          'http://example.com/slug' : self.currentPlayingSlug,
+          'http://example.com/videoTime' : parseInt(getBranch(self.currentPlayingSlug).getVideoHTML().currentTime / 60) +':'+ parseInt(getBranch(self.currentPlayingSlug).getVideoHTML().currentTime % 60),
+          'http://example.com/contentID' : contentID
+        }
+      }
+      self.trigger(xAPIEvent);
+    }
 
+    // handles play and pause button
+    function handleXAPIPlayPause(xapiEvent, slug, component){
+      xapiEvent.data.statement.object = {
+        'objectType' : 'Activity',
+        'id' : 'http://www.example.com/video/' + slug,
+        'definition': {
+          'type': 'http://adlnet.gov/expapi/activities/interaction',
+          'name': {
+            'en-us': 'interaction'
+          },
+          'description' : {
+            'en-us' : slug + ' video interacted with ' + component
+          }
+        }
+      }
+    }
 
-   // handles play and pause button
-   function handleXAPIPlayPause(xapiEvent, slug, component){
-     xapiEvent.data.statement.object = {
-       'objectType' : 'Activity',
-       'id' : 'http://www.example.com/video/' + slug,
-       'definition': {
-         'type': 'http://adlnet.gov/expapi/activities/interaction',
-         'name': {
-           'en-us': 'interaction'
-         },
-         'description' : {
-           'en-us' : slug + ' video interacted with ' + component
-         }
-       }
-     }
-   }
+    // handles when we seek to different parts of videos,
+    // whether it be by link, return link, seeker to the same video or seeker to another videos
+    // type: 'link', 'returnLink' , 'seekerBarSameVideo', 'seekerBarDifferentVideo',
+    function handleXAPISeek(xapiEvent, slug, type){
+      xapiEvent.data.statement.object = {
+        'objectType' : 'Activity',
+        'id' : 'http://www.example.com/video/' + slug,
+        'definition': {
+          'type': 'http://adlnet.gov/expapi/activities/interaction',
+          'name': {
+            'en-us': 'interaction'
+          },
+          'description' : {
+            'en-us' : 'seeked to ' + slug + ' video with  '+ type
+          }
+        }
+      }
+    }
 
-
-   // handles when we seek to different parts of videos,
-   // whether it be by link, return link, seeker to the same video or seeker to another videos
-   // type: 'link', 'returnLink' , 'seekerBarSameVideo', 'seekerBarDifferentVideo',
-   function handleXAPISeek(xapiEvent, slug, type){
-     xapiEvent.data.statement.object = {
-       'objectType' : 'Activity',
-       'id' : 'http://www.example.com/video/' + slug,
-       'definition': {
-         'type': 'http://adlnet.gov/expapi/activities/interaction',
-         'name': {
-           'en-us': 'interaction'
-         },
-         'description' : {
-           'en-us' : 'seeked to ' + slug + ' video with  '+ type
-         }
-       }
-     }
-   }
-
-   // handles video ontime update and video on ended
-   // verb(string): ['Completed']
-   function handleXAPIPlaying(xapiEvent, verb, slug){
-     // handle verb
-     xapiEvent.data.statement.verb = {
-       'id':'http://adlnet.gov/expapi/verbs/' + verb.toLowerCase(),
-       'display' : {
-         'en-us' : verb
-       }
-     };
-     // handle object
-     xapiEvent.data.statement.object = {
-       'objectType' : 'Activity',
-       'id' : 'http://www.example.com/video/' + slug,
-       'definition': {
-         'type': 'http://adlnet.gov/expapi/activities/interaction',
-         'name': {
-           'en-us': 'interaction'
-         },
-         'description' : {
-           'en-us' : slug + 'video was ' + verb
-         }
-       }
-     }
-   }
-
+    // handles video ontime update and video on ended
+    // verb(string): ['Completed']
+    function handleXAPIPlaying(xapiEvent, verb, slug){
+      // handle verb
+      xapiEvent.data.statement.verb = {
+        'id':'http://adlnet.gov/expapi/verbs/' + verb.toLowerCase(),
+        'display' : {
+          'en-us' : verb
+        }
+      };
+      // handle object
+      xapiEvent.data.statement.object = {
+        'objectType' : 'Activity',
+        'id' : 'http://www.example.com/video/' + slug,
+        'definition': {
+          'type': 'http://adlnet.gov/expapi/activities/interaction',
+          'name': {
+            'en-us': 'interaction'
+          },
+          'description' : {
+            'en-us' : slug + 'video was ' + verb
+          }
+        }
+      }
+    }
 
     //handles right controls like full volume, settings and full screen
     // type(String) : ['volume', 'fullScreenOff', 'fullScreenOn',  'closedCaptionOn',
