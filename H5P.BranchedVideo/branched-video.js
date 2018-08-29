@@ -506,9 +506,9 @@ H5P.BranchedVideo = (function ($) {
             slantedBar.style.top = -tempW/2 + 'px';
             slantedBar.style.transform = 'rotate(45deg)';
           }
-          slantedBar.style.width = tempW + 3.5*tempLevel + 'px';
+          slantedBar.style.width = tempW + 6*tempLevel + 'px';
           var slantedDiff = Math.abs(Math.sqrt(((Math.pow((tempW/2),2))/2)));
-          slantedBar.style.left = -tempW/2 + 3.5 + slantedDiff + 'px';
+          slantedBar.style.left = -tempW/2 + slantedDiff - (0.5*(tempLevel)) + 'px';
           var nextSlider = nextBranch.getSliderHTML();
           nextSlider.style.left = slantedDiff * 2 + 3.5*tempLevel+'px';
           nextSliderDiv.style.left = 'calc('+nextSliderDiv.style.left + ' + ' + (acc + slantedDiff) + 'px' + ')';
