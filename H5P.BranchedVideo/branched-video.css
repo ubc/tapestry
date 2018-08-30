@@ -17,10 +17,8 @@
 .tapestry-play-button {
   background: url('images/tapestry-play.png') no-repeat scroll 0 0 transparent;
   background-size: 16px;
-  height: 30px !important;
-  width: 30px !important;
-  height: 25px;
-  width: 25px;
+  height: 20px !important;
+  width: 16px !important;
   position: absolute;
   top: 45%;
   border:0;
@@ -29,10 +27,8 @@
 .tapestry-pause-button {
   background: url('images/tapestry-pause.png') no-repeat scroll 0 0 transparent;
   background-size: 16px;
-  height: 30px !important;
-  width: 30px !important;
-  height: 25px;
-  width: 25px;
+  height: 20px !important;
+  width: 16px !important;
   position: absolute;
   top: 45%;
   border:0;
@@ -48,20 +44,12 @@
 .tapestry-volume-button {
   background: url('images/tapestry-volume.png') no-repeat scroll 0 0 transparent;
   background-size: 16px;
-  height: 30px !important;
-  width: 30px !important;
-  height: 25px;
+  height: 20px !important;
+  width: 16px !important;
   position: absolute;
-  width: 20px;
-  padding-left: 6%;
   top: 45%;
   border:0;
   opacity: 0.9;
-}
-
-.tapestry-volume-button:hover{
-  background: url('images/volume-button-after.png') no-repeat scroll 0 0 transparent;
-  opacity: 1;
 }
 
 .tapestry-volume-div {
@@ -85,7 +73,6 @@
 
 .tapestry-volume-slider::-webkit-slider-thumb{
     -webkit-appearance: none;
-    appearance: none;
     width: 4px;
     height: 9px;
     margin-top: -0.1px;
@@ -107,11 +94,9 @@
 .tapestry-settings-button {
   background: url('images/tapestry-settings.png') no-repeat scroll 0 0 transparent;
   background-size: 16px;
-  height: 30px !important;
-  width: 30px !important;
-  height: 25px;
+  height: 20px !important;
+  width: 16px !important;
   position: absolute;
-  width: 20px;
   top: 45%;
   border:0;
   left: 30%;
@@ -168,11 +153,10 @@
 .tapestry-big-screen-button {
   background: url('images/tapestry-fullscreen.png') no-repeat scroll 0 0 transparent;
   background-size: 16px;
-  height: 30px !important;
-  width: 30px !important;
+  height: 20px !important;
+  width: 16px !important;
   color: #000000;
   position: absolute;
-  width: 20px;
   top: 45%;
   border:0;
   left: 70%;
@@ -182,12 +166,10 @@
 .tapestry-small-screen-button {
   background: url('images/tapestry-fullscreen-small.png') no-repeat scroll 0 0 transparent;
   background-size: 16px;
-  height: 30px !important;
-  width: 30px !important;
+  height: 20px !important;
+  width: 16px !important;
   color: #000000;
   position: absolute;
-  width: 20px;
-  padding-left: 10%;
   top: 50%;
   border:0;
   left: 70%;
