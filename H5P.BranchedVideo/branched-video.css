@@ -49,6 +49,7 @@
   position: absolute;
   top: 45%;
   border:0;
+  left: 40%;
   opacity: 0.9;
 }
 
@@ -81,6 +82,16 @@
     border: 0.005px solid #000000;
 }
 
+.tapestry-volume-slider::-moz-range-thumb{
+    appearance: none;
+    width: 4px;
+    height: 9px;
+    margin-top: -0.1px;
+    background: #bcbcbc;
+    cursor: pointer;
+    border: 0.005px solid #000000;
+}
+
 /*.tapestry-volume-slider::-ms-slider-thumb{
     appearance: none;
     width: 4px;
@@ -99,7 +110,7 @@
   position: absolute;
   top: 45%;
   border:0;
-  left: 30%;
+  left: 40%;
   opacity: 0.9;
 }
 
@@ -170,7 +181,7 @@
   width: 16px !important;
   color: #000000;
   position: absolute;
-  top: 50%;
+  top: 45%;
   border:0;
   left: 70%;
   opacity: 0.9;
