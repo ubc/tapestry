@@ -61,13 +61,11 @@
   opacity: 0.9;
 }
 .tapestry-volume-slider {
-    -webkit-appearance: none;
     position: absolute;
-    width: 50px;
     height: 5px;
     outline: none;
     transform: rotate(-90deg);
-    left: -17px !important;
+    left: -5px !important;
     width: 50px !important;
     top: 30px !important;
   }
@@ -115,13 +113,13 @@
 }
 
 .tapestry-settings-dropdown-content , .tapestry-speed-dropdown-content {
-    display: none;
     position: relative;
     background-color: #f1f1f1;
     min-width: 20px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1000;
     top: 30px;
+    padding-left: 9%;
 }
 .tapestry-settings-dropdown-content > button , .tapestry-speed-dropdown-content > button {
   position: absolute;
