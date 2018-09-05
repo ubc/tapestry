@@ -1,3 +1,8 @@
+@font-face {
+  font-family: tapestry-font;
+  src: url("fonts/quicksand/Quicksand-Regular.otf");
+}
+
 .tapestry-video-container {
   width: 100%;
   margin: 0 ;
@@ -6,223 +11,215 @@
   line-height: 0;
 }
 
+.h5p-fullscreen{
+  background-color: #FFFFFF;
+}
+
+/*********************
+/* Icon Buttons
+/*********************/
+
+.tapestry-play-button,
+.tapestry-pause-button,
+.tapestry-volume-button,
+.tapestry-settings-button,
+.tapestry-big-screen-button,
+.tapestry-small-screen-button {
+  background-size: 16px !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  background-color: transparent !important;
+  height: 20px !important;
+  width: 16px !important;
+  position: absolute;
+  border:0;
+  opacity: 0.7;
+  top: 50%;
+  margin: -7px 15px 0;
+  padding: 0;
+}
+
+.tapestry-play-button {
+  background-image: url("images/tapestry-play.png") !important;
+}
+.tapestry-pause-button {
+  background-image: url("images/tapestry-pause.png") !important;
+}
+.tapestry-volume-button {
+  background-image: url("images/tapestry-volume.png") !important;
+  left: 4px;
+  margin: -7px 12px 0;
+}
+.tapestry-settings-button {
+  background-image: url("images/tapestry-settings.png") !important;
+  left: 48px;
+  margin: -7px 0 0;
+}
+.tapestry-big-screen-button {
+  background-image: url("images/tapestry-fullscreen.png") !important;
+  left: 80px;
+  margin: -7px 0 0;
+}
+.tapestry-small-screen-button {
+  background-image: url("images/tapestry-fullscreen-small.png") !important;
+  left: 80px;
+  margin: -7px 0 0;
+}
+
+.tapestry-play-button:hover,
+.tapestry-play-button:focus,
+.tapestry-pause-button:hover,
+.tapestry-pause-button:focus,
+.tapestry-volume-button:hover,
+.tapestry-volume-button:focus,
+.tapestry-settings-button:hover,
+.tapestry-settings-button:focus,
+.tapestry-big-screen-button:hover,
+.tapestry-big-screen-button:focus,
+.tapestry-small-screen-button:hover,
+.tapestry-small-screen-button:focus {
+  opacity: 1.0;
+}
+
+/**********************************
+/* Left Controls (placement)
+/**********************************/
+
 .tapestry-left-controls {
   height: 100%;
   position: relative;
   float: left;
-  width: 10px;
-  padding-left: 3%;
-  padding-top: 1%;
-}
-.tapestry-play-button {
-  background: url('images/tapestry-play.png') no-repeat scroll 0 0 transparent;
-  background-size: 16px;
-  height: 20px !important;
-  width: 16px !important;
-  position: absolute;
-  top: 45%;
-  border:0;
-  opacity: 0.9;
-}
-.tapestry-pause-button {
-  background: url('images/tapestry-pause.png') no-repeat scroll 0 0 transparent;
-  background-size: 16px;
-  height: 20px !important;
-  width: 16px !important;
-  position: absolute;
-  top: 45%;
-  border:0;
-  opacity: 0.9;
+  width: 35px;
+  padding: 0;
+  height: 100%;
 }
 
-.tapestry-right-controls{
+/**********************************
+/* Right Controls (placement)
+/**********************************/
+
+.tapestry-right-controls {
   height: 100%;
   position: relative;
   float:right;
-  width: 15%;
-}
-.tapestry-volume-button {
-  background: url('images/tapestry-volume.png') no-repeat scroll 0 0 transparent;
-  background-size: 16px;
-  height: 20px !important;
-  width: 16px !important;
-  position: absolute;
-  top: 45%;
-  border:0;
-  left: 40%;
-  opacity: 0.9;
+  width: 110px;
 }
 
+/**********************************
+/* Volume Control
+/**********************************/
+
 .tapestry-volume-div {
+  width: 34px;
+  border: 0;
+  padding: 0;
+  float: left;
   height: 100%;
-  position: relative;
-  width: 30px;
-  border:0;
-  opacity: 0.9;
 }
-.tapestry-volume-slider {
+
+.tapestry-volume-div .tapestry-volume-slider {
+    -webkit-appearance: none;
     position: absolute;
     height: 5px;
     outline: none;
     transform: rotate(-90deg);
-    left: -5px !important;
+    left: -2px !important;
     width: 50px !important;
-    top: 30px !important;
+    top: calc(50% - 40px) !important;
+    background: #666;
   }
 
-.tapestry-volume-slider::-webkit-slider-thumb{
+.tapestry-volume-slider::-webkit-slider-thumb {
     -webkit-appearance: none;
-    width: 4px;
-    height: 9px;
-    margin-top: -0.1px;
-    background: #bcbcbc;
+    width: 5px;
+    height: 13px;
+    margin: -7px 0px;
+    background: #FF2DCB;
     cursor: pointer;
-    border: 0.005px solid #000000;
+    border: 1px solid #9a0d50;
+    border-radius: 10px;
 }
 
-.tapestry-volume-slider::-moz-range-thumb{
-    appearance: none;
-    width: 4px;
-    height: 9px;
-    margin-top: -0.1px;
-    background: #bcbcbc;
-    cursor: pointer;
-    border: 0.005px solid #000000;
+.tapestry-volume-slider::-moz-range-thumb {
+  appearance: none;
+  width: 5px;
+  height: 13px;
+  margin: -7px 0px;
+  background: #FF2DCB;
+  cursor: pointer;
+  border: 1px solid #9a0d50;
+  border-radius: 10px;
 }
 
 /*.tapestry-volume-slider::-ms-slider-thumb{
     appearance: none;
-    width: 4px;
-    height: 7px;
+    width: 8px;
+    height: 15px;
     margin-top: 2px;
-    background: #bcbcbc;
+    background: #ff1bec;
     cursor: pointer;
-    border: 0.005px solid #000000;
+    border: 1px solid #9a0d50;
+    border-radius: 10px;
 }*/
 
-.tapestry-settings-button {
-  background: url('images/tapestry-settings.png') no-repeat scroll 0 0 transparent;
-  background-size: 16px;
-  height: 20px !important;
-  width: 16px !important;
+/**********************************
+/* Settings Menu
+/**********************************/
+
+.tapestry-settings-dropdown-content,
+.tapestry-speed-dropdown-content {
+  display: none;
   position: absolute;
-  top: 45%;
-  border:0;
-  left: 40%;
-  opacity: 0.9;
+  background-color: #f1f1f1;
+  width: 115px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1000;
+  top: 5px;
+  padding: 0;
+  right: 2px;
 }
 
-.tapestry-settings-dropdown-content , .tapestry-speed-dropdown-content {
-    position: relative;
-    background-color: #f1f1f1;
-    min-width: 20px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1000;
-    top: 30px;
-    padding-left: 9%;
-}
-.tapestry-settings-dropdown-content > button , .tapestry-speed-dropdown-content > button {
-  position: absolute;
-  font-size: 8px;
-  width: 100px;
-  height: 15px;
+.tapestry-settings-dropdown-content > button,
+.tapestry-speed-dropdown-content > button {
+  font-size: 10px;
+  width: 100%;
+  height: 20px;
   background-color: white;
   color: black;
   padding-top: 1px;
   font-family: 'tapestry-font';
+  text-transform: uppercase;
+  padding: 0;
+  float: left;
+  border-radius: 0;
+  border: 1px solid #eee;
 }
-.tapestry-settings-dropdown-content > button:hover , .tapestry-speed-dropdown-content > button:hover {
+
+.tapestry-settings-dropdown-content > button:hover,
+.tapestry-speed-dropdown-content > button:hover {
   background-color: #3f89ff;
   color: white;
   opacity: 1;
 }
-.tapestry-settings-dropdown-content button:nth-child(1){
-  top: -15px;
-}
-.tapestry-settings-dropdown-content button:nth-child(2){
-  top: 0px;
-}
-.tapestry-settings-dropdown-content button:nth-child(3){
-  top: 15px;
+
+/**********************************
+ * Seekers
+ **********************************/
+
+#tapestry-nav-bar > .tapestry-slider {
+  position: absolute !important;
+  width: calc(100% - 220px) !important;
+  top: 50% !important;
+  left: 50px !important;
 }
 
-.tapestry-speed-dropdown-content button:nth-child(1){
-  top: -30px;
-}
-.tapestry-speed-dropdown-content button:nth-child(2){
-  top: -15px;
-}
-.tapestry-speed-dropdown-content button:nth-child(3){
-  top: 0px;
-}
-.tapestry-speed-dropdown-content button:nth-child(4){
-  top: 15px;
-}
-
-.tapestry-big-screen-button {
-  background: url('images/tapestry-fullscreen.png') no-repeat scroll 0 0 transparent;
-  background-size: 16px;
-  height: 20px !important;
-  width: 16px !important;
-  color: #000000;
-  position: absolute;
-  top: 45%;
-  border:0;
-  left: 70%;
-  opacity: 0.9;
-}
-
-.tapestry-small-screen-button {
-  background: url('images/tapestry-fullscreen-small.png') no-repeat scroll 0 0 transparent;
-  background-size: 16px;
-  height: 20px !important;
-  width: 16px !important;
-  color: #000000;
-  position: absolute;
-  top: 45%;
-  border:0;
-  left: 70%;
-  opacity: 0.9;
-}
-
-.tapestry-play-button:hover , .tapestry-play-button:focus {
-  background: url('images/tapestry-play.png') no-repeat scroll 0 0 transparent;
-  background-size: 16px;
-  opacity: 1.0;
-}
-.tapestry-pause-button:hover , .tapestry-pause-button:focus {
-  background: url('images/tapestry-pause.png') no-repeat scroll 0 0 transparent;
-  background-size: 16px;
-  opacity: 1.0;
-}
-.tapestry-big-screen-button:hover , .tapestry-big-screen-button:focus {
-  background: url('images/tapestry-fullscreen.png') no-repeat scroll 0 0 transparent;
-  background-size: 16px;
-  opacity: 1.0;
-}
-.tapestry-small-screen-button:hover , .tapestry-small-screen-button:focus {
-  background: url('images/tapestry-fullscreen-small.png') no-repeat scroll 0 0 transparent;
-  background-size: 16px;
-  opacity: 1.0;
-}
-.tapestry-volume-button:hover , .tapestry-volume-button:focus {
-  background: url('images/tapestry-volume.png') no-repeat scroll 0 0 transparent;
-  background-size: 16px;
-  opacity: 1.0;
-}
-.tapestry-settings-button:hover , .tapestry-settings-button:focus{
-  background: url('images/tapestry-settings.png') no-repeat scroll 0 0 transparent;
-  background-size: 16px;
-  opacity: 1.0;
-}
-
-.tapestry-seeker-container{
+.tapestry-seeker-container {
   z-index: -100;
   background-color: #333333;
   min-width: 400px;
 }
 
-input[type='range'] {
+.tapestry-seeker-container input[type='range'] {
   -webkit-appearance: none;
   padding: 0;
   margin: 0;
@@ -231,15 +228,13 @@ input[type='range'] {
   -webkit-border-radius: 0px;
 }
 
-input:focus {
-  outline: none;
+.tapestry-seeker-container input:focus,
+.tapestry-seeker-container button:focus,
+.tapestry-seeker-container input[type=range]:focus {
+  outline: none !important;
 }
 
-button:focus {
-  outline: none;
-}
-
-.tapestry-selected-slider > input[type='range']::-webkit-slider-thumb{
+.tapestry-selected-slider > input[type='range']::-webkit-slider-thumb {
   visibility: visible !important;
   -webkit-appearance: none !important;
   background-color: #FF2DCB;
@@ -253,7 +248,7 @@ button:focus {
   box-shadow: 1.2px 1.2px 0.5px grey;
 }
 
-.tapestry-selected-slider > input[type='range']::-webkit-slider-thumb:hover{
+.tapestry-selected-slider > input[type='range']::-webkit-slider-thumb:hover {
   opacity: 1;
   height: 16px;
   width: 16px;
@@ -270,28 +265,28 @@ button:focus {
   margin: -4px 0 -3px;
 }
 
-.tapestry-selected-slider > input[type='range']::-moz-range-thumb:hover{
+.tapestry-selected-slider > input[type='range']::-moz-range-thumb:hover {
   opacity: 1;
   height: 16px;
   width: 16px;
 }
 
-.tapestry-slider > input[type='range']::-webkit-slider-thumb{
+.tapestry-slider > input[type='range']::-webkit-slider-thumb {
   visibility: hidden;
 }
 
-.tapestry-slider > input[type='range']::-moz-range-thumb{
+.tapestry-slider > input[type='range']::-moz-range-thumb {
   visibility: hidden;
 }
 
-/*.tapestry-slider > input[type='range']::-ms-slider-thumb{
+/*.tapestry-slider > input[type='range']::-ms-slider-thumb {
   visibility: hidden;
 }*/
 
-.tapestry-slider > input[type='range']{
+.tapestry-slider > input[type='range'] {
   -webkit-appearance: none;
+  -moz-appearance: none;
   height: 7px;
-
   background-image:
     -webkit-gradient(
             linear,
@@ -300,12 +295,7 @@ button:focus {
             color-stop(0, #1BB1FF),
             color-stop(0, #000000)
         );
-}
-
-.tapestry-slider > input[type='range']{
-    -moz-appearance: none;
-    height: 7px;
-    background-image: 
+    background-image:
     -moz-gradient(
           linear,
           left top,
@@ -315,25 +305,18 @@ button:focus {
     );
 }
 
-
-.tapestry-slider > input[type='range']::-moz-range-track{
+.tapestry-slider > input[type='range']::-moz-range-track {
     background: transparent;
 }
-
-input[type=range]:focus {
-    outline: none;
-}
-
-/*.tapestry-slider > input[type='range']::-ms-track{
+/*.tapestry-slider > input[type='range']::-ms-track {
     height: 5px;
     background: transparent;
     border-color: transparent;
     border-width: 7px 0;
     color: transparent;
 }*/
-
 /*.tapestry-slider > input[type='range']{
-    background-image: 
+    background-image:
     -ms-gradient(
           linear,
           left top,
@@ -343,27 +326,28 @@ input[type=range]:focus {
     );
 }*/
 
-.tapestry-slanted-bar input[type='range']::-webkit-slider-thumb, 
-.tapestry-played-slanted-bar input[type='range']::-webkit-slider-thumb{
+.tapestry-slanted-bar input[type='range']::-webkit-slider-thumb,
+.tapestry-played-slanted-bar input[type='range']::-webkit-slider-thumb {
   display: none;
 }
 
 .tapestry-slanted-bar input[type='range']::-moz-range-thumb,
-.tapestry-played-slanted-bar input[type='range']::-moz-range-thumb{
+.tapestry-played-slanted-bar input[type='range']::-moz-range-thumb {
   visibility: hidden;
 }
 
 .tapestry-slanted-bar input[type='range']::-moz-range-track,
-.tapestry-played-slanted-bar input[type='range']::-moz-range-track{
+.tapestry-played-slanted-bar input[type='range']::-moz-range-track {
   background: transparent;
 }
 
 /*.tapestry-slanted-bar input[type='range']::-ms-slider-thumb,
-.tapestry-played-slanted-bar input[type='range']::-ms-slider-thumb{
+.tapestry-played-slanted-bar input[type='range']::-ms-slider-thumb {
   display: none;
 }*/
 
-.tapestry-slanted-bar input[type='range']{
+.tapestry-slanted-bar input[type='range'],
+.tapestry-played-slanted-bar input[type='range'] {
   -webkit-appearance: none;
   -moz-appearance: none;
   /*-ms-appearance: none;*/
@@ -372,17 +356,16 @@ input[type=range]:focus {
   background: #000000
 }
 
-.tapestry-played-slanted-bar input[type='range']{
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  /*-ms-appearance: none;*/
-  height: 7px;
-  z-index: 0;
+.tapestry-played-slanted-bar input[type='range'] {
   background: #1BB1FF;
 }
 
+/**********************************
+ * Other visual elements
+ **********************************/
+
 .tapestry-branch-button{
-    background: url('images/branch-button.png') no-repeat scroll 0 0 transparent;
+    background: url("images/branch-button.png") no-repeat scroll 0 0 transparent;
     width: 250px;
     height: 75px;
     background-size: 100% 100%;
@@ -394,14 +377,13 @@ input[type=range]:focus {
     opacity:0.9;
 }
 
-.tapestry-branch-button:hover , .tapestry-branch-button:focus{
-  background: url('images/branch-button.png') no-repeat scroll 0 0 transparent;
-  opacity:1.0;
-  background-size: 100% 100%;
+.tapestry-branch-button:hover,
+.tapestry-branch-button:focus {
+  opacity: 1;
 }
 
-.tapestry-citation-button{
-  background: url('images/citation-button.png') no-repeat scroll 0 0 transparent;
+.tapestry-citation-button {
+  background: url("images/citation-button.png") no-repeat scroll 0 0 transparent;
   width: 200px;
   height: 50px;
   background-size: 100% 100%;
@@ -413,44 +395,34 @@ input[type=range]:focus {
   opacity:0.9;
 }
 
-.tapestry-citation-button:hover , .tapestry-citation-button:focus{
-  background: url('images/citation-button.png') no-repeat scroll 0 0 transparent;
-  opacity:1.0;
-  background-size: 100% 100%;
+.tapestry-citation-button:hover,
+.tapestry-citation-button:focus {
+  opacity: 1;
 }
 
-.tapestry-time-text{
+.tapestry-time-text {
   font-size: 10px;
   font-family: Arial;
-  color: #FFFFFF;
-  margin : 0;
-  min-width : 50px;
-  max-height: 13px;
-  width: 100%;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  color: #FFFFFF;
+  width: 100%;
+  min-width : 50px;
+  max-height: 13px;
+  margin : 0;
 }
 
-.tapestry-help-text{
-  height: 12px;
-  font-size: 10px;
-  color: white;
-  margin : 0;
+.tapestry-help-text {
   position: absolute;
+  font-size: 10px;
+  color: #FFFFFF;
   background-color: #111111;
+  height: 12px;
+  margin : 0;
   padding-left: 2px;
   padding-right: 2px;
   padding-top: 0px;
-}
-
-@font-face {
-   font-family: tapestry-font;
-   src: url('fonts/quicksand/Quicksand-Regular.otf');
-}
-
-.h5p-fullscreen{
-  background-color: #FFFFFF;
 }
 
 .tapestry-video-preview-normal{
@@ -463,7 +435,7 @@ input[type=range]:focus {
 
 @media all and (max-width: 480px) {
   .tapestry-branch-button{
-      background: url('images/branch-button.png') no-repeat scroll 0 0 transparent;
+      background: url("images/branch-button.png") no-repeat scroll 0 0 transparent;
       width: 100px;
       height: 30px;
       background-size: 100% 100%;
@@ -475,7 +447,7 @@ input[type=range]:focus {
       opacity:0.9;
   }
   .tapestry-citation-button{
-    background: url('images/citation-button.png') no-repeat scroll 0 0 transparent;
+    background: url("images/citation-button.png") no-repeat scroll 0 0 transparent;
     width: 100px;
     height: 25px;
     background-size: 100% 100%;
