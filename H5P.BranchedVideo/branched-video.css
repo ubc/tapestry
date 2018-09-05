@@ -120,7 +120,6 @@
 .tapestry-volume-div .tapestry-volume-slider {
     -webkit-appearance: none;
     position: absolute;
-    width: 50px;
     height: 5px;
     outline: none;
     transform: rotate(-90deg);
