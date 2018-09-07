@@ -940,25 +940,20 @@ H5P.BranchedVideo = (function ($) {
       volumeDiv.onmouseleave = function(){volumeSlider.style.display = 'none';};
       volumeButton.onmousedown = function() {
         if (volumeSlider.value == 0) {
-            //UNMUTE
-            volumeSlider.value = lastSliderValue;
-            volumeButton.className = 'tapestry-volume-button';
+          //UNMUTE
+          volumeSlider.value = lastSliderValue;
         } else {
-            //MUTE
-            volumeSlider.value = 0;
-            volumeButton.className = 'tapestry-mute-button';
+          //MUTE
+          volumeSlider.value = 0;
         }
 
+        volumeSlider.onmousedown();
         volumeSlider.oninput();
       };
       volumeSlider.oninput = function(){
         var currentVid = getBranch(self.currentPlayingSlug).getVideoHTML();
         var volume = volumeSlider.value / 100;
-        if (currentVid.volume == 0) {
-          lastSliderValue = 100;
-        } else {
-          lastSliderValue = currentVid.volume * 100;
-        }
+
         currentVid.volume = volume;
         if (volume == 0) {
           volumeButton.className = 'tapestry-mute-button';
@@ -976,7 +971,10 @@ H5P.BranchedVideo = (function ($) {
         // handlexAPI
         createXAPIStatement('Interacted', 'volume');
       }
-
+      volumeSlider.onmousedown = function() {
+        var currentVid = getBranch(self.currentPlayingSlug).getVideoHTML();
+        lastSliderValue = currentVid.volume * 100;
+      }
 
       volumeDiv.appendChild(volumeSlider);
       volumeDiv.appendChild(volumeButton);
