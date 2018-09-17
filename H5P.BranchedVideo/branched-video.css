@@ -22,6 +22,7 @@
 .tapestry-play-button,
 .tapestry-pause-button,
 .tapestry-volume-button,
+.tapestry-mute-button,
 .tapestry-settings-button,
 .tapestry-big-screen-button,
 .tapestry-small-screen-button {
@@ -50,6 +51,11 @@
   left: 4px;
   margin: -7px 12px 0;
 }
+.tapestry-mute-button {
+  background-image: url("images/tapestry-mute.png") !important;
+  left: 4px;
+  margin: -7px 12px 0;
+}
 .tapestry-settings-button {
   background-image: url("images/tapestry-settings.png") !important;
   left: 48px;
@@ -72,6 +78,8 @@
 .tapestry-pause-button:focus,
 .tapestry-volume-button:hover,
 .tapestry-volume-button:focus,
+.tapestry-mute-button:hover,
+.tapestry-mute-button:focus,
 .tapestry-settings-button:hover,
 .tapestry-settings-button:focus,
 .tapestry-big-screen-button:hover,
