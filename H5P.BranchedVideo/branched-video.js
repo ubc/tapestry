@@ -55,7 +55,7 @@ H5P.BranchedVideo = (function ($) {
     function Branch(par){
 
       this.slug = par.slug;
-      this.title = par.title;
+      this.title = decodeHTMLEntities(par.title);
       this.description = par.description;
       this.type = '';
       this.videoLength = par.length;
@@ -1561,6 +1561,25 @@ H5P.BranchedVideo = (function ($) {
           }
         }
       }
+    }
+
+  /************************************
+   * HELPERS
+   ************************************/
+
+    //Helper used to escape all special HTML characters
+    function decodeHTMLEntities (str) {
+        if(str && typeof str === 'string') {
+            // strip script/html tags
+            str = str.replace(/<script[^>]*>([\S\s]*?)<\/script>/gmi, '');
+            str = str.replace(/<\/?\w(?:[^"'>]|"[^"]*"|'[^']*')*>/gmi, '');
+            var element = document.createElement('div');
+            element.innerHTML = str;
+            str = element.textContent;
+            element.textContent = '';
+        }
+
+        return str;
     }
 
   };
