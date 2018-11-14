@@ -386,8 +386,9 @@
 }
 
 .tapestry-branch-button:hover,
-.tapestry-branch-button:focus {
-  opacity: 1;
+.tapestry-branch-button:focus,
+.tapestry-branch-button:active{
+    opacity: 1;
 }
 
 .tapestry-citation-button {
