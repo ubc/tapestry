@@ -294,12 +294,13 @@
   visibility: visible !important;
   box-shadow: 1px 1px 1px #d3d3d3, 0px 0px 1px #e0e0e0;
   border: 1px solid #ffffff;
-  height: 6px;
-  width: 6px;
+  height: 5px;
+  width: 5px;
   border-radius: 3px;
   background: #ff2dcb;
   cursor: pointer;
   opacity: 0.8;
+  margin: -4px 0px -3px;
 }
 
 .tapestry-selected-slider > input[type='range']::-ms-thumb:hover {
