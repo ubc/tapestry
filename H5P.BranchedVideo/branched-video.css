@@ -143,8 +143,7 @@
 
 .tapestry-volume-slider::-webkit-slider-thumb {
     -webkit-appearance: none;
-     -moz-appearance: none;
-          appearance: none;
+            appearance: none;
     width: 5px;
     height: 13px;
     margin: -7px 0px;
@@ -155,7 +154,6 @@
 }
 
 .tapestry-volume-slider::-moz-range-thumb {
-    -webkit-appearance: none;
      -moz-appearance: none;
           appearance: none;
   width: 5px;
@@ -256,8 +254,6 @@
 .tapestry-selected-slider > input[type='range']::-webkit-slider-thumb {
   visibility: visible !important;
   -webkit-appearance: none !important;
-   -moz-appearance: none !important;
-        appearance: none !important;
   background-color: #FF2DCB;
   border: 2px solid #FFFFFF;
   border-radius: 10px;
@@ -284,6 +280,7 @@
   height: 14px;
   width: 14px;
   cursor: pointer;
+  opacity: 0.8;
   margin: -4px 0 -3px;
 }
 
@@ -291,6 +288,24 @@
   opacity: 1;
   height: 16px;
   width: 16px;
+}
+
+.tapestry-selected-slider > input[type='range']::-ms-thumb{
+  visibility: visible !important;
+  box-shadow: 1px 1px 1px #d3d3d3, 0px 0px 1px #e0e0e0;
+  border: 1px solid #ffffff;
+  height: 6px;
+  width: 6px;
+  border-radius: 3px;
+  background: #ff2dcb;
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+.tapestry-selected-slider > input[type='range']::-ms-thumb:hover {
+  opacity: 1;
+  height: 9px;
+  width: 9px;
 }
 
 .tapestry-slider > input[type='range']::-webkit-slider-thumb {
@@ -301,9 +316,9 @@
   visibility: hidden;
 }
 
-/*.tapestry-slider > input[type='range']::-ms-slider-thumb {
+.tapestry-slider > input[type='range']::-ms-thumb {
   visibility: hidden;
-}*/
+}
 
 .tapestry-slider > input[type='range'] {
   -webkit-appearance: none;
@@ -331,13 +346,14 @@
 .tapestry-slider > input[type='range']::-moz-range-track {
     background: transparent;
 }
-/*.tapestry-slider > input[type='range']::-ms-track {
+
+.tapestry-slider > input[type='range']::-ms-track {
     height: 5px;
     background: transparent;
     border-color: transparent;
     border-width: 7px 0;
     color: transparent;
-}*/
+}
 /*.tapestry-slider > input[type='range']{
     background-image:
     -ms-gradient(
